@@ -26,8 +26,8 @@ const Index = () => {
               Interactive Building Explorer
             </div>
             <h1 className="text-4xl md:text-6xl font-light tracking-tight mb-6 animate-slide-up" style={{animationDelay: '100ms'}}>
-              Experience Architecture <br /> 
-              <span className="font-normal">In A New Dimension</span>
+              Welcome to Architecture School <br /> 
+              <span className="font-normal">Annex 1</span>
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground mb-8 animate-slide-up" style={{animationDelay: '200ms'}}>
               Explore our building floor by floor with interactive 3D models. 
