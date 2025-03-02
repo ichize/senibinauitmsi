@@ -33,19 +33,35 @@ const ModelViewer: React.FC<ModelViewerProps> = ({ modelSrc, children }) => {
     );
     camera.position.z = 5;
 
-    // Lighting
-    const ambientLight = new THREE.AmbientLight(0x404040, 2);
+    // Enhanced lighting setup
+    // Stronger ambient light
+    const ambientLight = new THREE.AmbientLight(0xffffff, 3);
     scene.add(ambientLight);
 
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-    directionalLight.position.set(1, 1, 1);
-    scene.add(directionalLight);
+    // Add multiple directional lights from different angles
+    const directionalLight1 = new THREE.DirectionalLight(0xffffff, 2);
+    directionalLight1.position.set(1, 1, 1);
+    scene.add(directionalLight1);
+
+    const directionalLight2 = new THREE.DirectionalLight(0xffffff, 1.5);
+    directionalLight2.position.set(-1, 2, -1);
+    scene.add(directionalLight2);
+
+    const directionalLight3 = new THREE.DirectionalLight(0xffffff, 1);
+    directionalLight3.position.set(0, -1, 0);
+    scene.add(directionalLight3);
+
+    // Add a hemisphere light for more natural lighting
+    const hemisphereLight = new THREE.HemisphereLight(0xffffbb, 0x080820, 2);
+    scene.add(hemisphereLight);
 
     // Renderer
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(containerRef.current.clientWidth, containerRef.current.clientHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.outputEncoding = THREE.sRGBEncoding;
+    // Enable physically correct lighting
+    renderer.physicallyCorrectLights = true;
     containerRef.current.appendChild(renderer.domElement);
 
     // Controls
