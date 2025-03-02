@@ -35,24 +35,24 @@ const ModelViewer: React.FC<ModelViewerProps> = ({ modelSrc, children }) => {
 
     // Enhanced lighting setup
     // Stronger ambient light
-    const ambientLight = new THREE.AmbientLight(0xffffff, 3);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.5);
     scene.add(ambientLight);
 
     // Add multiple directional lights from different angles
-    const directionalLight1 = new THREE.DirectionalLight(0xffffff, 2);
+    const directionalLight1 = new THREE.DirectionalLight(0xffffff, 1.5);
     directionalLight1.position.set(1, 1, 1);
     scene.add(directionalLight1);
 
-    const directionalLight2 = new THREE.DirectionalLight(0xffffff, 1.5);
+    const directionalLight2 = new THREE.DirectionalLight(0xffffff, 1);
     directionalLight2.position.set(-1, 2, -1);
     scene.add(directionalLight2);
 
-    const directionalLight3 = new THREE.DirectionalLight(0xffffff, 1);
+    const directionalLight3 = new THREE.DirectionalLight(0xffffff, 0.5);
     directionalLight3.position.set(0, -1, 0);
     scene.add(directionalLight3);
 
     // Add a hemisphere light for more natural lighting
-    const hemisphereLight = new THREE.HemisphereLight(0xffffbb, 0x080820, 2);
+    const hemisphereLight = new THREE.HemisphereLight(0xffffbb, 0x080820, 1);
     scene.add(hemisphereLight);
 
     // Renderer
