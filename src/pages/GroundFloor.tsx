@@ -28,7 +28,7 @@ const GroundFloor = () => {
                 title="Main Entrance"
                 description="The primary entrance features automatic sliding glass doors and a security checkpoint for visitors."
                 position="right"
-                modelPosition={[3, 2, 4]} 
+                modelPosition={[50, 20, 40]} 
               />
               <HoverDetails
                 x={50}
