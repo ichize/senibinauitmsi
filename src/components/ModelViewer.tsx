@@ -59,9 +59,14 @@ const ModelViewer: React.FC<ModelViewerProps> = ({ modelSrc, children }) => {
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(containerRef.current.clientWidth, containerRef.current.clientHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.outputEncoding = THREE.sRGBEncoding;
-    // Enable physically correct lighting
-    renderer.physicallyCorrectLights = true;
+    
+    // Update to use the correct properties for newer Three.js versions
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    
+    // Note: physicallyCorrectLights is deprecated and has been replaced
+    // We'll set the legacy lighting mode to false to use the new lighting model
+    renderer.useLegacyLights = false;
+    
     containerRef.current.appendChild(renderer.domElement);
 
     // Controls
