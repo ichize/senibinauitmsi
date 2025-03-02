@@ -28,6 +28,7 @@ const GroundFloor = () => {
                 title="Main Entrance"
                 description="The primary entrance features automatic sliding glass doors and a security checkpoint for visitors."
                 position="right"
+                modelPosition={[-1.5, 0, 1.2]} 
               />
               <HoverDetails
                 x={50}
@@ -35,6 +36,7 @@ const GroundFloor = () => {
                 title="Reception Desk"
                 description="A centralized reception area with multiple staff stations to assist visitors and direct them to their destinations."
                 position="top"
+                modelPosition={[0, 0, 1.2]}
               />
               <HoverDetails
                 x={75}
@@ -42,6 +44,7 @@ const GroundFloor = () => {
                 title="Waiting Area"
                 description="Comfortable seating area with modern furniture and amenities for visitors waiting for appointments."
                 position="left"
+                modelPosition={[1.5, 0, 0]}
               />
               <HoverDetails
                 x={40}
@@ -49,6 +52,7 @@ const GroundFloor = () => {
                 title="Elevators"
                 description="Primary elevator bank providing access to all floors of the building."
                 position="bottom"
+                modelPosition={[0, 0, -1.2]}
               />
               <HoverDetails
                 x={60}
@@ -56,6 +60,7 @@ const GroundFloor = () => {
                 title="Security Office"
                 description="Monitoring station for building security personnel with access to surveillance systems."
                 position="right"
+                modelPosition={[1.2, 0, 1.2]}
               />
             </ModelViewer>
           </div>

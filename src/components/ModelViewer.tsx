@@ -13,6 +13,51 @@ const ModelViewer: React.FC<ModelViewerProps> = ({ modelSrc, children }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [hotspots, setHotspots] = useState<HTMLDivElement[]>([]);
+  
+  // Store Three.js objects for use in subsequent renders
+  const sceneRef = useRef<THREE.Scene | null>(null);
+  const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
+  const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
+  const controlsRef = useRef<OrbitControls | null>(null);
+  const modelRef = useRef<THREE.Group | null>(null);
+
+  // Update hotspot positions when camera or controls change
+  const updateHotspotPositions = () => {
+    if (!containerRef.current || !cameraRef.current || !sceneRef.current || hotspots.length === 0) return;
+    
+    const containerRect = containerRef.current.getBoundingClientRect();
+    
+    // Update each hotspot's position
+    hotspots.forEach(hotspot => {
+      const dataPos = hotspot.dataset.position;
+      if (!dataPos) return;
+      
+      // Parse the 3D position from the data attribute
+      const [x, y, z] = dataPos.split(',').map(Number);
+      
+      // Create a 3D vector for the hotspot position
+      const position = new THREE.Vector3(x, y, z);
+      
+      // Project the 3D position to 2D screen coordinates
+      position.project(cameraRef.current!);
+      
+      // Convert to CSS coordinates
+      const widthHalf = containerRect.width / 2;
+      const heightHalf = containerRect.height / 2;
+      const posX = (position.x * widthHalf) + widthHalf;
+      const posY = - (position.y * heightHalf) + heightHalf;
+      
+      // Only show hotspots that are in front of the camera
+      if (position.z < 1) {
+        hotspot.style.left = `${posX}px`;
+        hotspot.style.top = `${posY}px`;
+        hotspot.style.display = 'block';
+      } else {
+        hotspot.style.display = 'none';
+      }
+    });
+  };
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -23,6 +68,7 @@ const ModelViewer: React.FC<ModelViewerProps> = ({ modelSrc, children }) => {
     // Scene setup
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x333333);
+    sceneRef.current = scene;
 
     // Camera setup
     const camera = new THREE.PerspectiveCamera(
@@ -32,6 +78,7 @@ const ModelViewer: React.FC<ModelViewerProps> = ({ modelSrc, children }) => {
       1000
     );
     camera.position.z = 5;
+    cameraRef.current = camera;
 
     // Enhanced lighting setup
     // Stronger ambient light
@@ -68,6 +115,7 @@ const ModelViewer: React.FC<ModelViewerProps> = ({ modelSrc, children }) => {
     renderer.useLegacyLights = false;
     
     containerRef.current.appendChild(renderer.domElement);
+    rendererRef.current = renderer;
 
     // Controls
     const controls = new OrbitControls(camera, renderer.domElement);
@@ -75,6 +123,10 @@ const ModelViewer: React.FC<ModelViewerProps> = ({ modelSrc, children }) => {
     controls.dampingFactor = 0.25;
     controls.screenSpacePanning = false;
     controls.maxDistance = 100;
+    
+    // Add event listener to update hotspot positions when user interacts
+    controls.addEventListener('change', updateHotspotPositions);
+    controlsRef.current = controls;
 
     // Load model
     const loader = new GLTFLoader();
@@ -102,8 +154,16 @@ const ModelViewer: React.FC<ModelViewerProps> = ({ modelSrc, children }) => {
         controls.target.set(0, 0, 0);
         controls.update();
         
+        modelRef.current = gltf.scene;
         scene.add(gltf.scene);
         setIsLoading(false);
+        
+        // Get all hotspots after model loads
+        const hotspotElements = containerRef.current?.querySelectorAll('.hotspot') as NodeListOf<HTMLDivElement>;
+        setHotspots(Array.from(hotspotElements || []));
+        
+        // Update hotspot positions initially
+        setTimeout(updateHotspotPositions, 100);
       },
       (xhr) => {
         // Loading progress
@@ -123,15 +183,18 @@ const ModelViewer: React.FC<ModelViewerProps> = ({ modelSrc, children }) => {
       camera.aspect = containerRef.current.clientWidth / containerRef.current.clientHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(containerRef.current.clientWidth, containerRef.current.clientHeight);
+      updateHotspotPositions();
     };
 
     window.addEventListener('resize', handleResize);
 
     // Animation loop
     const animate = () => {
+      if (!sceneRef.current || !cameraRef.current || !rendererRef.current) return;
+      
       requestAnimationFrame(animate);
-      controls.update();
-      renderer.render(scene, camera);
+      if (controlsRef.current) controlsRef.current.update();
+      rendererRef.current.render(sceneRef.current, cameraRef.current);
     };
     
     animate();
@@ -139,12 +202,25 @@ const ModelViewer: React.FC<ModelViewerProps> = ({ modelSrc, children }) => {
     // Cleanup
     return () => {
       window.removeEventListener('resize', handleResize);
-      if (containerRef.current) {
-        containerRef.current.removeChild(renderer.domElement);
+      if (containerRef.current && rendererRef.current) {
+        containerRef.current.removeChild(rendererRef.current.domElement);
       }
-      renderer.dispose();
+      if (controlsRef.current) {
+        controlsRef.current.removeEventListener('change', updateHotspotPositions);
+        controlsRef.current.dispose();
+      }
+      if (rendererRef.current) {
+        rendererRef.current.dispose();
+      }
     };
   }, [modelSrc]);
+
+  // Update hotspot positions when they change
+  useEffect(() => {
+    if (hotspots.length > 0 && !isLoading) {
+      updateHotspotPositions();
+    }
+  }, [hotspots, isLoading]);
 
   return (
     <div className="relative w-full h-full min-h-[500px] md:min-h-[700px]" ref={containerRef}>
@@ -169,7 +245,7 @@ const ModelViewer: React.FC<ModelViewerProps> = ({ modelSrc, children }) => {
       )}
       
       {/* This is where interactive elements would be placed */}
-      <div className="model-container">
+      <div className="model-container absolute inset-0 pointer-events-none">
         {children}
       </div>
     </div>
