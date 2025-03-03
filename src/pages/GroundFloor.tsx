@@ -47,7 +47,7 @@ const GroundFloor = () => {
                 description="Max Pax= 25. 24 hours operational Studio. Fixed Workstation"
                 position="right"
                 cardOffset={{ x: 0, y: 0 }}
-                modelPosition={[8, 1, -8]}
+                modelPosition={[10, 1, -6]}
               />
               <HoverDetails
                 x={40}
