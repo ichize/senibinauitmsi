@@ -38,7 +38,7 @@ const GroundFloor = () => {
                 description="Max Pax= 25. 24 hours operational Studio. Fixed Workstation"
                 position="right"
                 cardOffset={{ x: 0, y: 0 }}
-                modelPosition={[2, 1, -6]}
+                modelPosition={[1, 1, -6]}
               />
               <HoverDetails
                 x={10}
@@ -56,16 +56,16 @@ const GroundFloor = () => {
                 description="Max Pax= 30. Fixed Workstation. 3 AC"
                 position="right"
                 cardOffset={{ x: 0, y: 0 }}
-                modelPosition={[-15, 1, -6]}
+                modelPosition={[-18, 1, -6]}
               />
               <HoverDetails
                 x={60}
                 y={20}
-                title="Security Office"
-                description="Monitoring station for building security personnel with access to surveillance systems."
+                title="Studio Master 04"
+                description="Max Pax= 25. 24 hours operational Studio. Fixed Workstation"
                 position="right"
-                cardOffset={{ x: 15, y: -10 }}
-                modelPosition={[1.2, 0, 1.2]}
+                cardOffset={{ x: 0, y: 0 }}
+                modelPosition={[1, 1, 30]}
               />
             </ModelViewer>
           </div>
