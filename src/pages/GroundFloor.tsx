@@ -75,7 +75,7 @@ const GroundFloor = () => {
                 position="right"
                 cardOffset={{ x: 0, y: 0 }}
                 modelPosition={[13, 1, 16]}
-              />
+               />
             </ModelViewer>
           </div>
           
