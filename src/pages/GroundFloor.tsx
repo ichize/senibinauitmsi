@@ -28,8 +28,8 @@ const GroundFloor = () => {
                 title="Studio 08B"
                 description="Max Pax= 30. Fixed Workstation. 3 AC"
                 position="right"
-                cardOffset={{ x: 0, y: -30 }}
-                modelPosition={[33, 1, 2]} 
+                cardOffset={{ x: 0, y: 0 }}
+                modelPosition={[25, 1, 2]} 
               />
               <HoverDetails
                 x={10}
@@ -38,7 +38,7 @@ const GroundFloor = () => {
                 description="Max Pax= 25. 24 hours operational Studio. Fixed Workstation"
                 position="right"
                 cardOffset={{ x: 0, y: 0 }}
-                modelPosition={[0.5, 1, -7]}
+                modelPosition={[-2, 1, -6]}
               />
               <HoverDetails
                 x={10}
@@ -47,7 +47,7 @@ const GroundFloor = () => {
                 description="Max Pax= 25. 24 hours operational Studio. Fixed Workstation"
                 position="right"
                 cardOffset={{ x: 0, y: 0 }}
-                modelPosition={[13, 1, -7]}
+                modelPosition={[9, 1, -6]}
               />
               <HoverDetails
                 x={10}
@@ -56,7 +56,7 @@ const GroundFloor = () => {
                 description="Max Pax= 30. Fixed Workstation. 3 AC"
                 position="right"
                 cardOffset={{ x: 0, y: 0 }}
-                modelPosition={[-17, 1, -6]}
+                modelPosition={[-20, 1, -5]}
               />
               <HoverDetails
                 x={10}
@@ -65,7 +65,7 @@ const GroundFloor = () => {
                 description="Max Pax= 25. 24 hours operational Studio. Fixed Workstation"
                 position="right"
                 cardOffset={{ x: 0, y: 0 }}
-                modelPosition={[1, 1, 16]}
+                modelPosition={[-2, 1, 20]}
               />
               <HoverDetails
                 x={10}
@@ -74,7 +74,7 @@ const GroundFloor = () => {
                 description="Max Pax= 25. 24 hours operational Studio. Fixed Workstation"
                 position="right"
                 cardOffset={{ x: 0, y: 0 }}
-                modelPosition={[13, 1, 16]}
+                modelPosition={[13, 1, 20]}
                />
                <HoverDetails
                 x={10}
@@ -83,7 +83,7 @@ const GroundFloor = () => {
                 description="Senior Lecturer"
                 position="right"
                 cardOffset={{ x: 0, y: 0 }}
-                modelPosition={[30, 1, -23]}
+                modelPosition={[23, 1, -20]}
                />
                <HoverDetails
                 x={10}
@@ -92,7 +92,7 @@ const GroundFloor = () => {
                 description="Senior Lecturer"
                 position="right"
                 cardOffset={{ x: 0, y: 0 }}
-                modelPosition={[22, 1, -9]}
+                modelPosition={[18, 1, -8.5]}
                 />
             </ModelViewer>
           </div>
