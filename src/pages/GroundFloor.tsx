@@ -79,11 +79,20 @@ const GroundFloor = () => {
                <HoverDetails
                 x={10}
                 y={-30}
+                title="Ts. Nasuruddin"
+                description="Senior Lecturer"
+                position="right"
+                cardOffset={{ x: 0, y: 0 }}
+                modelPosition={[25, 1, -12]}
+               />
+               <HoverDetails
+                x={10}
+                y={-30}
                 title="En Faisol"
                 description="Senior Lecturer"
                 position="right"
                 cardOffset={{ x: 0, y: 0 }}
-                modelPosition={[16, 1, -8]}
+                modelPosition={[20, 1, -8]}
                 />
             </ModelViewer>
           </div>
