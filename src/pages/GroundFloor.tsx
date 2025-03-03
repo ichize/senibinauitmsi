@@ -27,10 +27,9 @@ const GroundFloor = () => {
                 y={30}
                 title="Studio 08B"
                 description="Max Pax= 30. Fixed Workstation. 3 AC"
-                position="top"
-                cardOffset={{ x: -20, y: -80 }}
+                position="right"
+                cardOffset={{ x: 10, y: -10 }}
                 modelPosition={[33, 1, 2]} 
-                className="max-w-[250px]"
               />
               <HoverDetails
                 x={50}
@@ -38,39 +37,35 @@ const GroundFloor = () => {
                 title="Studio Master 01"
                 description="MAx Pax= 25. 24 hours operational Studio. Fixed Workstation. "
                 position="top"
-                cardOffset={{ x: -20, y: -70 }}
+                cardOffset={{ x: 0, y: 5 }}
                 modelPosition={[-5, 1, -10]}
-                className="max-w-[250px]"
               />
               <HoverDetails
                 x={75}
                 y={60}
                 title="Waiting Area"
                 description="Comfortable seating area with modern furniture and amenities for visitors waiting for appointments."
-                position="top"
-                cardOffset={{ x: -20, y: -70 }}
+                position="left"
+                cardOffset={{ x: 10, y: -15 }}
                 modelPosition={[1.5, 0, 0]}
-                className="max-w-[250px]"
               />
               <HoverDetails
                 x={40}
                 y={70}
                 title="Elevators"
                 description="Primary elevator bank providing access to all floors of the building."
-                position="top"
-                cardOffset={{ x: -20, y: -70 }}
+                position="bottom"
+                cardOffset={{ x: 0, y: 0 }}
                 modelPosition={[0, 0, -1.2]}
-                className="max-w-[250px]"
               />
               <HoverDetails
                 x={60}
                 y={20}
                 title="Security Office"
                 description="Monitoring station for building security personnel with access to surveillance systems."
-                position="top"
-                cardOffset={{ x: -20, y: -70 }}
+                position="right"
+                cardOffset={{ x: 15, y: -10 }}
                 modelPosition={[1.2, 0, 1.2]}
-                className="max-w-[250px]"
               />
             </ModelViewer>
           </div>

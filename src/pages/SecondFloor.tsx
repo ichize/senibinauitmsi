@@ -27,18 +27,14 @@ const SecondFloor = () => {
                 y={30}
                 title="Open Office Area A"
                 description="Open workspace with ergonomic desks, adjustable chairs, and proper lighting to maximize productivity and comfort."
-                position="top"
-                cardOffset={{ x: -20, y: -70 }}
-                className="max-w-[250px]"
+                position="right"
               />
               <HoverDetails
                 x={70}
                 y={25}
                 title="Open Office Area B"
                 description="Hot desk zone with unassigned workstations for flexible working arrangements."
-                position="top"
-                cardOffset={{ x: -20, y: -70 }}
-                className="max-w-[250px]"
+                position="left"
               />
               <HoverDetails
                 x={50}
@@ -46,26 +42,20 @@ const SecondFloor = () => {
                 title="Central Break Area"
                 description="Communal space with kitchen facilities, comfortable seating, and entertainment options for employees during breaks."
                 position="top"
-                cardOffset={{ x: -20, y: -70 }}
-                className="max-w-[250px]"
               />
               <HoverDetails
                 x={25}
                 y={65}
                 title="Quiet Zone"
                 description="Designated area for focused work with acoustic treatments to minimize distractions."
-                position="top"
-                cardOffset={{ x: -20, y: -70 }}
-                className="max-w-[250px]"
+                position="right"
               />
               <HoverDetails
                 x={80}
                 y={60}
                 title="Print and Copy Center"
                 description="Centralized area for printing, copying, and office supplies."
-                position="top"
-                cardOffset={{ x: -20, y: -70 }}
-                className="max-w-[250px]"
+                position="left"
               />
             </ModelViewer>
           </div>

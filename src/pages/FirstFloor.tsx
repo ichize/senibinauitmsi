@@ -27,18 +27,14 @@ const FirstFloor = () => {
                 y={25}
                 title="Conference Room A"
                 description="Large conference room with seating for up to 20 people, featuring advanced presentation technology and video conferencing capabilities."
-                position="top"
-                cardOffset={{ x: -20, y: -70 }}
-                className="max-w-[250px]"
+                position="right"
               />
               <HoverDetails
                 x={65}
                 y={30}
                 title="Conference Room B"
                 description="Medium-sized conference room with modular furniture that can be reconfigured for different meeting styles."
-                position="top"
-                cardOffset={{ x: -20, y: -70 }}
-                className="max-w-[250px]"
+                position="left"
               />
               <HoverDetails
                 x={45}
@@ -46,26 +42,20 @@ const FirstFloor = () => {
                 title="Collaborative Hub"
                 description="Open space with flexible seating and writable walls for brainstorming and team collaboration."
                 position="top"
-                cardOffset={{ x: -20, y: -70 }}
-                className="max-w-[250px]"
               />
               <HoverDetails
                 x={20}
                 y={70}
                 title="Phone Booths"
                 description="Private soundproof booths for calls and focused work requiring privacy."
-                position="top"
-                cardOffset={{ x: -20, y: -70 }}
-                className="max-w-[250px]"
+                position="right"
               />
               <HoverDetails
                 x={80}
                 y={50}
                 title="Breakout Area"
                 description="Casual meeting area with comfortable seating and coffee tables for impromptu discussions."
-                position="top"
-                cardOffset={{ x: -20, y: -70 }}
-                className="max-w-[250px]"
+                position="left"
               />
             </ModelViewer>
           </div>

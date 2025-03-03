@@ -28,38 +28,19 @@ const HoverDetails: React.FC<HoverDetailsProps> = ({
   const [isHovered, setIsHovered] = useState(false);
 
   const getCardStyle = () => {
-    const offset = 10;
+    const baseOffset = 20; // Base offset from the hotspot in pixels
     
     switch (position) {
       case 'right':
-        return { 
-          left: `calc(100% + ${cardOffset.x}px)`, 
-          top: `${cardOffset.y}px`,
-          transform: 'translateY(-50%)' 
-        };
+        return { left: `${baseOffset + cardOffset.x}px`, top: `${cardOffset.y}px` };
       case 'left':
-        return { 
-          right: `calc(100% + ${-cardOffset.x}px)`, 
-          top: `${cardOffset.y}px`,
-          transform: 'translateY(-50%)' 
-        };
+        return { right: `${baseOffset + cardOffset.x}px`, top: `${cardOffset.y}px` };
       case 'top':
-        return { 
-          bottom: `calc(100% + ${-cardOffset.y}px)`, 
-          left: `${cardOffset.x}px`,
-          transform: 'translateX(-50%)' 
-        };
+        return { bottom: `${baseOffset + cardOffset.y}px`, left: `${cardOffset.x}px` };
       case 'bottom':
-        return { 
-          top: `calc(100% + ${cardOffset.y}px)`, 
-          left: `${cardOffset.x}px`,
-          transform: 'translateX(-50%)' 
-        };
+        return { top: `${baseOffset + cardOffset.y}px`, left: `${cardOffset.x}px` };
       default:
-        return { 
-          left: `calc(100% + ${cardOffset.x}px)`, 
-          top: `${cardOffset.y}px` 
-        };
+        return { left: `${baseOffset + cardOffset.x}px`, top: `${cardOffset.y}px` };
     }
   };
 
@@ -87,15 +68,14 @@ const HoverDetails: React.FC<HoverDetailsProps> = ({
           )}
           style={{ 
             ...getCardStyle(),
-            left: position === 'right' ? `${x}%` : position === 'top' || position === 'bottom' ? `${x + (cardOffset.x / 100) * 100}%` : 'auto',
+            left: position === 'right' || position === 'bottom' ? `${x}%` : 'auto',
             right: position === 'left' ? `${100 - x}%` : 'auto',
-            top: position === 'bottom' ? `${y}%` : position === 'right' || position === 'left' ? `${y + (cardOffset.y / 100) * 100}%` : 'auto',
+            top: position === 'right' || position === 'left' || position === 'bottom' ? `${y}%` : 'auto',
             bottom: position === 'top' ? `${100 - y}%` : 'auto',
-            transform: (position === 'top' || position === 'bottom') ? 'translateX(-50%)' : 
-                       (position === 'left' || position === 'right') ? 'translateY(-50%)' : 'none',
             animationFillMode: 'forwards',
             minWidth: '220px',
             maxWidth: '300px',
+            transform: 'translateX(0) translateY(0)', // Will be overridden by inline style if needed
           }}
         >
           <h4 className="text-base font-medium mb-1">{title}</h4>
