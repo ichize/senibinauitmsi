@@ -28,7 +28,7 @@ const HoverDetails: React.FC<HoverDetailsProps> = ({
   const [isHovered, setIsHovered] = useState(false);
 
   const getCardStyle = () => {
-    const baseOffset = 30; // Base offset from the hotspot in pixels
+    const baseOffset = 5; // Base offset from the hotspot in pixels
     
     switch (position) {
       case 'right':
@@ -75,7 +75,7 @@ const HoverDetails: React.FC<HoverDetailsProps> = ({
             animationFillMode: 'forwards',
             minWidth: '220px',
             maxWidth: '300px',
-            transform: 'translate(-50%, -50%)',
+            transform: 'translate(-10%, -10%)',
           }}
         >
           <h4 className="text-base font-medium mb-1">{title}</h4>
