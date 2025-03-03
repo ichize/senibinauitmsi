@@ -279,7 +279,7 @@ export const useThreeJsScene = ({
         const maxDim = Math.max(size.x, size.y, size.z);
         const fov = camera.fov * (Math.PI / 180); 
         let cameraZ = Math.abs(maxDim / 4 * Math.tan(fov * 1));
-        camera.position.set(100, size.y / 2, cameraZ);
+        camera.position.set(maxDim * 1.5, maxDim, maxDim * 1.5);
         
         // Ensure the camera looks at the model
         const center = new THREE.Vector3();
