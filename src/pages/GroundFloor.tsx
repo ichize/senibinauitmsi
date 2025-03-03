@@ -45,18 +45,18 @@ const GroundFloor = () => {
                 y={-30}
                 title="Studio Master 03"
                 description="Max Pax= 25. 24 hours operational Studio. Fixed Workstation"
-                position="Right"
+                position="right"
                 cardOffset={{ x: 0, y: 0 }}
-                modelPosition={[8, 1, -6]}
+                modelPosition={[8, 1, -8]}
               />
               <HoverDetails
                 x={40}
                 y={70}
                 title="Studio 08A"
                 description="Max Pax= 30. Fixed Workstation. 3 AC"
-                position="bottom"
+                position="right"
                 cardOffset={{ x: 0, y: 0 }}
-                modelPosition={[-10, 1, -6]}
+                modelPosition={[-15, 1, -6]}
               />
               <HoverDetails
                 x={60}
