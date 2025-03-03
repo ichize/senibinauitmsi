@@ -28,6 +28,8 @@ const HoverDetails: React.FC<HoverDetailsProps> = ({
   const [isHovered, setIsHovered] = useState(false);
 
   const getCardStyle = () => {
+    const offset = 10;
+    
     switch (position) {
       case 'right':
         return { 
