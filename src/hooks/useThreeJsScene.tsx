@@ -82,7 +82,7 @@ export const useThreeJsScene = ({
         0.1, 
         1000
       );
-      camera.position.z = 200;
+      camera.position.z = 100;
       cameraRef.current = camera;
     }
 
