@@ -23,12 +23,12 @@ const GroundFloor = () => {
           <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-8 animate-scale-up">
             <ModelViewer modelSrc="/Annex 1GF.glb">
               <HoverDetails
-                x={25}
-                y={30}
+                x={0}
+                y={0}
                 title="Studio 08B"
                 description="Max Pax= 30. Fixed Workstation. 3 AC"
                 position="right"
-                cardOffset={{ x: 5, y: -5 }}
+                cardOffset={{ x: 0, y: 0 }}
                 modelPosition={[33, 1, 2]} 
               />
               <HoverDetails
@@ -37,7 +37,7 @@ const GroundFloor = () => {
                 title="Studio Master 01"
                 description="MAx Pax= 25. 24 hours operational Studio. Fixed Workstation. "
                 position="top"
-                cardOffset={{ x: 0, y: 5 }}
+                cardOffset={{ x: 0, y: 0 }}
                 modelPosition={[-5, 1, -10]}
               />
               <HoverDetails
