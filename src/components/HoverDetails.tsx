@@ -28,7 +28,7 @@ const HoverDetails: React.FC<HoverDetailsProps> = ({
   const [isHovered, setIsHovered] = useState(false);
 
   const getCardStyle = () => {
-    const baseOffset = 5; // Base offset from the hotspot in pixels
+    const baseOffset = 30; // Base offset from the hotspot in pixels
     
     switch (position) {
       case 'right':
