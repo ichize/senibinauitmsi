@@ -50,8 +50,8 @@ const GroundFloor = () => {
                 modelPosition={[10, 1, -6]}
               />
               <HoverDetails
-                x={40}
-                y={70}
+                x={10}
+                y={-30}
                 title="Studio 08A"
                 description="Max Pax= 30. Fixed Workstation. 3 AC"
                 position="right"
@@ -59,8 +59,8 @@ const GroundFloor = () => {
                 modelPosition={[-18, 1, -6]}
               />
               <HoverDetails
-                x={60}
-                y={20}
+                x={10}
+                y={-30}
                 title="Studio Master 04"
                 description="Max Pax= 25. 24 hours operational Studio. Fixed Workstation"
                 position="right"
