@@ -48,7 +48,7 @@ const HoverDetails: React.FC<HoverDetailsProps> = ({
   return (
     <>
       <div 
-        className="hotspot absolute w-6 h-6 rounded-full bg-primary/80 flex items-center justify-center -ml-3 -mt-3 cursor-pointer shadow-lg pointer-events-auto z-10 transition-all hover:scale-110"
+        className="hotspot absolute w-6 h-6 rounded-full bg-primary/80 flex items-center justify-center -ml-3 -mt-3 cursor-pointer shadow-lg pointer-events-auto z-10"
         style={{ left: `${x}%`, top: `${y}%` }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
