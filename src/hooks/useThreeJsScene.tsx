@@ -8,6 +8,7 @@ interface UseThreeJsSceneProps {
   containerRef: React.RefObject<HTMLDivElement>;
   onModelLoaded?: () => void;
   onHotspotUpdate?: () => void;
+  onObjectClick?: (object: THREE.Object3D) => void; // Added a callback for clicking objects
 }
 
 interface ThreeJsSceneRefs {
@@ -23,7 +24,8 @@ export const useThreeJsScene = ({
   modelSrc,
   containerRef,
   onModelLoaded,
-  onHotspotUpdate
+  onHotspotUpdate,
+  onObjectClick // Add a handler for object clicks
 }: UseThreeJsSceneProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -46,6 +48,9 @@ export const useThreeJsScene = ({
     model: modelRef.current,
     animationFrame: animationFrameRef.current
   };
+
+  const raycaster = useRef(new THREE.Raycaster()); // Raycaster instance
+  const mouse = useRef(new THREE.Vector2()); // Store mouse position
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -118,6 +123,32 @@ export const useThreeJsScene = ({
       });
     }
 
+    // Handle raycasting for mouse click events
+    const onMouseMove = (event: MouseEvent) => {
+      if (!containerRef.current || !cameraRef.current) return;
+      
+      // Calculate mouse position in normalized device coordinates (-1 to +1)
+      mouse.current.x = (event.clientX / containerRef.current.clientWidth) * 2 - 1;
+      mouse.current.y = -(event.clientY / containerRef.current.clientHeight) * 2 + 1;
+    };
+
+    const onMouseClick = () => {
+      if (!modelRef.current || !cameraRef.current) return;
+      
+      // Update the raycaster with the mouse position and camera
+      raycaster.current.setFromCamera(mouse.current, cameraRef.current);
+      
+      // Find intersects with objects
+      const intersects = raycaster.current.intersectObjects(modelRef.current.children, true);
+      if (intersects.length > 0 && onObjectClick) {
+        // Call the callback with the clicked object
+        onObjectClick(intersects[0].object);
+      }
+    };
+
+    containerRef.current.addEventListener('mousemove', onMouseMove);
+    containerRef.current.addEventListener('click', onMouseClick);
+
     // Handle window resize
     const handleResize = () => {
       if (!containerRef.current || !cameraRef.current || !rendererRef.current) return;
@@ -161,6 +192,8 @@ export const useThreeJsScene = ({
       
       // Remove event listeners
       window.removeEventListener('resize', handleResize);
+      containerRef.current?.removeEventListener('mousemove', onMouseMove);
+      containerRef.current?.removeEventListener('click', onMouseClick);
       
       // Remove controls event listener
       if (controlsRef.current && onHotspotUpdate) {
@@ -211,77 +244,66 @@ export const useThreeJsScene = ({
     renderer.setPixelRatio(window.devicePixelRatio);
     
     // Update to use the correct properties for newer Three.js versions
-    renderer.outputColorSpace = THREE.SRGBColorSpace;
-    
-    // Note: physicallyCorrectLights is deprecated and has been replaced
-    // We'll set the legacy lighting mode to false to use the new lighting model
-    renderer.useLegacyLights = false;
+    renderer.outputEncoding = THREE.sRGBEncoding;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1;
+    renderer.setClearColor(0x000000, 0); // Optional: makes background transparent
     
     container.appendChild(renderer.domElement);
     return renderer;
   };
 
-  // Helper function to load the 3D model
+  // Helper function to load the model
   const loadModel = (
     modelSrc: string, 
     scene: THREE.Scene, 
     camera: THREE.PerspectiveCamera, 
-    controls: OrbitControls, 
-    container: HTMLDivElement,
-    onModelLoaded?: () => void
+    controls: OrbitControls,
+    container: HTMLDivElement, 
+    onLoaded: () => void
   ) => {
     const loader = new GLTFLoader();
     
-    // Clear any existing model first
-    if (modelRef.current) {
-      scene.remove(modelRef.current);
-      modelRef.current = null;
-    }
-    
     loader.load(
-      modelSrc,
+      modelSrc, 
       (gltf) => {
-        // Center the model
-        const box = new THREE.Box3().setFromObject(gltf.scene);
-        const center = box.getCenter(new THREE.Vector3());
-        const size = box.getSize(new THREE.Vector3());
-        
-        // Reset position to center
-        gltf.scene.position.x = -center.x;
-        gltf.scene.position.y = -center.y;
-        gltf.scene.position.z = -center.z;
-        
-        // Adjust camera position based on model size
+        const model = gltf.scene;
+        model.scale.set(1, 1, 1); // Adjust scale if needed
+        scene.add(model);
+        modelRef.current = model;
+
+        // Compute bounding box and center model
+        const box = new THREE.Box3().setFromObject(model);
+        const size = new THREE.Vector3();
+        box.getSize(size);
         const maxDim = Math.max(size.x, size.y, size.z);
-        const fov = camera.fov * (Math.PI / 180);
-        let cameraZ = Math.abs(maxDim / 2 / Math.tan(fov / 2));
-        cameraZ *= 1.5; // Add some margin
-        camera.position.z = cameraZ;
+        const fov = camera.fov * (Math.PI / 180); 
+        let cameraZ = Math.abs(maxDim / 4 * Math.tan(fov * 2));
+        camera.position.set(0, size.y / 2, cameraZ);
         
-        // Set controls target to model center
-        controls.target.set(0, 0, 0);
+        // Ensure the camera looks at the model
+        const center = new THREE.Vector3();
+        box.getCenter(center);
+        camera.lookAt(center);
+        
+        controls.target.copy(center);
         controls.update();
-        
-        modelRef.current = gltf.scene;
-        scene.add(gltf.scene);
-        
-        // Notify that model has loaded
-        if (onModelLoaded) {
-          onModelLoaded();
-        }
+
+        onLoaded(); // Invoke callback
       },
-      (xhr) => {
-        // Loading progress
-        console.log((xhr.loaded / xhr.total) * 100 + '% loaded');
-      },
+      undefined, 
       (error) => {
-        console.error('An error happened while loading the model:', error);
-        setError('Failed to load 3D model. Please try again later.');
+        setError('An error occurred while loading the model.');
         setIsLoading(false);
         loadingRef.current = false;
+        console.error(error);
       }
     );
   };
 
-  return { isLoading, error, refs };
+  return {
+    isLoading,
+    error,
+    refs
+  };
 };
