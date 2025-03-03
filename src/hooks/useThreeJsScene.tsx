@@ -1,4 +1,3 @@
-
 import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
@@ -36,6 +35,7 @@ export const useThreeJsScene = ({
   const controlsRef = useRef<OrbitControls | null>(null);
   const modelRef = useRef<THREE.Group | null>(null);
   const animationFrameRef = useRef<number | null>(null);
+  const loadingRef = useRef<boolean>(true);
   
   // Expose the ThreeJS objects for external use (like updating hotspot positions)
   const refs: ThreeJsSceneRefs = {
@@ -50,54 +50,81 @@ export const useThreeJsScene = ({
   useEffect(() => {
     if (!containerRef.current) return;
     
+    // Reset loading state when model source changes
     setIsLoading(true);
+    loadingRef.current = true;
     setError(null);
 
-    // Scene setup
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x333333);
-    sceneRef.current = scene;
-
-    // Camera setup
-    const camera = new THREE.PerspectiveCamera(
-      75, 
-      containerRef.current.clientWidth / containerRef.current.clientHeight, 
-      0.1, 
-      1000
-    );
-    camera.position.z = 5;
-    cameraRef.current = camera;
-
-    // Enhanced lighting setup
-    setupLighting(scene);
-
-    // Renderer
-    const renderer = setupRenderer(containerRef.current);
-    rendererRef.current = renderer;
-
-    // Controls
-    const controls = new OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.25;
-    controls.screenSpacePanning = false;
-    controls.maxDistance = 100;
-    
-    // Add event listener to update hotspot positions when user interacts
-    if (onHotspotUpdate) {
-      controls.addEventListener('change', onHotspotUpdate);
+    // Clean up previous scene
+    if (sceneRef.current) {
+      // Clear existing model if any
+      if (modelRef.current) {
+        sceneRef.current.remove(modelRef.current);
+        modelRef.current = null;
+      }
+    } else {
+      // Scene setup (only if not already created)
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x333333);
+      sceneRef.current = scene;
     }
-    controlsRef.current = controls;
+
+    // Camera setup (only if not already created)
+    if (!cameraRef.current && containerRef.current) {
+      const camera = new THREE.PerspectiveCamera(
+        75, 
+        containerRef.current.clientWidth / containerRef.current.clientHeight, 
+        0.1, 
+        1000
+      );
+      camera.position.z = 5;
+      cameraRef.current = camera;
+    }
+
+    // Renderer setup (only if not already created)
+    if (!rendererRef.current && containerRef.current) {
+      const renderer = setupRenderer(containerRef.current);
+      rendererRef.current = renderer;
+    }
+
+    // Controls setup (only if not already created)
+    if (!controlsRef.current && cameraRef.current && rendererRef.current) {
+      const controls = new OrbitControls(cameraRef.current, rendererRef.current.domElement);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.25;
+      controls.screenSpacePanning = false;
+      controls.maxDistance = 100;
+      
+      // Add event listener to update hotspot positions when user interacts
+      if (onHotspotUpdate) {
+        controls.addEventListener('change', onHotspotUpdate);
+      }
+      controlsRef.current = controls;
+    }
+
+    // Setup lighting (only if scene is newly created)
+    if (sceneRef.current && !sceneRef.current.children.length) {
+      setupLighting(sceneRef.current);
+    }
 
     // Load model
-    loadModel(modelSrc, scene, camera, controls, containerRef.current, onModelLoaded);
+    if (sceneRef.current && cameraRef.current && controlsRef.current && containerRef.current) {
+      loadModel(modelSrc, sceneRef.current, cameraRef.current, controlsRef.current, containerRef.current, () => {
+        setIsLoading(false);
+        loadingRef.current = false;
+        if (onModelLoaded) {
+          onModelLoaded();
+        }
+      });
+    }
 
     // Handle window resize
     const handleResize = () => {
-      if (!containerRef.current) return;
+      if (!containerRef.current || !cameraRef.current || !rendererRef.current) return;
       
-      camera.aspect = containerRef.current.clientWidth / containerRef.current.clientHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(containerRef.current.clientWidth, containerRef.current.clientHeight);
+      cameraRef.current.aspect = containerRef.current.clientWidth / containerRef.current.clientHeight;
+      cameraRef.current.updateProjectionMatrix();
+      rendererRef.current.setSize(containerRef.current.clientWidth, containerRef.current.clientHeight);
       if (onHotspotUpdate) {
         onHotspotUpdate();
       }
@@ -119,26 +146,35 @@ export const useThreeJsScene = ({
       }
     };
     
-    animate();
+    // Start animation only if it's not already running
+    if (!animationFrameRef.current) {
+      animate();
+    }
 
     // Cleanup
     return () => {
+      // Cancel animation frame
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
+        animationFrameRef.current = null;
       }
+      
+      // Remove event listeners
       window.removeEventListener('resize', handleResize);
-      if (containerRef.current && rendererRef.current) {
-        containerRef.current.removeChild(rendererRef.current.domElement);
-      }
+      
+      // Remove controls event listener
       if (controlsRef.current && onHotspotUpdate) {
         controlsRef.current.removeEventListener('change', onHotspotUpdate);
-        controlsRef.current.dispose();
       }
-      if (rendererRef.current) {
-        rendererRef.current.dispose();
+      
+      // We'll keep the renderer, camera, and scene for reuse
+      // but remove the model to save memory
+      if (sceneRef.current && modelRef.current) {
+        sceneRef.current.remove(modelRef.current);
+        modelRef.current = null;
       }
     };
-  }, [modelSrc, onHotspotUpdate, onModelLoaded]);
+  }, [modelSrc]);
 
   // Helper function to setup lighting
   const setupLighting = (scene: THREE.Scene) => {
@@ -166,7 +202,11 @@ export const useThreeJsScene = ({
 
   // Helper function to setup renderer
   const setupRenderer = (container: HTMLDivElement) => {
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    const renderer = new THREE.WebGLRenderer({ 
+      antialias: true,
+      alpha: true,
+      powerPreference: 'high-performance'
+    });
     renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
     
@@ -191,6 +231,13 @@ export const useThreeJsScene = ({
     onModelLoaded?: () => void
   ) => {
     const loader = new GLTFLoader();
+    
+    // Clear any existing model first
+    if (modelRef.current) {
+      scene.remove(modelRef.current);
+      modelRef.current = null;
+    }
+    
     loader.load(
       modelSrc,
       (gltf) => {
@@ -217,7 +264,6 @@ export const useThreeJsScene = ({
         
         modelRef.current = gltf.scene;
         scene.add(gltf.scene);
-        setIsLoading(false);
         
         // Notify that model has loaded
         if (onModelLoaded) {
@@ -232,6 +278,7 @@ export const useThreeJsScene = ({
         console.error('An error happened while loading the model:', error);
         setError('Failed to load 3D model. Please try again later.');
         setIsLoading(false);
+        loadingRef.current = false;
       }
     );
   };
