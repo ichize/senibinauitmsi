@@ -277,8 +277,8 @@ export const useThreeJsScene = ({
         const size = new THREE.Vector3();
         box.getSize(size);
         const maxDim = Math.max(size.x, size.y, size.z);
-        const fov = camera.fov * (Math.PI / 180); 
-        let cameraZ = Math.abs(maxDim / 4 * Math.tan(fov * 1));
+        const fov = camera.fov * (Math.PI / 90); 
+        let cameraZ = Math.abs(maxDim / 4 * Math.tan(fov * 2));
         camera.position.set(0, size.y * 1.5, size.z * 3);
         
         // Ensure the camera looks at the model
