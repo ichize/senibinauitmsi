@@ -32,15 +32,15 @@ const HoverDetails: React.FC<HoverDetailsProps> = ({
     
     switch (position) {
       case 'right':
-        return { left: `${baseOffset + cardOffset.x}px`, top: `${cardOffset.y}px` };
+        return { left: `${cardOffset.x}px`, top: `${cardOffset.y}px` };
       case 'left':
-        return { right: `${baseOffset + cardOffset.x}px`, top: `${cardOffset.y}px` };
+        return { right: `${cardOffset.x}px`, top: `${cardOffset.y}px` };
       case 'top':
-        return { bottom: `${baseOffset + cardOffset.y}px`, left: `${cardOffset.x}px` };
+        return { bottom: `${cardOffset.y}px`, left: `${cardOffset.x}px` };
       case 'bottom':
-        return { top: `${baseOffset + cardOffset.y}px`, left: `${cardOffset.x}px` };
+        return { top: `${cardOffset.y}px`, left: `${cardOffset.x}px` };
       default:
-        return { left: `${baseOffset + cardOffset.x}px`, top: `${cardOffset.y}px` };
+        return { left: `${cardOffset.x}px`, top: `${cardOffset.y}px` };
     }
   };
 
