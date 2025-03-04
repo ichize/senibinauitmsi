@@ -33,6 +33,11 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
     position: [number, number];
     info: { title: string; description: string } | null;
   } | null>(null);
+  const [hoveredPart, setHoveredPart] = useState<{
+    object: THREE.Object3D;
+    position: { x: number, y: number };
+    name: string;
+  } | null>(null);
 
   // Create a callback for when hotspot positions need to be updated
   const onHotspotUpdateRef = useRef<() => void>(() => {});
@@ -46,16 +51,38 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
     },
     onHotspotUpdate: () => onHotspotUpdateRef.current(),
     onObjectHover: (object) => {
-      if (onModelPartHover && object) {
+      if (object) {
         const position = new THREE.Vector3();
         object.getWorldPosition(position);
-        onModelPartHover({
-          object,
-          position,
-          name: object.name || 'Unknown part'
-        });
-      } else if (onModelPartHover && !object) {
-        onModelPartHover(null);
+        
+        // Get 2D screen position for tooltip
+        if (containerRef.current && refs.camera) {
+          const vector = position.clone();
+          vector.project(refs.camera);
+          
+          const rect = containerRef.current.getBoundingClientRect();
+          const x = (vector.x * 0.5 + 0.5) * rect.width;
+          const y = (-(vector.y * 0.5) + 0.5) * rect.height;
+          
+          setHoveredPart({
+            object,
+            position: { x, y },
+            name: object.name || 'Unknown part'
+          });
+        }
+        
+        if (onModelPartHover) {
+          onModelPartHover({
+            object,
+            position,
+            name: object.name || 'Unknown part'
+          });
+        }
+      } else {
+        setHoveredPart(null);
+        if (onModelPartHover) {
+          onModelPartHover(null);
+        }
       }
     },
     onObjectClick: (object) => {
@@ -96,9 +123,41 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
     };
   }, [resizeRendererToDisplaySize]);
 
+  // Get part details based on the object name
+  const getPartDetails = (partName: string) => {
+    // This is a simple example - you can expand with more detailed information
+    return {
+      title: partName,
+      description: `This is the ${partName} area of the building`
+    };
+  };
+
   return (
     <div className="relative w-full h-full min-h-[500px] md:min-h-[700px]" ref={containerRef}>
       <LoadingState isLoading={isLoading} error={error} progress={progress} />
+      
+      {/* Tooltip for hovered part */}
+      <TooltipProvider>
+        {hoveredPart && (
+          <div 
+            className="absolute pointer-events-none z-10"
+            style={{
+              left: `${hoveredPart.position.x}px`,
+              top: `${hoveredPart.position.y}px`,
+              transform: 'translate(-50%, -100%)'
+            }}
+          >
+            <Tooltip open={true}>
+              <TooltipContent side="top">
+                <div className="p-2">
+                  <h4 className="font-bold">{hoveredPart.name}</h4>
+                  <p className="text-sm">{getPartDetails(hoveredPart.name).description}</p>
+                </div>
+              </TooltipContent>
+            </Tooltip>
+          </div>
+        )}
+      </TooltipProvider>
       
       {/* This is where interactive elements would be placed */}
       <div className="model-container absolute inset-0 pointer-events-none">

@@ -34,7 +34,6 @@ export const useThreeJsScene = ({
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   
-  // Store Three.js objects for use in subsequent renders
   const sceneRef = useRef<THREE.Scene | null>(null);
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
@@ -43,7 +42,6 @@ export const useThreeJsScene = ({
   const animationFrameRef = useRef<number | null>(null);
   const loadingRef = useRef<boolean>(true);
   
-  // Expose the ThreeJS objects for external use (like updating hotspot positions)
   const refs: ThreeJsSceneRefs = {
     scene: sceneRef.current,
     camera: cameraRef.current,
@@ -53,33 +51,28 @@ export const useThreeJsScene = ({
     animationFrame: animationFrameRef.current
   };
 
-  const raycaster = useRef(new THREE.Raycaster()); // Raycaster instance
-  const mouse = useRef(new THREE.Vector2()); // Store mouse position
-  const hoveredObject = useRef<THREE.Object3D | null>(null); // Track currently hovered object
+  const raycaster = useRef(new THREE.Raycaster());
+  const mouse = useRef(new THREE.Vector2());
+  const hoveredObject = useRef<THREE.Object3D | null>(null);
 
   useEffect(() => {
     if (!containerRef.current) return;
     
-    // Reset loading state when model source changes
     setIsLoading(true);
     loadingRef.current = true;
     setError(null);
 
-    // Clean up previous scene
     if (sceneRef.current) {
-      // Clear existing model if any
       if (modelRef.current) {
         sceneRef.current.remove(modelRef.current);
         modelRef.current = null;
       }
     } else {
-      // Scene setup (only if not already created)
       const scene = new THREE.Scene();
       scene.background = new THREE.Color(0x333333);
       sceneRef.current = scene;
     }
 
-    // Camera setup (only if not already created)
     if (!cameraRef.current && containerRef.current) {
       const camera = new THREE.PerspectiveCamera(
         75, 
@@ -91,13 +84,11 @@ export const useThreeJsScene = ({
       cameraRef.current = camera;
     }
 
-    // Renderer setup (only if not already created)
     if (!rendererRef.current && containerRef.current) {
       const renderer = setupRenderer(containerRef.current);
       rendererRef.current = renderer;
     }
 
-    // Controls setup (only if not already created)
     if (!controlsRef.current && cameraRef.current && rendererRef.current) {
       const controls = new OrbitControls(cameraRef.current, rendererRef.current.domElement);
       controls.enableDamping = true;
@@ -105,19 +96,16 @@ export const useThreeJsScene = ({
       controls.screenSpacePanning = false;
       controls.maxDistance = 100;
       
-      // Add event listener to update hotspot positions when user interacts
       if (onHotspotUpdate) {
         controls.addEventListener('change', onHotspotUpdate);
       }
       controlsRef.current = controls;
     }
 
-    // Setup lighting (only if scene is newly created)
     if (sceneRef.current && !sceneRef.current.children.length) {
       setupLighting(sceneRef.current);
     }
 
-    // Load model
     if (sceneRef.current && cameraRef.current && controlsRef.current && containerRef.current) {
       loadModel(modelSrc, sceneRef.current, cameraRef.current, controlsRef.current, containerRef.current, (progress) => {
         if (onLoadProgress) {
@@ -132,50 +120,42 @@ export const useThreeJsScene = ({
       });
     }
 
-    // Handle raycasting for mouse interactions (click and hover)
     const onMouseMove = (event: MouseEvent) => {
       if (!containerRef.current || !cameraRef.current || !modelRef.current) return;
       
-      // Calculate mouse position in normalized device coordinates (-1 to +1)
       const rect = containerRef.current.getBoundingClientRect();
       mouse.current.x = ((event.clientX - rect.left) / containerRef.current.clientWidth) * 2 - 1;
       mouse.current.y = -((event.clientY - rect.top) / containerRef.current.clientHeight) * 2 + 1;
       
-      // Handle hover state with raycasting
       raycaster.current.setFromCamera(mouse.current, cameraRef.current);
       const intersects = raycaster.current.intersectObjects(modelRef.current.children, true);
       
       if (intersects.length > 0) {
         const object = intersects[0].object;
         
-        // If hovering a new object
         if (hoveredObject.current !== object && onObjectHover) {
           hoveredObject.current = object;
           onObjectHover(object);
-          containerRef.current.style.cursor = 'pointer'; // Change cursor to indicate interactive element
+          containerRef.current.style.cursor = 'pointer';
         }
       } else if (hoveredObject.current !== null) {
-        // If no longer hovering any object
         hoveredObject.current = null;
         if (onObjectHover) onObjectHover(null);
-        containerRef.current.style.cursor = 'auto'; // Reset cursor
+        containerRef.current.style.cursor = 'auto';
       }
     };
 
     const onMouseClick = (event: MouseEvent) => {
       if (!containerRef.current || !cameraRef.current || !modelRef.current) return;
       
-      // Update the raycaster with the mouse position and camera
       const rect = containerRef.current.getBoundingClientRect();
       mouse.current.x = ((event.clientX - rect.left) / containerRef.current.clientWidth) * 2 - 1;
       mouse.current.y = -((event.clientY - rect.top) / containerRef.current.clientHeight) * 2 + 1;
       
       raycaster.current.setFromCamera(mouse.current, cameraRef.current);
       
-      // Find intersects with objects
       const intersects = raycaster.current.intersectObjects(modelRef.current.children, true);
       if (intersects.length > 0 && onObjectClick) {
-        // Call the callback with the clicked object
         onObjectClick(intersects[0].object);
       }
     };
@@ -183,7 +163,6 @@ export const useThreeJsScene = ({
     containerRef.current.addEventListener('mousemove', onMouseMove);
     containerRef.current.addEventListener('click', onMouseClick);
 
-    // Handle window resize
     const handleResize = () => {
       if (!containerRef.current || !cameraRef.current || !rendererRef.current) return;
       
@@ -197,7 +176,6 @@ export const useThreeJsScene = ({
 
     window.addEventListener('resize', handleResize);
 
-    // Animation loop
     const animate = () => {
       animationFrameRef.current = requestAnimationFrame(animate);
       if (!sceneRef.current || !cameraRef.current || !rendererRef.current) return;
@@ -205,37 +183,29 @@ export const useThreeJsScene = ({
       if (controlsRef.current) controlsRef.current.update();
       rendererRef.current.render(sceneRef.current, cameraRef.current);
       
-      // Update hotspot positions in every frame
       if (onHotspotUpdate) {
         onHotspotUpdate();
       }
     };
     
-    // Start animation only if it's not already running
     if (!animationFrameRef.current) {
       animate();
     }
 
-    // Cleanup
     return () => {
-      // Cancel animation frame
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
         animationFrameRef.current = null;
       }
       
-      // Remove event listeners
       window.removeEventListener('resize', handleResize);
       containerRef.current?.removeEventListener('mousemove', onMouseMove);
       containerRef.current?.removeEventListener('click', onMouseClick);
       
-      // Remove controls event listener
       if (controlsRef.current && onHotspotUpdate) {
         controlsRef.current.removeEventListener('change', onHotspotUpdate);
       }
       
-      // We'll keep the renderer, camera, and scene for reuse
-      // but remove the model to save memory
       if (sceneRef.current && modelRef.current) {
         sceneRef.current.remove(modelRef.current);
         modelRef.current = null;
@@ -243,13 +213,10 @@ export const useThreeJsScene = ({
     };
   }, [modelSrc]);
 
-  // Helper function to setup lighting
   const setupLighting = (scene: THREE.Scene) => {
-    // Stronger ambient light
     const ambientLight = new THREE.AmbientLight(0xffffff, 1.5);
     scene.add(ambientLight);
 
-    // Add multiple directional lights from different angles
     const directionalLight1 = new THREE.DirectionalLight(0xffffff, 1.5);
     directionalLight1.position.set(1, 1, 1);
     scene.add(directionalLight1);
@@ -262,12 +229,10 @@ export const useThreeJsScene = ({
     directionalLight3.position.set(0, -1, 0);
     scene.add(directionalLight3);
 
-    // Add a hemisphere light for more natural lighting
     const hemisphereLight = new THREE.HemisphereLight(0xffffbb, 0x080820, 1);
     scene.add(hemisphereLight);
   };
 
-  // Helper function to setup renderer
   const setupRenderer = (container: HTMLDivElement) => {
     const renderer = new THREE.WebGLRenderer({ 
       antialias: true,
@@ -277,17 +242,15 @@ export const useThreeJsScene = ({
     renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
     
-    // Use outputColorSpace instead of outputEncoding (for newer Three.js versions)
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1;
-    renderer.setClearColor(0x000000, 0); // Optional: makes background transparent
+    renderer.setClearColor(0x000000, 0);
     
     container.appendChild(renderer.domElement);
     return renderer;
   };
 
-  // Helper function to load the model
   const loadModel = (
     modelSrc: string, 
     scene: THREE.Scene, 
@@ -304,36 +267,35 @@ export const useThreeJsScene = ({
       (gltf) => {
         console.log('Model loaded successfully:', gltf);
         
-        // Log model structure to help with debugging
         const model = gltf.scene;
         console.log('Model structure:', model);
         
-        // Add names to unnamed objects for better identification
+        let partCounter = 0;
         model.traverse((object) => {
-          // If object has no name but has geometry, set a name based on material or index
-          if (!object.name && (object as THREE.Mesh).geometry) {
+          if ((object as THREE.Mesh).isMesh) {
             const mesh = object as THREE.Mesh;
-            const materialName = mesh.material ? 
-              (Array.isArray(mesh.material) ? mesh.material[0].name || 'Material' : mesh.material.name || 'Material') : 
-              'Unknown';
-            object.name = `Part_${materialName}_${Math.floor(Math.random() * 1000)}`;
+            
+            if (!object.name || object.name === '') {
+              const materialName = mesh.material ? 
+                (Array.isArray(mesh.material) ? mesh.material[0].name || 'Material' : mesh.material.name || 'Material') : 
+                'Unknown';
+              
+              const position = new THREE.Vector3();
+              mesh.getWorldPosition(position);
+              
+              const areaName = getAreaName(position);
+              object.name = areaName || `Area_${materialName}_${++partCounter}`;
+            }
+            
+            object.userData.interactive = true;
             console.log('Named object:', object.name);
           }
         });
         
-        // Make objects interactive
-        model.traverse((object) => {
-          // Make all meshes interactive by default
-          if ((object as THREE.Mesh).isMesh) {
-            object.userData.interactive = true;
-          }
-        });
-        
-        model.scale.set(1, 1, 1); // Adjust scale if needed
+        model.scale.set(1, 1, 1);
         scene.add(model);
         modelRef.current = model;
 
-        // Compute bounding box and center model
         const box = new THREE.Box3().setFromObject(model);
         const size = new THREE.Vector3();
         box.getSize(size);
@@ -342,7 +304,6 @@ export const useThreeJsScene = ({
         let cameraZ = Math.abs(maxDim / 4 * Math.tan(fov * 2));
         camera.position.set(size.x * 0.5, size.y * 2, size.z * 2);
         
-        // Ensure the camera looks at the model
         const center = new THREE.Vector3();
         box.getCenter(center);
         camera.lookAt(center);
@@ -350,10 +311,9 @@ export const useThreeJsScene = ({
         controls.target.copy(center);
         controls.update();
 
-        onLoaded(); // Invoke callback
+        onLoaded();
       },
       (xhr) => {
-        // Calculate and report loading progress
         const progress = xhr.loaded / xhr.total;
         console.log('Loading progress:', progress);
         onProgress(progress);
@@ -367,7 +327,26 @@ export const useThreeJsScene = ({
     );
   };
 
-  // Function to resize renderer based on container size
+  const getAreaName = (position: THREE.Vector3): string => {
+    let xPosition = position.x < 0 ? 'West' : 'East';
+    let zPosition = position.z < 0 ? 'North' : 'South';
+    let floorLevel = '';
+    
+    if (position.y < -5) {
+      floorLevel = 'Basement';
+    } else if (position.y < 0) {
+      floorLevel = 'Ground Floor';
+    } else if (position.y < 5) {
+      floorLevel = 'First Floor';
+    } else if (position.y < 10) {
+      floorLevel = 'Second Floor';
+    } else {
+      floorLevel = 'Upper Floors';
+    }
+    
+    return `${floorLevel} ${xPosition} ${zPosition} Wing`;
+  };
+
   const resizeRendererToDisplaySize = () => {
     if (!rendererRef.current || !containerRef.current || !cameraRef.current) return false;
     
