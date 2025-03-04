@@ -23,39 +23,58 @@ const SecondFloor = () => {
           <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-8 animate-scale-up">
             <ModelViewer modelSrc="Annex 12F.gltf">
               <HoverDetails
-                x={35}
-                y={30}
-                title="Open Office Area A"
-                description="Open workspace with ergonomic desks, adjustable chairs, and proper lighting to maximize productivity and comfort."
+                x={10}
+                y={-30}
+                title="Studio 02A"
+                description="Max Pax =30, 2 AC split unit, Projector"
                 position="right"
+                cardOffset={{ x: 0, y: 0 }}
+                modelPosition={[24, 6, 2]} 
               />
               <HoverDetails
-                x={70}
-                y={25}
-                title="Open Office Area B"
-                description="Hot desk zone with unassigned workstations for flexible working arrangements."
-                position="left"
-              />
-              <HoverDetails
-                x={50}
-                y={50}
-                title="Central Break Area"
-                description="Communal space with kitchen facilities, comfortable seating, and entertainment options for employees during breaks."
-                position="top"
-              />
-              <HoverDetails
-                x={25}
-                y={65}
-                title="Quiet Zone"
-                description="Designated area for focused work with acoustic treatments to minimize distractions."
+                x={10}
+                y={-30}
+                title="Studio 02B"
+                description="Max Pax =30, 2 AC split unit, Non projector"
                 position="right"
+                cardOffset={{ x: 0, y: 0 }}
+                modelPosition={[24, 6, -10]} 
               />
               <HoverDetails
-                x={80}
-                y={60}
-                title="Print and Copy Center"
-                description="Centralized area for printing, copying, and office supplies."
-                position="left"
+                x={10}
+                y={-60}
+                title="XXX"
+                description="Max Pax =30, 2 AC split unit, Projector"
+                position="right"
+                cardOffset={{ x: 0, y: 0 }}
+                modelPosition={[24, 6, -20]} 
+              />
+              <HoverDetails
+                x={10}
+                y={-30}
+                title="Studio 02C"
+                description="Max Pax =35, 4 AC, Projector"
+                position="bottom"
+                cardOffset={{ x: 0, y: 0 }}
+                modelPosition={[11, 6, 15]} 
+              />
+              <HoverDetails
+                x={10}
+                y={-30}
+                title="Studio 02D"
+                description="Max Pax =28, 3 AC split unit, Projector."
+                position="right"
+                cardOffset={{ x: 0, y: 0 }}
+                modelPosition={[-12, 6, 15]} 
+              />
+              <HoverDetails
+                x={10}
+                y={-30}
+                title="Bilik Krit Utama"
+                description="Use for Crtique Sessions, Wrap up, Lectures, Projector"
+                position="bottom"
+                cardOffset={{ x: 0, y: 0 }}
+                modelPosition={[-23, 6, 0]} 
               />
             </ModelViewer>
           </div>
