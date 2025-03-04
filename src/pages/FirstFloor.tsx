@@ -26,26 +26,28 @@ const FirstFloor = () => {
                 x={10}
                 y={-30}
                 title="Studio 01A"
-                description="Max Pax= ??"
+                description="Max Pax =30, 2 AC split unit, Projector"
                 position="right"
                 cardOffset={{ x: 0, y: 0 }}
-                modelPosition={[25, 2, 2]} 
+                modelPosition={[25, 5, 2]} 
               />
               <HoverDetails
-                x={65}
-                y={30}
-                title="Conference Room B"
-                description="Medium-sized conference room with modular furniture that can be reconfigured for different meeting styles."
-                position="left"
+                x={10}
+                y={-30}
+                title="Studio 03A extended"
+                description="Max Pax =30, 2 AC split unit, Non projector"
+                position="right"
                 cardOffset={{ x: 0, y: 0 }}
-                modelPosition={[25, 2, -10]} 
+                modelPosition={[25, 5, -10]} 
               />
               <HoverDetails
-                x={45}
-                y={60}
-                title="Collaborative Hub"
-                description="Open space with flexible seating and writable walls for brainstorming and team collaboration."
-                position="top"
+                x={10}
+                y={-60}
+                title="Studio 03A"
+                description="Max Pax =30, 2 AC split unit, Non projector"
+                position="right"
+                cardOffset={{ x: 0, y: 0 }}
+                modelPosition={[25, 5, -20]} 
               />
               <HoverDetails
                 x={20}
