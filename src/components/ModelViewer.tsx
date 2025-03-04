@@ -29,10 +29,6 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState<number>(0);
-  const [hoveredInfo, setHoveredInfo] = useState<{
-    position: [number, number];
-    info: { title: string; description: string } | null;
-  } | null>(null);
   const [hoveredPart, setHoveredPart] = useState<{
     object: THREE.Object3D;
     position: { x: number, y: number };
@@ -86,7 +82,7 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
       }
     },
     onObjectClick: (object) => {
-      if (onModelPartClick) {
+      if (object && onModelPartClick) {
         const position = new THREE.Vector3();
         object.getWorldPosition(position);
         onModelPartClick({
@@ -137,27 +133,21 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
       <LoadingState isLoading={isLoading} error={error} progress={progress} />
       
       {/* Tooltip for hovered part */}
-      <TooltipProvider>
-        {hoveredPart && (
-          <div 
-            className="absolute pointer-events-none z-10"
-            style={{
-              left: `${hoveredPart.position.x}px`,
-              top: `${hoveredPart.position.y}px`,
-              transform: 'translate(-50%, -100%)'
-            }}
-          >
-            <Tooltip open={true}>
-              <TooltipContent side="top">
-                <div className="p-2">
-                  <h4 className="font-bold">{hoveredPart.name}</h4>
-                  <p className="text-sm">{getPartDetails(hoveredPart.name).description}</p>
-                </div>
-              </TooltipContent>
-            </Tooltip>
+      {hoveredPart && (
+        <div 
+          className="absolute pointer-events-none z-50"
+          style={{
+            left: `${hoveredPart.position.x}px`,
+            top: `${hoveredPart.position.y}px`,
+            transform: 'translate(-50%, -100%)'
+          }}
+        >
+          <div className="bg-white p-3 rounded-lg shadow-lg">
+            <h4 className="font-bold">{hoveredPart.name}</h4>
+            <p className="text-sm">{getPartDetails(hoveredPart.name).description}</p>
           </div>
-        )}
-      </TooltipProvider>
+        </div>
+      )}
       
       {/* This is where interactive elements would be placed */}
       <div className="model-container absolute inset-0 pointer-events-none">
