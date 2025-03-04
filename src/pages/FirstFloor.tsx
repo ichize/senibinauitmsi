@@ -23,11 +23,13 @@ const FirstFloor = () => {
           <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-8 animate-scale-up">
             <ModelViewer modelSrc="Annex 11F.gltf">
               <HoverDetails
-                x={30}
-                y={25}
-                title="Conference Room A"
-                description="Large conference room with seating for up to 20 people, featuring advanced presentation technology and video conferencing capabilities."
+                x={10}
+                y={-30}
+                title="Bilik Krit Kecil"
+                description="Max Pax= ??"
                 position="right"
+                cardOffset={{ x: 0, y: 0 }}
+                modelPosition={[25, 2, 2]} 
               />
               <HoverDetails
                 x={65}
