@@ -15,8 +15,8 @@ const FirstFloor = () => {
             </div>
             <h1 className="text-3xl md:text-4xl font-light mb-4">First Floor</h1>
             <p className="text-lg text-muted-foreground">
-              The first floor houses meeting rooms and collaborative workspaces.
-              Explore the interactive model to discover the details of each space.
+              This floor have Studios, Toilets (Purple, pink), Archi. Lecturer's Office (yellow), Courtyard, and public spaces.
+              Hover over the highlighted areas to learn more about each space.
             </p>
           </div>
           
