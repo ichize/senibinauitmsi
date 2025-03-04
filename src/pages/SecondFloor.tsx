@@ -15,8 +15,8 @@ const SecondFloor = () => {
             </div>
             <h1 className="text-3xl md:text-4xl font-light mb-4">Second Floor</h1>
             <p className="text-lg text-muted-foreground">
-              The second floor features open workspaces and break areas designed for team productivity.
-              Hover over highlighted areas to learn about the key spaces.
+              This floor have Studios, Crit Rooms, Toilets (Purple, pink), Archi. Lecturer's Office (yellow), and Staff Lounge.
+              Hover over the highlighted areas to learn more about each space.
             </p>
           </div>
           
@@ -29,7 +29,7 @@ const SecondFloor = () => {
                 description="Max Pax =30, 2 AC split unit, Projector"
                 position="right"
                 cardOffset={{ x: 0, y: 0 }}
-                modelPosition={[24, 6, 2]} 
+                modelPosition={[24, 8, 2]} 
               />
               <HoverDetails
                 x={10}
@@ -38,16 +38,16 @@ const SecondFloor = () => {
                 description="Max Pax =30, 2 AC split unit, Non projector"
                 position="right"
                 cardOffset={{ x: 0, y: 0 }}
-                modelPosition={[24, 6, -10]} 
+                modelPosition={[24, 8, -10]} 
               />
               <HoverDetails
                 x={10}
                 y={-60}
-                title="XXX"
+                title="Staff Lounge"
                 description="Max Pax =30, 2 AC split unit, Projector"
                 position="right"
                 cardOffset={{ x: 0, y: 0 }}
-                modelPosition={[24, 6, -20]} 
+                modelPosition={[-15, 8, 15]} 
               />
               <HoverDetails
                 x={10}
@@ -56,7 +56,7 @@ const SecondFloor = () => {
                 description="Max Pax =35, 4 AC, Projector"
                 position="bottom"
                 cardOffset={{ x: 0, y: 0 }}
-                modelPosition={[11, 6, 15]} 
+                modelPosition={[11, 8, 15]} 
               />
               <HoverDetails
                 x={10}
@@ -65,7 +65,7 @@ const SecondFloor = () => {
                 description="Max Pax =28, 3 AC split unit, Projector."
                 position="right"
                 cardOffset={{ x: 0, y: 0 }}
-                modelPosition={[-12, 6, 15]} 
+                modelPosition={[-10, 8, 15]} 
               />
               <HoverDetails
                 x={10}
@@ -74,7 +74,7 @@ const SecondFloor = () => {
                 description="Use for Crtique Sessions, Wrap up, Lectures, Projector"
                 position="bottom"
                 cardOffset={{ x: 0, y: 0 }}
-                modelPosition={[-23, 6, 0]} 
+                modelPosition={[-23, 8, 0]} 
               />
             </ModelViewer>
           </div>
