@@ -21,7 +21,7 @@ const SecondFloor = () => {
           </div>
           
           <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-8 animate-scale-up">
-            <ModelViewer modelSrc="second-floor.skp">
+            <ModelViewer modelSrc="Annex 12F.gltf">
               <HoverDetails
                 x={35}
                 y={30}
