@@ -12,7 +12,6 @@ interface HoverDetailsProps {
   className?: string;
   modelPosition?: [number, number, number]; // 3D coordinates in the model space
   cardOffset?: { x: number; y: number }; // Custom offset for the info card
-  isHovered?: boolean; // For model part hover state
 }
 
 const HoverDetails: React.FC<HoverDetailsProps> = ({
@@ -25,12 +24,8 @@ const HoverDetails: React.FC<HoverDetailsProps> = ({
   className,
   modelPosition,
   cardOffset = { x: 0, y: 0 },
-  isHovered = false, // Default value
 }) => {
-  const [isMouseHovered, setIsMouseHovered] = useState(false);
-  
-  // Use either mouse hover or external hover state
-  const showCard = isMouseHovered || isHovered;
+  const [isHovered, setIsHovered] = useState(false);
 
   const getCardStyle = () => {
     const baseOffset = 5; // Base offset from the hotspot in pixels
@@ -59,13 +54,13 @@ const HoverDetails: React.FC<HoverDetailsProps> = ({
       <div 
         className="hotspot absolute w-6 h-6 rounded-full bg-primary/80 flex items-center justify-center -ml-3 -mt-3 cursor-pointer shadow-lg pointer-events-auto z-10"
         style={{ left: `${x}%`, top: `${y}%` }}
-        onMouseEnter={() => setIsMouseHovered(true)}
-        onMouseLeave={() => setIsMouseHovered(false)}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
         {...positionAttribute}
       >
         <div className="w-2 h-2 bg-white rounded-full"></div>
       </div>
-      {showCard && (
+      {isHovered && (
         <div 
           className={cn(
             "info-card absolute bg-white p-3 rounded-lg shadow-lg z-20 opacity-0 animate-fade-in pointer-events-auto",

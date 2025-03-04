@@ -1,105 +1,10 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import Layout from '@/components/Layout';
 import ModelViewer from '@/components/ModelViewer';
-import * as THREE from 'three';
-
-// Information for model parts specific to the first floor
-const modelPartsInfo: Record<string, { title: string; description: string }> = {
-  "ConferenceRoomA": {
-    title: "Conference Room A",
-    description: "Large conference room with seating for up to 20 people, featuring advanced presentation technology and video conferencing capabilities."
-  },
-  "ConferenceRoomB": {
-    title: "Conference Room B",
-    description: "Medium-sized conference room with modular furniture that can be reconfigured for different meeting styles."
-  },
-  "CollaborativeHub": {
-    title: "Collaborative Hub",
-    description: "Open space with flexible seating and writable walls for brainstorming and team collaboration."
-  },
-  "PhoneBooths": {
-    title: "Phone Booths",
-    description: "Private soundproof booths for calls and focused work requiring privacy."
-  },
-  "BreakoutArea": {
-    title: "Breakout Area",
-    description: "Casual meeting area with comfortable seating and coffee tables for impromptu discussions."
-  },
-  // Generic part information
-  "Part_": {
-    title: "Building Component",
-    description: "Structural component of the building."
-  },
-  "Unknown": {
-    title: "Building Element",
-    description: "Part of the building structure."
-  }
-};
+import HoverDetails from '@/components/HoverDetails';
 
 const FirstFloor = () => {
-  const [hoveredPart, setHoveredPart] = useState<{
-    name: string;
-    screenPosition: { x: number; y: number };
-    info: { title: string; description: string };
-  } | null>(null);
-
-  const handleModelPartHover = (info: {
-    object: THREE.Object3D;
-    position: THREE.Vector3;
-    name: string;
-  } | null) => {
-    if (!info) {
-      setHoveredPart(null);
-      return;
-    }
-
-    // Try to find exact match for part info
-    let partInfo = modelPartsInfo[info.name];
-    
-    // If no exact match, try to find a partial match
-    if (!partInfo) {
-      for (const key of Object.keys(modelPartsInfo)) {
-        if (info.name.includes(key)) {
-          partInfo = modelPartsInfo[key];
-          break;
-        }
-      }
-    }
-
-    // If still no match, use generic info based on part naming pattern
-    if (!partInfo) {
-      if (info.name.startsWith('Part_')) {
-        partInfo = modelPartsInfo['Part_'];
-      } else {
-        partInfo = modelPartsInfo['Unknown'];
-      }
-    }
-
-    // Calculate screen position for tooltip
-    const vector = new THREE.Vector3();
-    vector.copy(info.position);
-    
-    const screenPosition = {
-      x: 50 + (vector.x * 5),
-      y: 50 + (vector.z * 5)
-    };
-
-    setHoveredPart({
-      name: info.name,
-      screenPosition,
-      info: partInfo
-    });
-  };
-
-  const handleModelPartClick = (info: {
-    object: THREE.Object3D;
-    position: THREE.Vector3;
-    name: string;
-  }) => {
-    console.log('Clicked on model part:', info.name);
-  };
-
   return (
     <Layout>
       <div className="container mx-auto px-4 py-8">
@@ -111,31 +16,47 @@ const FirstFloor = () => {
             <h1 className="text-3xl md:text-4xl font-light mb-4">First Floor</h1>
             <p className="text-lg text-muted-foreground">
               The first floor houses meeting rooms and collaborative workspaces.
-              Hover over different areas of the model to learn more about each space.
+              Explore the interactive model to discover the details of each space.
             </p>
           </div>
           
           <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-8 animate-scale-up">
-            <ModelViewer 
-              modelSrc="first-floor.skp" 
-              onModelPartHover={handleModelPartHover}
-              onModelPartClick={handleModelPartClick}
-            >
-              {hoveredPart && (
-                <div 
-                  className="absolute pointer-events-none info-card bg-white p-3 rounded-lg shadow-lg z-20 opacity-100 transition-all duration-300 ease-in-out"
-                  style={{
-                    left: `${hoveredPart.screenPosition.x}%`,
-                    top: `${hoveredPart.screenPosition.y}%`,
-                    transform: 'translate(-50%, -50%)',
-                    minWidth: '220px',
-                    maxWidth: '300px',
-                  }}
-                >
-                  <h4 className="text-base font-medium mb-1">{hoveredPart.info.title}</h4>
-                  <p className="text-sm text-gray-600">{hoveredPart.info.description}</p>
-                </div>
-              )}
+            <ModelViewer modelSrc="first-floor.skp">
+              <HoverDetails
+                x={30}
+                y={25}
+                title="Conference Room A"
+                description="Large conference room with seating for up to 20 people, featuring advanced presentation technology and video conferencing capabilities."
+                position="right"
+              />
+              <HoverDetails
+                x={65}
+                y={30}
+                title="Conference Room B"
+                description="Medium-sized conference room with modular furniture that can be reconfigured for different meeting styles."
+                position="left"
+              />
+              <HoverDetails
+                x={45}
+                y={60}
+                title="Collaborative Hub"
+                description="Open space with flexible seating and writable walls for brainstorming and team collaboration."
+                position="top"
+              />
+              <HoverDetails
+                x={20}
+                y={70}
+                title="Phone Booths"
+                description="Private soundproof booths for calls and focused work requiring privacy."
+                position="right"
+              />
+              <HoverDetails
+                x={80}
+                y={50}
+                title="Breakout Area"
+                description="Casual meeting area with comfortable seating and coffee tables for impromptu discussions."
+                position="left"
+              />
             </ModelViewer>
           </div>
           
