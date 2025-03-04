@@ -1,4 +1,3 @@
-
 import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
@@ -8,9 +7,10 @@ interface UseThreeJsSceneProps {
   modelSrc: string;
   containerRef: React.RefObject<HTMLDivElement>;
   onModelLoaded?: () => void;
+  onLoadProgress?: (progress: number) => void;
   onHotspotUpdate?: () => void;
   onObjectClick?: (object: THREE.Object3D) => void;
-  onObjectHover?: (object: THREE.Object3D | null) => void; // Added hover callback
+  onObjectHover?: (object: THREE.Object3D | null) => void;
 }
 
 interface ThreeJsSceneRefs {
@@ -26,6 +26,7 @@ export const useThreeJsScene = ({
   modelSrc,
   containerRef,
   onModelLoaded,
+  onLoadProgress,
   onHotspotUpdate,
   onObjectClick,
   onObjectHover
@@ -118,7 +119,11 @@ export const useThreeJsScene = ({
 
     // Load model
     if (sceneRef.current && cameraRef.current && controlsRef.current && containerRef.current) {
-      loadModel(modelSrc, sceneRef.current, cameraRef.current, controlsRef.current, containerRef.current, () => {
+      loadModel(modelSrc, sceneRef.current, cameraRef.current, controlsRef.current, containerRef.current, (progress) => {
+        if (onLoadProgress) {
+          onLoadProgress(progress);
+        }
+      }, () => {
         setIsLoading(false);
         loadingRef.current = false;
         if (onModelLoaded) {
@@ -288,7 +293,8 @@ export const useThreeJsScene = ({
     scene: THREE.Scene, 
     camera: THREE.PerspectiveCamera, 
     controls: OrbitControls,
-    container: HTMLDivElement, 
+    container: HTMLDivElement,
+    onProgress: (progress: number) => void,
     onLoaded: () => void
   ) => {
     const loader = new GLTFLoader();
@@ -315,6 +321,14 @@ export const useThreeJsScene = ({
           }
         });
         
+        // Make objects interactive
+        model.traverse((object) => {
+          // Make all meshes interactive by default
+          if ((object as THREE.Mesh).isMesh) {
+            object.userData.interactive = true;
+          }
+        });
+        
         model.scale.set(1, 1, 1); // Adjust scale if needed
         scene.add(model);
         modelRef.current = model;
@@ -338,8 +352,11 @@ export const useThreeJsScene = ({
 
         onLoaded(); // Invoke callback
       },
-      (progress) => {
+      (xhr) => {
+        // Calculate and report loading progress
+        const progress = xhr.loaded / xhr.total;
         console.log('Loading progress:', progress);
+        onProgress(progress);
       }, 
       (error) => {
         console.error('Error loading model:', error);

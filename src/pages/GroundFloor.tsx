@@ -1,9 +1,10 @@
+
 import React, { useState } from 'react';
 import Layout from '@/components/Layout';
 import ModelViewer from '@/components/ModelViewer';
-import HoverDetails from '@/components/HoverDetails';
 import * as THREE from 'three';
 
+// Default information for model parts - can be expanded as needed
 const modelPartsInfo: Record<string, { title: string; description: string }> = {
   "Studio08B": {
     title: "Studio 08B",
@@ -37,6 +38,15 @@ const modelPartsInfo: Record<string, { title: string; description: string }> = {
     title: "En Faisol",
     description: "Senior Lecturer"
   },
+  // Generic part information - for any unnamed or unknown parts
+  "Part_": {
+    title: "Building Component",
+    description: "Structural component of the building."
+  },
+  "Unknown": {
+    title: "Building Element",
+    description: "Part of the building structure."
+  }
 };
 
 const GroundFloor = () => {
@@ -56,8 +66,10 @@ const GroundFloor = () => {
       return;
     }
 
+    // Try to find exact match for part info
     let partInfo = modelPartsInfo[info.name];
     
+    // If no exact match, try to find a partial match
     if (!partInfo) {
       for (const key of Object.keys(modelPartsInfo)) {
         if (info.name.includes(key)) {
@@ -67,13 +79,17 @@ const GroundFloor = () => {
       }
     }
 
+    // If still no match, use generic info based on part naming pattern
     if (!partInfo) {
-      partInfo = {
-        title: info.name || "Model Part",
-        description: "No additional information available"
-      };
+      if (info.name.startsWith('Part_')) {
+        partInfo = modelPartsInfo['Part_'];
+      } else {
+        partInfo = modelPartsInfo['Unknown'];
+      }
     }
 
+    // Calculate screen position for tooltip
+    // This is a simplified conversion from 3D to screen space
     const vector = new THREE.Vector3();
     vector.copy(info.position);
     
@@ -95,6 +111,7 @@ const GroundFloor = () => {
     name: string;
   }) => {
     console.log('Clicked on model part:', info.name);
+    // Additional click functionality can be added here
   };
 
   return (

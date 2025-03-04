@@ -4,6 +4,7 @@ import { useThreeJsScene } from '@/hooks/useThreeJsScene';
 import { useHotspotPositioning } from '@/hooks/useHotspotPositioning';
 import LoadingState from './model-viewer/LoadingState';
 import * as THREE from 'three';
+import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 
 interface ModelViewerProps {
   modelSrc: string;
@@ -27,6 +28,7 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
   onModelPartClick
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [progress, setProgress] = useState<number>(0);
   const [hoveredInfo, setHoveredInfo] = useState<{
     position: [number, number];
     info: { title: string; description: string } | null;
@@ -39,6 +41,9 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
   const { isLoading, error, refs, resizeRendererToDisplaySize } = useThreeJsScene({
     modelSrc,
     containerRef,
+    onLoadProgress: (progressValue: number) => {
+      setProgress(progressValue);
+    },
     onHotspotUpdate: () => onHotspotUpdateRef.current(),
     onObjectHover: (object) => {
       if (onModelPartHover && object) {
@@ -93,7 +98,7 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
 
   return (
     <div className="relative w-full h-full min-h-[500px] md:min-h-[700px]" ref={containerRef}>
-      <LoadingState isLoading={isLoading} error={error} />
+      <LoadingState isLoading={isLoading} error={error} progress={progress} />
       
       {/* This is where interactive elements would be placed */}
       <div className="model-container absolute inset-0 pointer-events-none">
