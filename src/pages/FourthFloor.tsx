@@ -21,7 +21,7 @@ const FourthFloor = () => {
           </div>
           
           <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-8 animate-scale-up">
-            <ModelViewer modelSrc="fourth-floor.skp">
+            <ModelViewer modelPath="fourth-floor.gltf">
               <HoverDetails
                 x={30}
                 y={35}

@@ -1,14 +1,15 @@
 
-import { useRef, useState } from "react";
+import { useRef, useState, ReactNode } from "react";
 import { useThreeJsScene } from "../hooks/useThreeJsScene";
 import LoadingState from "./model-viewer/LoadingState";
 import HoverDetails from "./HoverDetails";
 
 interface ModelViewerProps {
   modelPath: string;
+  children?: ReactNode;
 }
 
-const ModelViewer = ({ modelPath }: ModelViewerProps) => {
+const ModelViewer = ({ modelPath, children }: ModelViewerProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [loadingProgress, setLoadingProgress] = useState(0);
   
@@ -27,7 +28,7 @@ const ModelViewer = ({ modelPath }: ModelViewerProps) => {
         <LoadingState progress={loadingProgress} />
       )}
       <canvas ref={canvasRef} className="w-full h-full" />
-      {isModelLoaded && <HoverDetails />}
+      {isModelLoaded && children}
     </div>
   );
 };
