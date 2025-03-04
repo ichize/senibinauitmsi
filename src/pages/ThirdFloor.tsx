@@ -15,13 +15,13 @@ const ThirdFloor = () => {
             </div>
             <h1 className="text-3xl md:text-4xl font-light mb-4">Third Floor</h1>
             <p className="text-lg text-muted-foreground">
-              The third floor contains executive offices and premium suites with upscale amenities.
-              Explore the interactive model to view detailed information.
+              This floor have Studios, Crit Rooms, Toilets (Purple, pink), Archi. Lecturer's Office (yellow), and Staff Lounge.
+              Hover over the highlighted areas to learn more about each space..
             </p>
           </div>
           
           <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-8 animate-scale-up">
-            <ModelViewer modelSrc="third-floor.skp">
+            <ModelViewer modelSrc="Annex13F.gltf">
               <HoverDetails
                 x={30}
                 y={35}
