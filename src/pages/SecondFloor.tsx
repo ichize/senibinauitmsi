@@ -62,7 +62,7 @@ const SecondFloor = () => {
                 title="Dr. Fazidah Hanim"
                 description="Senior Lecturer"
                 position="right"                
-                modelPosition={[10, 8, -9]} 
+                modelPosition={[10, 8, -8]} 
               />
               <HoverDetails
                 title="En. Nazrin"
@@ -80,7 +80,7 @@ const SecondFloor = () => {
                 title="Ar. Iznny"
                 description="Senior Lecturer"
                 position="right"                
-                modelPosition={[16, 8, -9]} 
+                modelPosition={[16, 8, -8]} 
               />
               <HoverDetails
                 title="En. Anwar"
@@ -92,25 +92,43 @@ const SecondFloor = () => {
                 title="Dr. Syamimi"
                 description="Senior Lecturer"
                 position="right"                
-                modelPosition={[-18, 8, -9]} 
+                modelPosition={[-18, 8, -8]} 
               />
               <HoverDetails
                 title="Dr. Fariz"
                 description="Senior Lecturer"
                 position="right"                
-                modelPosition={[-15, 8, -9]} 
+                modelPosition={[-15, 8, -8]} 
               />
               <HoverDetails
                 title="En. Amin"
                 description="Senior Lecturer"
                 position="right"                
-                modelPosition={[-8, 8, -9]} 
+                modelPosition={[-8, 8, -8]} 
               />
               <HoverDetails
                 title="En. Amran"
                 description="Senior Lecturer"
                 position="right"                
-                modelPosition={[-11, 8, -9]} 
+                modelPosition={[-11, 8, -8]} 
+              />
+              <HoverDetails
+                title="En Adeeb"
+                description="Senior Lecturer"
+                position="right"                
+                modelPosition={[-18, 8, -15]} 
+              />
+              <HoverDetails
+                title="Dr. Iryani"
+                description="Senior Lecturer"
+                position="right"                
+                modelPosition={[-15, 8, -15]} 
+              />
+              <HoverDetails
+                title="En. Kosong"
+                description="Senior Lecturer"
+                position="right"                
+                modelPosition={[-8, 8, -15]} 
               />
             </ModelViewer>
           </div>
