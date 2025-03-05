@@ -21,42 +21,32 @@ const FourthFloor = () => {
           </div>
           
           <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-8 animate-scale-up">
-            <ModelViewer modelSrc="fourth-floor.skp">
+            <ModelViewer modelSrc="Annex 14F.gltf">
               <HoverDetails
-                x={30}
-                y={35}
                 title="Rooftop Garden"
                 description="Landscaped outdoor area with seating, planters, and views of the surrounding cityscape."
                 position="right"
                 modelPosition={[2, 1, 3]} // Add 3D position coordinates for the rooftop garden
               />
               <HoverDetails
-                x={65}
-                y={30}
                 title="Event Space"
                 description="Flexible indoor area that can be configured for company events, presentations, and social gatherings."
                 position="left"
                 modelPosition={[-2, 1, 2]} // Add 3D position coordinates for the event space
               />
               <HoverDetails
-                x={45}
-                y={60}
                 title="Fitness Center"
                 description="Complete gym with cardio equipment, weights, and space for group fitness classes."
                 position="top"
                 modelPosition={[0, -1, 2]} // Add 3D position coordinates for the fitness center
               />
               <HoverDetails
-                x={20}
-                y={70}
                 title="Wellness Area"
                 description="Quiet space for meditation, yoga, and relaxation with calming views and natural elements."
                 position="right"
                 modelPosition={[3, -2, 1]} // Add 3D position coordinates for the wellness area
               />
               <HoverDetails
-                x={80}
-                y={55}
                 title="Café and Bar"
                 description="Food and beverage service area that can transition from daytime café to evening social space."
                 position="left"
