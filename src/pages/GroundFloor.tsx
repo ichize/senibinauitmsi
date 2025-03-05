@@ -60,15 +60,15 @@ const GroundFloor = () => {
                />
               <HoverDetails
                 title="Classroom"
-                description="Max Pax= 40. Projector, AP1 002"
+                description="Max Pax= 40. Projector, AP1 022"
                 position="right"
                 modelPosition={[30, 2, -15]}
                />
               <HoverDetails
                 title="Classroom"
-                description="Max Pax= 40. Projector, AP1 022"
+                description="Max Pax= 40. Projector, AP1 002"
                 position="right"
-                modelPosition={[-30, 2, -15]}
+                modelPosition={[-25, 2, -15]}
                />
                <HoverDetails
                 title="Ts. Nasuruddin"
