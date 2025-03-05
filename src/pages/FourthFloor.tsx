@@ -23,34 +23,34 @@ const FourthFloor = () => {
           <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-8 animate-scale-up">
             <ModelViewer modelSrc="Annex 14F.gltf">
               <HoverDetails
-                title="Rooftop Garden"
-                description="Landscaped outdoor area with seating, planters, and views of the surrounding cityscape."
+                title="Studio 4A/B"
+                description="Max Pax =28. Projector"
                 position="right"
-                modelPosition={[2, 1, 3]} // Add 3D position coordinates for the rooftop garden
+                modelPosition={[30, 16, 3]} // Add 3D position coordinates for the rooftop garden
               />
               <HoverDetails
-                title="Event Space"
-                description="Flexible indoor area that can be configured for company events, presentations, and social gatherings."
+                title="Surau L"
+                description="5 times Appoinment with Allah"
                 position="left"
-                modelPosition={[-2, 1, 2]} // Add 3D position coordinates for the event space
+                modelPosition={[30, 16, 20]} // Add 3D position coordinates for the event space
               />
               <HoverDetails
-                title="Fitness Center"
-                description="Complete gym with cardio equipment, weights, and space for group fitness classes."
+                title="Surau P"
+                description="5 times Appoinment with Allah"
                 position="top"
-                modelPosition={[0, -1, 2]} // Add 3D position coordinates for the fitness center
+                modelPosition={[-20, 16, 20]} // Add 3D position coordinates for the fitness center
               />
               <HoverDetails
-                title="Wellness Area"
-                description="Quiet space for meditation, yoga, and relaxation with calming views and natural elements."
+                title="Classroom"
+                description="Max Pax= 40. Projector, AP1 403"
                 position="right"
-                modelPosition={[3, -2, 1]} // Add 3D position coordinates for the wellness area
+                modelPosition={[-23, 16, 15]} // Add 3D position coordinates for the wellness area
               />
               <HoverDetails
-                title="Café and Bar"
-                description="Food and beverage service area that can transition from daytime café to evening social space."
+                title="Classroom"
+                description="Max Pax= 40. Projector, AP1 439"
                 position="left"
-                modelPosition={[-3, 0, 0]} // Add 3D position coordinates for the café and bar
+                modelPosition={[30, 16, 15]} // Add 3D position coordinates for the café and bar
               />
             </ModelViewer>
           </div>
