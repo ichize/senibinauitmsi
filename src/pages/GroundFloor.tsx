@@ -47,6 +47,12 @@ const GroundFloor = () => {
                 modelPosition={[-22, 2, -3]}
               />
               <HoverDetails
+                title="Arc.Lab"
+                description="Laser Cutter"
+                position="top"
+                modelPosition={[-22, 2, 8]}
+              />
+              <HoverDetails
                 title="Studio Master 04"
                 description="Max Pax= 25. 24 hours operational Studio, Fixed Workstation, Projector"
                 position="right"
