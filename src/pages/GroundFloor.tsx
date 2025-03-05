@@ -50,7 +50,7 @@ const GroundFloor = () => {
                 title="Arc.Lab"
                 description="Laser Cutter"
                 position="top"
-                modelPosition={[-22, 2, 8]}
+                modelPosition={[-22, 2, 10]}
               />
               <HoverDetails
                 title="Studio Master 04"
