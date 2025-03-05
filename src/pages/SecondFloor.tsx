@@ -128,7 +128,7 @@ const SecondFloor = () => {
                 title="En. Kosong"
                 description="Senior Lecturer"
                 position="right"                
-                modelPosition={[-8, 8, -15]} 
+                modelPosition={[-11, 8, -15]} 
               />
             </ModelViewer>
           </div>
