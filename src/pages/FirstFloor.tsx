@@ -62,13 +62,13 @@ const FirstFloor = () => {
                 title="Pn Farah"
                 description="Lecturer"
                 position="right"
-                modelPosition={[8, 6, -15]} 
+                modelPosition={[10, 6, -15]} 
               />
               <HoverDetails
                 title="Cik Ainsyah"
                 description="Lecturer"
                 position="right"
-                modelPosition={[10, 6, -15]} 
+                modelPosition={[8, 6, -16]} 
               />
             </ModelViewer>
           </div>
