@@ -24,39 +24,51 @@ const GroundFloor = () => {
             <ModelViewer modelSrc="Annex 1GF.gltf">
               <HoverDetails
                 title="Studio 08B"
-                description="Max Pax= 30. Fixed Workstation. 3 AC"
+                description="Max Pax= 30. Fixed Workstation, 3 AC, Projector"
                 position="right"
                 modelPosition={[27, 2, 3]} 
               />
               <HoverDetails
                 title="Studio Master 01"
-                description="Max Pax= 25. 24 hours operational Studio. Fixed Workstation"
+                description="Max Pax= 25. 24 hours operational Studio, Fixed Workstation, Projector"
                 position="right"
                 modelPosition={[-4, 2, -3]}
               />
               <HoverDetails
                 title="Studio Master 03"
-                description="Max Pax= 25. 24 hours operational Studio. Fixed Workstation"
+                description="Max Pax= 25. 24 hours operational Studio, Fixed Workstation, Projector"
                 position="right"
                 modelPosition={[9, 2, -3]}
               />
               <HoverDetails
                 title="Studio 08A"
-                description="Max Pax= 30. Fixed Workstation. 3 AC"
+                description="Max Pax= 30. Fixed Workstation, 3 AC, Projector"
                 position="right"
                 modelPosition={[-22, 2, -3]}
               />
               <HoverDetails
                 title="Studio Master 04"
-                description="Max Pax= 25. 24 hours operational Studio. Fixed Workstation"
+                description="Max Pax= 25. 24 hours operational Studio, Fixed Workstation, Projector"
                 position="right"
                 modelPosition={[-2, 2, 20]}
               />
               <HoverDetails
                 title="Studio Master 02"
-                description="Max Pax= 25. 24 hours operational Studio. Fixed Workstation"
+                description="Max Pax= 25. 24 hours operational Studio, Fixed Workstation, Projector"
                 position="right"
                 modelPosition={[13, 2, 20]}
+               />
+              <HoverDetails
+                title="Classroom"
+                description="Max Pax= 40. Projector, AP1 002"
+                position="right"
+                modelPosition={[30, 2, -15]}
+               />
+              <HoverDetails
+                title="Classroom"
+                description="Max Pax= 40. Projector, AP1 022"
+                position="right"
+                modelPosition={[-30, 2, -15]}
                />
                <HoverDetails
                 title="Ts. Nasuruddin"
