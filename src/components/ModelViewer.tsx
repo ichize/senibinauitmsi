@@ -1,4 +1,5 @@
-import React, { useRef, useCallback, useEffect } from 'react';
+
+import React, { useRef, useEffect } from 'react';
 import { useThreeJsScene } from '@/hooks/useThreeJsScene';
 import { useHotspotPositioning } from '@/hooks/useHotspotPositioning';
 import LoadingState from './model-viewer/LoadingState';

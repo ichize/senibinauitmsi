@@ -1,3 +1,4 @@
+
 import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
@@ -8,7 +9,7 @@ interface UseThreeJsSceneProps {
   containerRef: React.RefObject<HTMLDivElement>;
   onModelLoaded?: () => void;
   onHotspotUpdate?: () => void;
-  onObjectClick?: (object: THREE.Object3D) => void; // Added a callback for clicking objects
+  onObjectClick?: (object: THREE.Object3D) => void;
 }
 
 interface ThreeJsSceneRefs {
@@ -25,7 +26,7 @@ export const useThreeJsScene = ({
   containerRef,
   onModelLoaded,
   onHotspotUpdate,
-  onObjectClick // Add a handler for object clicks
+  onObjectClick
 }: UseThreeJsSceneProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -49,8 +50,21 @@ export const useThreeJsScene = ({
     animationFrame: animationFrameRef.current
   };
 
-  const raycaster = useRef(new THREE.Raycaster()); // Raycaster instance
-  const mouse = useRef(new THREE.Vector2()); // Store mouse position
+  const raycaster = useRef(new THREE.Raycaster());
+  const mouse = useRef(new THREE.Vector2());
+
+  // Method to handle renderer resize
+  const resizeRendererToDisplaySize = () => {
+    if (!containerRef.current || !cameraRef.current || !rendererRef.current) return;
+    
+    cameraRef.current.aspect = containerRef.current.clientWidth / containerRef.current.clientHeight;
+    cameraRef.current.updateProjectionMatrix();
+    rendererRef.current.setSize(containerRef.current.clientWidth, containerRef.current.clientHeight);
+    
+    if (onHotspotUpdate) {
+      onHotspotUpdate();
+    }
+  };
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -114,7 +128,10 @@ export const useThreeJsScene = ({
 
     // Load model
     if (sceneRef.current && cameraRef.current && controlsRef.current && containerRef.current) {
-      loadModel(modelSrc, sceneRef.current, cameraRef.current, controlsRef.current, containerRef.current, () => {
+      // Fix model path - ensure it starts with a forward slash
+      const fixedModelSrc = modelSrc.startsWith('/') ? modelSrc : `/${modelSrc}`;
+      
+      loadModel(fixedModelSrc, sceneRef.current, cameraRef.current, controlsRef.current, containerRef.current, () => {
         setIsLoading(false);
         loadingRef.current = false;
         if (onModelLoaded) {
@@ -128,8 +145,9 @@ export const useThreeJsScene = ({
       if (!containerRef.current || !cameraRef.current) return;
       
       // Calculate mouse position in normalized device coordinates (-1 to +1)
-      mouse.current.x = (event.clientX / containerRef.current.clientWidth) * 2 - 1;
-      mouse.current.y = -(event.clientY / containerRef.current.clientHeight) * 2 + 1;
+      const rect = containerRef.current.getBoundingClientRect();
+      mouse.current.x = ((event.clientX - rect.left) / containerRef.current.clientWidth) * 2 - 1;
+      mouse.current.y = -((event.clientY - rect.top) / containerRef.current.clientHeight) * 2 + 1;
     };
 
     const onMouseClick = () => {
@@ -151,14 +169,7 @@ export const useThreeJsScene = ({
 
     // Handle window resize
     const handleResize = () => {
-      if (!containerRef.current || !cameraRef.current || !rendererRef.current) return;
-      
-      cameraRef.current.aspect = containerRef.current.clientWidth / containerRef.current.clientHeight;
-      cameraRef.current.updateProjectionMatrix();
-      rendererRef.current.setSize(containerRef.current.clientWidth, containerRef.current.clientHeight);
-      if (onHotspotUpdate) {
-        onHotspotUpdate();
-      }
+      resizeRendererToDisplaySize();
     };
 
     window.addEventListener('resize', handleResize);
@@ -244,7 +255,7 @@ export const useThreeJsScene = ({
     renderer.setPixelRatio(window.devicePixelRatio);
     
     // Update to use the correct properties for newer Three.js versions
-    renderer.outputEncoding = THREE.sRGBEncoding;
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1;
     renderer.setClearColor(0x000000, 0); // Optional: makes background transparent
@@ -293,10 +304,11 @@ export const useThreeJsScene = ({
       },
       undefined, 
       (error) => {
-        setError('An error occurred while loading the model.');
+        console.error("Error loading model:", error);
+        console.error("Model source:", modelSrc);
+        setError(`Failed to load model: ${modelSrc}`);
         setIsLoading(false);
         loadingRef.current = false;
-        console.error(error);
       }
     );
   };
@@ -304,6 +316,7 @@ export const useThreeJsScene = ({
   return {
     isLoading,
     error,
-    refs
+    refs,
+    resizeRendererToDisplaySize
   };
 };
