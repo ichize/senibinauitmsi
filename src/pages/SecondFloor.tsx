@@ -86,19 +86,19 @@ const SecondFloor = () => {
                 title="En. Anwar"
                 description="Senior Lecturer"
                 position="right"                
-                modelPosition={[-16, 8, -20]} 
+                modelPosition={[-10, 8, -20]} 
               />
               <HoverDetails
                 title="Dr. Syamimi"
                 description="Senior Lecturer"
                 position="right"                
-                modelPosition={[-14, 8, -9]} 
+                modelPosition={[-20, 8, -9]} 
               />
               <HoverDetails
-                title="Dr. Iryani"
+                title="Dr. Fariz"
                 description="Senior Lecturer"
                 position="right"                
-                modelPosition={[-12, 8, -9]} 
+                modelPosition={[-17, 8, -9]} 
               />
               <HoverDetails
                 title="En. Amin"
@@ -110,7 +110,7 @@ const SecondFloor = () => {
                 title="En. Amran"
                 description="Senior Lecturer"
                 position="right"                
-                modelPosition={[-10, 8, -9]} 
+                modelPosition={[-13, 8, -9]} 
               />
             </ModelViewer>
           </div>
