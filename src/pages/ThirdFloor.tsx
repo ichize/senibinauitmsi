@@ -30,7 +30,7 @@ const ThirdFloor = () => {
               <HoverDetails
                 title="Studio 05A"
                 description="Fixed Work Station 3 AC split unit, Projector"
-                position="left"
+                position="top"
                 modelPosition={[-8, 12, 13]}
               />
               <HoverDetails
