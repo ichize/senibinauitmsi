@@ -23,7 +23,7 @@ const ThirdFloor = () => {
             <ModelViewer modelSrc="Annex 13F.gltf">
               <HoverDetails
                 title="Classroom"
-                description="Max pax= 40"
+                description="Max pax= 40, AC split unit, AP1 0303"
                 position="right"
                 modelPosition={[24, 12, 2]}
               />
@@ -41,15 +41,15 @@ const ThirdFloor = () => {
               />
               <HoverDetails
                 title="Floating Studio 05"
-                description="Open Area"
+                description="Open Layout, 2 AC Split Unit"
                 position="right"
                 modelPosition={[-15, 12, -10]}
               />
               <HoverDetails
                 title="Classroom"
-                description="Max pax= 40"
+                description="Max pax= 40, AC split unit, AP1 0313"
                 position="left"
-                modelPosition={[-24, 12, 0]}
+                modelPosition={[-24, 12, 2]}
               />
               <HoverDetails
                 title="Studio 05B"
@@ -65,7 +65,7 @@ const ThirdFloor = () => {
               />
                <HoverDetails
                 title="Floating Studio 04"
-                description="Max Pax =30, Fixed Work Station 3 AC split unit, Projector"
+                description="Open Layout, 2 AC Split Unit"
                 position="right"
                 modelPosition={[13, 12, -10]} 
               />
