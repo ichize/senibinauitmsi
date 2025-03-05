@@ -58,6 +58,18 @@ const FirstFloor = () => {
                 position="bottom"
                 modelPosition={[-23, 6, 0]} 
               />
+              <HoverDetails
+                title="Pn Farah"
+                description="Lecturer"
+                position="right"
+                modelPosition={[8, 6, -15]} 
+              />
+              <HoverDetails
+                title="Cik Ainsyah"
+                description="Lecturer"
+                position="right"
+                modelPosition={[10, 6, -15]} 
+              />
             </ModelViewer>
           </div>
           
