@@ -26,7 +26,7 @@ const FourthFloor = () => {
                 title="Studio 4A/B"
                 description="Max Pax =28. Projector"
                 position="right"
-                modelPosition={[25, 16, -20]} 
+                modelPosition={[25, 16, -15]} 
               />
               <HoverDetails
                 title="Surau L"
@@ -63,25 +63,25 @@ const FourthFloor = () => {
                   <svg className="w-5 h-5 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  <span>Total area: 13,500 sq ft (including outdoor space)</span>
+                  <span>Lecturer Office: 12</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <svg className="w-5 h-5 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  <span>Ceiling height: Variable with skylights</span>
+                  <span>Studio: 1</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <svg className="w-5 h-5 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  <span>Outdoor garden: 5,000 sq ft</span>
+                  <span>Other Amenities: 2 Classroom, Surau</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <svg className="w-5 h-5 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  <span>Event capacity: Up to 200 people</span>
+                  <span>Toilet: 2</span>
                 </li>
               </ul>
             </div>
