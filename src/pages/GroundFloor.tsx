@@ -65,6 +65,12 @@ const GroundFloor = () => {
                 modelPosition={[24, 2, -19]}
                />
                <HoverDetails
+                title="Dr Azhan"
+                description="Senior Lecturer"
+                position="right"
+                modelPosition={[-18, 2, 0]}
+               />
+               <HoverDetails
                 title="En Faisol"
                 description="Senior Lecturer"
                 position="right"
