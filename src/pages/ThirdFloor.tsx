@@ -28,7 +28,7 @@ const ThirdFloor = () => {
                 modelPosition={[24, 12, 2]}
               />
               <HoverDetails
-                title="Board Room"
+                title="Studio 05A"
                 description="Formal meeting room with premium finishes, state-of-the-art presentation technology, and videoconferencing capabilities."
                 position="left"
                 modelPosition={[-8, 12, 15]}
