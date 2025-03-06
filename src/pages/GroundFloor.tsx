@@ -22,7 +22,7 @@ const GroundFloor = () => {
           
           <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-8 animate-scale-up">
             {/* Updated model path - make sure it's correct without leading slash */}
-            <ModelViewer modelSrc="Annex 1GF.gltf">
+            <ModelViewer modelSrc="Annex1GF.gltf">
               <HoverDetails
                 title="Main Entrance"
                 description="The primary entrance to the building featuring a spacious lobby and reception area."
