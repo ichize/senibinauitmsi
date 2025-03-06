@@ -21,7 +21,7 @@ const FourthFloor = () => {
           </div>
           
           <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-8 animate-scale-up">
-            <ModelViewer modelSrc="Annex 14F.gltf">
+            <ModelViewer modelSrc="Annex14F.gltf">
               <HoverDetails
                 title="Studio 4A/B"
                 description="Max Pax =28. Projector"
