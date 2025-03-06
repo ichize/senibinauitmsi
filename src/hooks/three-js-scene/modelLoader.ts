@@ -15,14 +15,24 @@ export const loadModel = (
 ) => {
   const loader = new GLTFLoader();
   
+  // Ensure modelSrc starts with a forward slash if it's a relative path
+  let normalizedModelSrc = modelSrc;
+  if (!modelSrc.startsWith('/') && !modelSrc.startsWith('http')) {
+    normalizedModelSrc = `/${modelSrc}`;
+  }
+  
   // Add cache busting query parameter to prevent browser caching
-  const cacheBustingSrc = `${modelSrc}?t=${new Date().getTime()}`;
+  const cacheBustingSrc = `${normalizedModelSrc}?t=${new Date().getTime()}`;
   console.log(`Requesting model with cache busting: ${cacheBustingSrc}`);
   
+  // Create absolute URL for model (explicitly using window.location.origin)
+  const absoluteModelUrl = new URL(cacheBustingSrc, window.location.origin).href;
+  console.log(`Loading model from absolute URL: ${absoluteModelUrl}`);
+  
   loader.load(
-    cacheBustingSrc, 
+    absoluteModelUrl, 
     (gltf) => {
-      console.log("Model loaded successfully:", modelSrc);
+      console.log("Model loaded successfully:", absoluteModelUrl);
       const model = gltf.scene;
       model.scale.set(1, 1, 1); // Adjust scale if needed
       scene.add(model);
@@ -56,8 +66,8 @@ export const loadModel = (
     }, 
     (error) => {
       console.error("Error loading model:", error);
-      console.error("Model source:", modelSrc);
-      onError(`Failed to load model: ${modelSrc}`);
+      console.error("Model source:", absoluteModelUrl);
+      onError(`Failed to load model: ${normalizedModelSrc}. Please check if the file exists and is accessible.`);
     }
   );
 };

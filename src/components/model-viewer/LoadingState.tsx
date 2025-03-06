@@ -6,9 +6,10 @@ interface LoadingStateProps {
   isLoading: boolean;
   error: string | null;
   onRetry?: () => void;
+  modelSrc?: string;
 }
 
-const LoadingState: React.FC<LoadingStateProps> = ({ isLoading, error, onRetry }) => {
+const LoadingState: React.FC<LoadingStateProps> = ({ isLoading, error, onRetry, modelSrc }) => {
   if (!isLoading && !error) return null;
   
   return (
@@ -17,20 +18,37 @@ const LoadingState: React.FC<LoadingStateProps> = ({ isLoading, error, onRetry }
         <div className="flex flex-col items-center">
           <div className="w-12 h-12 rounded-full border-4 border-primary border-t-transparent animate-spin"></div>
           <p className="mt-4 text-sm text-gray-500">Loading model...</p>
+          {modelSrc && <p className="text-xs text-gray-400">File: {modelSrc}</p>}
         </div>
       )}
       
       {error && (
-        <div className="text-center px-4">
+        <div className="text-center px-4 max-w-md">
           <p className="text-lg text-red-500 mb-2">{error}</p>
-          <p className="text-sm text-gray-500 mb-4">
+          <p className="text-sm text-gray-500 mb-2">
             The model file may not be available or could be experiencing loading issues.
           </p>
-          {onRetry && (
-            <Button onClick={onRetry} variant="default">
-              Retry Loading
-            </Button>
+          {modelSrc && (
+            <p className="text-xs text-gray-400 mb-4">
+              Attempted to load: {modelSrc}
+            </p>
           )}
+          <div className="space-y-2">
+            {onRetry && (
+              <Button onClick={onRetry} variant="default">
+                Retry Loading
+              </Button>
+            )}
+            <div className="text-xs text-gray-500 mt-4">
+              <p>If the problem persists, please check:</p>
+              <ul className="list-disc pl-5 mt-2 text-left">
+                <li>The model file exists in the public folder</li>
+                <li>The file name in the code matches exactly (case-sensitive)</li>
+                <li>The file format is supported (.gltf or .glb)</li>
+                <li>Try clearing your browser cache</li>
+              </ul>
+            </div>
+          </div>
         </div>
       )}
     </div>

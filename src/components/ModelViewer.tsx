@@ -1,3 +1,4 @@
+
 import React, { useRef, useEffect } from 'react';
 import { useThreeJsScene } from '@/hooks/useThreeJsScene';
 import { useHotspotPositioning } from '@/hooks/useHotspotPositioning';
@@ -44,15 +45,25 @@ const ModelViewer: React.FC<ModelViewerProps> = ({ modelSrc, children }) => {
 
     window.addEventListener('resize', handleResize);
 
+    // Log the model source for debugging
+    console.log(`ModelViewer attempting to load: ${modelSrc}`);
+    console.log(`Current origin: ${window.location.origin}`);
+    console.log(`Full expected URL: ${new URL(modelSrc, window.location.origin).href}`);
+
     // Clean up the event listener on unmount
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, [resizeRendererToDisplaySize]);
+  }, [resizeRendererToDisplaySize, modelSrc]);
 
   return (
     <div className="relative w-full h-full min-h-[500px] md:min-h-[700px]" ref={containerRef}>
-      <LoadingState isLoading={isLoading} error={error} onRetry={retryLoadModel} />
+      <LoadingState 
+        isLoading={isLoading} 
+        error={error} 
+        onRetry={retryLoadModel} 
+        modelSrc={modelSrc} 
+      />
       
       {/* Interactive elements positioned over the 3D scene */}
       <div className="absolute inset-0 pointer-events-none">

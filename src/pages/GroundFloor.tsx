@@ -1,10 +1,11 @@
-
 import React from 'react';
 import Layout from '@/components/Layout';
 import ModelViewer from '@/components/ModelViewer';
 import HoverDetails from '@/components/HoverDetails';
 
 const GroundFloor = () => {
+  const modelPath = 'Annex 1GF.gltf';
+
   return (
     <Layout>
       <div className="container mx-auto px-4 py-8">
@@ -21,7 +22,7 @@ const GroundFloor = () => {
           </div>
           
           <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-8 animate-scale-up">
-            <ModelViewer modelSrc="Annex 1GF.gltf">
+            <ModelViewer modelSrc={modelPath}>
               <HoverDetails
                 title="Studio 08B"
                 description="Max Pax= 30. Fixed Workstation, 3 AC, Projector"
