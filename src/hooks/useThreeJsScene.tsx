@@ -102,7 +102,8 @@ export const useThreeJsScene = ({
     } else {
       // Scene setup (only if not already created)
       const scene = new THREE.Scene();
-      scene.background = new THREE.Color(#8c8c8c);
+      // Fix the scene background color syntax
+      scene.background = new THREE.Color(0x8c8c8c);
       sceneRef.current = scene;
     }
 
@@ -320,7 +321,7 @@ export const useThreeJsScene = ({
         const size = new THREE.Vector3();
         box.getSize(size);
         const maxDim = Math.max(size.x, size.y, size.z);
-        const fov = camera.fov * (Math.PI / 90); 
+        const fov = camera.fov * (Math.PI / 180); // Convert to radians (fixed from 90)
         let cameraZ = Math.abs(maxDim / 4 * Math.tan(fov * 2));
         camera.position.set(100, size.y * 5, -size.z * 5);
         
@@ -359,4 +360,3 @@ export const useThreeJsScene = ({
     retryLoadModel
   };
 };
-
