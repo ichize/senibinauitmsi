@@ -16,7 +16,7 @@ const ModelViewer: React.FC<ModelViewerProps> = ({ modelSrc, children }) => {
   const onHotspotUpdateRef = useRef<() => void>(() => {});
 
   // Initialize the Three.js scene
-  const { isLoading, error, refs, resizeRendererToDisplaySize } = useThreeJsScene({
+  const { isLoading, error, refs, resizeRendererToDisplaySize, retryLoadModel } = useThreeJsScene({
     modelSrc,
     containerRef,
     onModelLoaded: () => {
@@ -53,7 +53,7 @@ const ModelViewer: React.FC<ModelViewerProps> = ({ modelSrc, children }) => {
 
   return (
     <div className="relative w-full h-full min-h-[500px] md:min-h-[700px]" ref={containerRef}>
-      <LoadingState isLoading={isLoading} error={error} />
+      <LoadingState isLoading={isLoading} error={error} onRetry={retryLoadModel} />
       
       {/* Interactive elements positioned over the 3D scene */}
       <div className="absolute inset-0 pointer-events-none">

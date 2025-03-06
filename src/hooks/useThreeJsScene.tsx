@@ -30,6 +30,7 @@ export const useThreeJsScene = ({
 }: UseThreeJsSceneProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [retryCount, setRetryCount] = useState(0);
   
   // Store Three.js objects for use in subsequent renders
   const sceneRef = useRef<THREE.Scene | null>(null);
@@ -66,10 +67,27 @@ export const useThreeJsScene = ({
     }
   };
 
+  // Function to retry loading the model
+  const retryLoadModel = () => {
+    if (retryCount < 3) {
+      console.log(`Retrying model load (attempt ${retryCount + 1}/3)...`);
+      setRetryCount(prevCount => prevCount + 1);
+      setError(null);
+      setIsLoading(true);
+      loadingRef.current = true;
+      
+      // Clear the current model if any
+      if (sceneRef.current && modelRef.current) {
+        sceneRef.current.remove(modelRef.current);
+        modelRef.current = null;
+      }
+    }
+  };
+
   useEffect(() => {
     if (!containerRef.current) return;
     
-    // Reset loading state when model source changes
+    // Reset loading state when model source changes or when retrying
     setIsLoading(true);
     loadingRef.current = true;
     setError(null);
@@ -128,8 +146,13 @@ export const useThreeJsScene = ({
 
     // Load model
     if (sceneRef.current && cameraRef.current && controlsRef.current && containerRef.current) {
-      // Fix model path - ensure it starts with a forward slash
-      const fixedModelSrc = modelSrc.startsWith('/') ? modelSrc : `/${modelSrc}`;
+      // Ensure model path is correct - try both with and without leading slash
+      let fixedModelSrc = modelSrc;
+      if (!fixedModelSrc.startsWith('/') && !fixedModelSrc.startsWith('http')) {
+        fixedModelSrc = `/${modelSrc}`;
+      }
+      
+      console.log(`Loading model from: ${fixedModelSrc}`);
       
       loadModel(fixedModelSrc, sceneRef.current, cameraRef.current, controlsRef.current, containerRef.current, () => {
         setIsLoading(false);
@@ -164,8 +187,10 @@ export const useThreeJsScene = ({
       }
     };
 
-    containerRef.current.addEventListener('mousemove', onMouseMove);
-    containerRef.current.addEventListener('click', onMouseClick);
+    if (containerRef.current) {
+      containerRef.current.addEventListener('mousemove', onMouseMove);
+      containerRef.current.addEventListener('click', onMouseClick);
+    }
 
     // Handle window resize
     const handleResize = () => {
@@ -203,8 +228,10 @@ export const useThreeJsScene = ({
       
       // Remove event listeners
       window.removeEventListener('resize', handleResize);
-      containerRef.current?.removeEventListener('mousemove', onMouseMove);
-      containerRef.current?.removeEventListener('click', onMouseClick);
+      if (containerRef.current) {
+        containerRef.current.removeEventListener('mousemove', onMouseMove);
+        containerRef.current.removeEventListener('click', onMouseClick);
+      }
       
       // Remove controls event listener
       if (controlsRef.current && onHotspotUpdate) {
@@ -218,7 +245,7 @@ export const useThreeJsScene = ({
         modelRef.current = null;
       }
     };
-  }, [modelSrc]);
+  }, [modelSrc, retryCount]);
 
   // Helper function to setup lighting
   const setupLighting = (scene: THREE.Scene) => {
@@ -275,9 +302,14 @@ export const useThreeJsScene = ({
   ) => {
     const loader = new GLTFLoader();
     
+    // Add cache busting query parameter to prevent browser caching
+    const cacheBustingSrc = `${modelSrc}?t=${new Date().getTime()}`;
+    console.log(`Requesting model with cache busting: ${cacheBustingSrc}`);
+    
     loader.load(
-      modelSrc, 
+      cacheBustingSrc, 
       (gltf) => {
+        console.log("Model loaded successfully:", modelSrc);
         const model = gltf.scene;
         model.scale.set(1, 1, 1); // Adjust scale if needed
         scene.add(model);
@@ -302,7 +334,13 @@ export const useThreeJsScene = ({
 
         onLoaded(); // Invoke callback
       },
-      undefined, 
+      (progressEvent) => {
+        // Log loading progress
+        if (progressEvent.lengthComputable) {
+          const percentComplete = (progressEvent.loaded / progressEvent.total) * 100;
+          console.log(`Model loading progress: ${Math.round(percentComplete)}%`);
+        }
+      }, 
       (error) => {
         console.error("Error loading model:", error);
         console.error("Model source:", modelSrc);
@@ -317,6 +355,8 @@ export const useThreeJsScene = ({
     isLoading,
     error,
     refs,
-    resizeRendererToDisplaySize
+    resizeRendererToDisplaySize,
+    retryLoadModel
   };
 };
+
