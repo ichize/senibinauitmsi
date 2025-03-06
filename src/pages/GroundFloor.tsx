@@ -15,42 +15,94 @@ const GroundFloor = () => {
             </div>
             <h1 className="text-3xl md:text-4xl font-light mb-4">Ground Floor</h1>
             <p className="text-lg text-muted-foreground">
-              The ground floor features the main entrance, reception area, and initial collaborative spaces.
+              The ground floor features the Studios, Toilets (Purple, pink), Archi. Lecturer's Office (yellow), Courtyard, and public spaces.
               Hover over the highlighted areas to learn more about each space.
             </p>
           </div>
           
           <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-8 animate-scale-up">
-            {/* Updated model path - make sure it's correct without leading slash */}
-            <ModelViewer modelSrc="Annex1GF.gltf">
+            <ModelViewer modelSrc="Annex 1GF.gltf">
               <HoverDetails
-                title="Main Entrance"
-                description="The primary entrance to the building featuring a spacious lobby and reception area."
+                title="Studio 08B"
+                description="Max Pax= 30. Fixed Workstation, 3 AC, Projector"
                 position="right"
-                modelPosition={[10, 0, 15]}
+                modelPosition={[27, 2, 3]} 
               />
               <HoverDetails
-                title="Meeting Rooms"
-                description="Three configurable meeting rooms with state-of-the-art presentation equipment."
+                title="Studio Master 01"
+                description="Max Pax= 25. 24 hours operational Studio, Fixed Workstation, Projector"
+                position="right"
+                modelPosition={[-4, 2, -3]}
+              />
+              <HoverDetails
+                title="Studio Master 03"
+                description="Max Pax= 25. 24 hours operational Studio, Fixed Workstation, Projector"
+                position="right"
+                modelPosition={[9, 2, -3]}
+              />
+              <HoverDetails
+                title="Studio 08A"
+                description="Max Pax= 30. Fixed Workstation, 3 AC, Projector"
+                position="right"
+                modelPosition={[-22, 2, -3]}
+              />
+              <HoverDetails
+                title="Arc.Lab"
+                description="Laser Cutter"
                 position="top"
-                modelPosition={[-10, 0, 10]}
+                modelPosition={[-22, 2, 10]}
               />
               <HoverDetails
-                title="Café"
-                description="A casual café offering refreshments and light meals throughout the day."
-                position="left"
-                modelPosition={[-15, 0, 0]}
-              />
-              <HoverDetails
-                title="Collaborative Area"
-                description="Open spaces designed for collaborative work and informal meetings."
+                title="Studio Master 04"
+                description="Max Pax= 25. 24 hours operational Studio, Fixed Workstation, Projector"
                 position="right"
-                modelPosition={[15, 0, -10]}
+                modelPosition={[-2, 2, 20]}
               />
+              <HoverDetails
+                title="Studio Master 02"
+                description="Max Pax= 25. 24 hours operational Studio, Fixed Workstation, Projector"
+                position="right"
+                modelPosition={[13, 2, 20]}
+               />
+              <HoverDetails
+                title="Classroom"
+                description="Max Pax= 40. Projector, AP1 022"
+                position="right"
+                modelPosition={[30, 2, -15]}
+               />
+              <HoverDetails
+                title="Classroom"
+                description="Max Pax= 40. Projector, AP1 002"
+                position="right"
+                modelPosition={[-25, 2, -15]}
+               />
+               <HoverDetails
+                title="Ts. Nasuruddin"
+                description="Senior Lecturer"
+                position="right"
+                modelPosition={[24, 2, -19]}
+               />
+               <HoverDetails
+                title="Dr Azhan"
+                description="Senior Lecturer"
+                position="right"
+                modelPosition={[-14, 2, 4.5]}
+               />
+               <HoverDetails
+                title="En Faisol"
+                description="Senior Lecturer"
+                position="right"
+                modelPosition={[17, 2, -7]}
+                />
+               <HoverDetails
+                title="Dr. Wan Nur Rukiah"
+                description="Senior Lecturer"
+                position="right"
+                modelPosition={[32, 2, -7]}
+                />
             </ModelViewer>
           </div>
           
-          {/* Floor information section */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
             <div className="bg-white rounded-lg p-6 shadow animate-slide-in-from-left">
               <h3 className="text-lg font-medium mb-2">Ground Floor Specifications</h3>
@@ -59,49 +111,49 @@ const GroundFloor = () => {
                   <svg className="w-5 h-5 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  <span>Reception Area: 500 sq ft</span>
+                  <span>Lecturer Office: 4</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <svg className="w-5 h-5 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  <span>Meeting Rooms: 3 (accommodating 4-12 people each)</span>
+                  <span>Studio: 6</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <svg className="w-5 h-5 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  <span>Café Area: 800 sq ft with seating for 40</span>
+                  <span>Other Amenities: Archi Lab, Classroom, Courtyard</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <svg className="w-5 h-5 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  <span>Collaborative Spaces: 1,200 sq ft</span>
+                  <span>Toilet: 2</span>
                 </li>
               </ul>
             </div>
             <div className="bg-white rounded-lg p-6 shadow animate-slide-in-from-right">
               <h3 className="text-lg font-medium mb-2">Key Features</h3>
               <p className="text-sm text-gray-600 mb-4">
-                The ground floor is designed to create a welcoming first impression and facilitate the flow of visitors and staff throughout the building.
+                The ground floor is designed to create an impressive first impression while facilitating efficient flow of visitors and employees.
               </p>
               <div className="space-y-2 text-sm text-gray-600">
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 rounded-full bg-primary"></div>
-                  <span>Energy-efficient LED lighting throughout</span>
+                  <span>Double-height atrium with natural lighting</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 rounded-full bg-primary"></div>
-                  <span>Smart building controls for climate and lighting</span>
+                  <span>Digital wayfinding kiosks</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 rounded-full bg-primary"></div>
-                  <span>Biophilic design elements with indoor plants</span>
+                  <span>Living green wall feature</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 rounded-full bg-primary"></div>
-                  <span>Acoustic treatments for noise reduction</span>
+                  <span>Coffee shop and convenience store</span>
                 </div>
               </div>
             </div>
