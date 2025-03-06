@@ -4,7 +4,7 @@ import ModelViewer from '@/components/ModelViewer';
 import HoverDetails from '@/components/HoverDetails';
 
 const SecondFloor = () => {
-  const modelPath = "/Annex 12F.gltf";
+  const modelPath = "Annex12F.gltf";
 
   return (
     <Layout>
