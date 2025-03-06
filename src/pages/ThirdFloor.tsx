@@ -20,7 +20,7 @@ const ThirdFloor = () => {
           </div>
           
           <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-8 animate-scale-up">
-            <ModelViewer modelSrc="Annex 13F.gltf">
+            <ModelViewer modelSrc="Annex13F.gltf">
               <HoverDetails
                 title="Classroom"
                 description="Max pax= 40, AC split unit, AP1 0303"
