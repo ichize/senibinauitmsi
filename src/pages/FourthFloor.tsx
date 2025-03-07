@@ -41,16 +41,34 @@ const FourthFloor = () => {
                 modelPosition={[-20, 16, 15]} 
               />
               <HoverDetails
+                title="Dr Farid Al-Hakeem"
+                description="Senior Lecturer"
+                position="top"
+                modelPosition={[-17, 16, 15]} 
+              />
+              <HoverDetails
+                title="En Nazrin"
+                description="Lecturer"
+                position="top"
+                modelPosition={[-14, 16, 15]} 
+              />
+              <HoverDetails
+                title="En Syathir Amani"
+                description="Lecturer"
+                position="top"
+                modelPosition={[0, 16, 15]} 
+              />
+              <HoverDetails
                 title="Classroom"
                 description="Max Pax= 40. Projector, AP1 403"
                 position="right"
-                modelPosition={[-25, 16, 3]} // Add 3D position coordinates for the wellness area
+                modelPosition={[-25, 16, 3]} 
               />
               <HoverDetails
                 title="Classroom"
                 description="Max Pax= 40. Projector, AP1 439"
                 position="left"
-                modelPosition={[25, 16, 3]} // Add 3D position coordinates for the café and bar
+                modelPosition={[25, 16, 3]} 
               />
             </ModelViewer>
           </div>
