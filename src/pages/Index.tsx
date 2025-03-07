@@ -42,7 +42,7 @@ const Index = () => {
               </Link>
               <Link 
                 to="/first-floor" 
-                className="inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 transition-colors"
+                className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary hover:bg-primary/90 transition-colors"
               >
                 Bilik Krit Kecil
               </Link>
@@ -53,7 +53,7 @@ const Index = () => {
                 href="https://maps.app.goo.gl/8nYXVnFebumsi5FLA" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 transition-colors"
+                className="inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 transition-colors"
               >
                 Location of Annex 1
               </a>
