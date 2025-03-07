@@ -1,4 +1,5 @@
-import React, { useRef, useEffect, forwardRef, useImperativeHandle } from 'react';
+
+import React, { useRef, useEffect } from 'react';
 import { useThreeJsScene } from '@/hooks/useThreeJsScene';
 import { useHotspotPositioning } from '@/hooks/useHotspotPositioning';
 import LoadingState from './model-viewer/LoadingState';
@@ -8,15 +9,14 @@ interface ModelViewerProps {
   children?: React.ReactNode;
 }
 
-// Wrap ModelViewer with forwardRef to expose methods to parent
-const ModelViewer = forwardRef(({ modelSrc, children }: ModelViewerProps, ref) => {
+const ModelViewer: React.FC<ModelViewerProps> = ({ modelSrc, children }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Create a callback for when hotspot positions need to be updated
   const onHotspotUpdateRef = useRef<() => void>(() => {});
 
   // Initialize the Three.js scene
-  const { isLoading, error, refs, resizeRendererToDisplaySize, retryLoadModel, zoomTo } = useThreeJsScene({
+  const { isLoading, error, refs, resizeRendererToDisplaySize, retryLoadModel } = useThreeJsScene({
     modelSrc,
     containerRef,
     onModelLoaded: () => {
@@ -56,13 +56,6 @@ const ModelViewer = forwardRef(({ modelSrc, children }: ModelViewerProps, ref) =
     };
   }, [resizeRendererToDisplaySize, modelSrc]);
 
-  // Expose zoomToHotspot method via ref using useImperativeHandle
-  useImperativeHandle(ref, () => ({
-    zoomToHotspot: (coordinates: [number, number, number]) => {
-      zoomTo(coordinates);  // Calls zoomTo method from useThreeJsScene
-    }
-  }));
-
   return (
     <div className="relative w-full h-full min-h-[500px] md:min-h-[700px]" ref={containerRef}>
       <LoadingState 
@@ -78,6 +71,6 @@ const ModelViewer = forwardRef(({ modelSrc, children }: ModelViewerProps, ref) =
       </div>
     </div>
   );
-});
+};
 
 export default ModelViewer;
