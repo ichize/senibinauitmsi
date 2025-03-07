@@ -35,17 +35,17 @@ const Index = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up" style={{animationDelay: '300ms'}}>
               <Link 
-                to="/ground-floor" 
+                to="/second-floor" 
                 className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary hover:bg-primary/90 transition-colors"
               >
-                Start Exploring
+                Bilik Krit Utama
               </Link>
-              <a 
-                href="#floors" 
+              <Link 
+                to="/first-floor" 
                 className="inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 transition-colors"
               >
-                View All Floors
-              </a>
+                Bilik Krit Kecil
+              </Link>
             </div>
           </div>
         </div>
@@ -121,3 +121,4 @@ const Index = () => {
 };
 
 export default Index;
+
