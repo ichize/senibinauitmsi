@@ -47,7 +47,7 @@ const FourthFloor = () => {
                 modelPosition={[-17, 16, 15]} 
               />
               <HoverDetails
-                title="En Nazrin"
+                title="En Mat"
                 description="Lecturer"
                 position="top"
                 modelPosition={[-14, 16, 15]} 
@@ -56,7 +56,19 @@ const FourthFloor = () => {
                 title="En Syathir Amani"
                 description="Lecturer"
                 position="top"
+                modelPosition={[-3, 16, 15]} 
+              />
+              <HoverDetails
+                title="En SAHA"
+                description="Lecturer"
+                position="top"
                 modelPosition={[0, 16, 15]} 
+              />
+              <HoverDetails
+                title="Ar Dr. Jamal"
+                description="Lecturer"
+                position="top"
+                modelPosition={[5, 16, 15]} 
               />
               <HoverDetails
                 title="Classroom"
