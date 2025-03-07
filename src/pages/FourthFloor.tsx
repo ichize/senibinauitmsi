@@ -68,7 +68,13 @@ const FourthFloor = () => {
                 title="Ar Dr. Jamal"
                 description="Lecturer"
                 position="top"
-                modelPosition={[6, 16, 15]} 
+                modelPosition={[7, 16, 15]} 
+              />
+              <HoverDetails
+                title="Dr. Aiman"
+                description="Lecturer"
+                position="top"
+                modelPosition={[9, 16, 15]} 
               />
               <HoverDetails
                 title="Classroom"
