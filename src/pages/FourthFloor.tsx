@@ -130,7 +130,7 @@ const FourthFloor = () => {
             </ModelViewer>
 
             {hoveredItem && hoveredItem.imageSrc && (
-              <div className="ml-6 flex-shrink-0">
+              <div className="hovered-image fixed top-20 right-10>
                 <img src={hoveredItem.imageSrc} alt={hoveredItem.title} className="w-64 h-auto rounded-lg shadow-lg" />
               </div>
             )}
