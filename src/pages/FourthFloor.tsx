@@ -93,7 +93,8 @@ const FourthFloor = () => {
                 description="Lecturer"
                 position="top"
                 modelPosition={[-14, 16, 10]}
-                imageSrc="AR.jpg"
+                onHover={() => setHoveredItem({ title: "En AR", imageSrc: "/AR.jpg" })} // Show image on hover
+                onLeave={() => setHoveredItem(null)} // Reset on hover leave
               />
               <HoverDetails
                 title="Ar Shahmizi"
@@ -127,6 +128,12 @@ const FourthFloor = () => {
               />
             </ModelViewer>
           </div>
+
+          {hoveredItem && hoveredItem.imageSrc && (
+              <div className="ml-6 flex-shrink-0">
+                <img src={hoveredItem.imageSrc} alt={hoveredItem.title} className="w-64 h-auto rounded-lg shadow-lg" />
+              </div>
+            )}
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
             <div className="bg-white rounded-lg p-6 shadow animate-slide-in-from-left">
