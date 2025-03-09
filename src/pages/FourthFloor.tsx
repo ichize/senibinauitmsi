@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+
+import React from 'react';
 import Layout from '@/components/Layout';
 import ModelViewer from '@/components/ModelViewer';
 import HoverDetails from '@/components/HoverDetails';
 
 const FourthFloor = () => {
-  const [hoveredItem, setHoveredItem] = useState<{ title: string; imageSrc: string } | null>(null);
-
   return (
     <Layout>
       <div className="container mx-auto px-4 py-8">
@@ -84,7 +83,7 @@ const FourthFloor = () => {
                 modelPosition={[13, 16, 15]} 
               />
               <HoverDetails
-                title="Unoccupied"
+                title="unoccupied"
                 description="Senior Lecturer"
                 position="top"
                 modelPosition={[-17, 16, 10]} 
@@ -93,9 +92,7 @@ const FourthFloor = () => {
                 title="En AR"
                 description="Lecturer"
                 position="top"
-                modelPosition={[-14, 16, 10]}
-                onHover={() => setHoveredItem({ title: "En AR", imageSrc: "/AR.jpg" })} // Use relative path if image is in the public folder
-                onLeave={() => setHoveredItem(null)} // Reset on hover leave
+                modelPosition={[-14, 16, 10]} 
               />
               <HoverDetails
                 title="Ar Shahmizi"
@@ -128,14 +125,8 @@ const FourthFloor = () => {
                 modelPosition={[25, 16, 3]} 
               />
             </ModelViewer>
-
-            {hoveredItem && hoveredItem.imageSrc && (
-              <div className="hovered-image fixed top-20 right-10>
-                <img src={hoveredItem.imageSrc} alt={hoveredItem.title} className="w-64 h-auto rounded-lg shadow-lg" />
-              </div>
-            )}
           </div>
-
+          
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
             <div className="bg-white rounded-lg p-6 shadow animate-slide-in-from-left">
               <h3 className="text-lg font-medium mb-2">Fourth Floor Specifications</h3>
@@ -182,11 +173,11 @@ const FourthFloor = () => {
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 rounded-full bg-primary"></div>
-                  <span>Open areas designed for both quiet and collaborative work</span>
+                  <span>Sustainable irrigation system for garden</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 rounded-full bg-primary"></div>
-                  <span>Floor-to-ceiling windows for panoramic views</span>
+                  <span>Integrated audio-visual systems</span>
                 </div>
               </div>
             </div>
@@ -198,4 +189,3 @@ const FourthFloor = () => {
 };
 
 export default FourthFloor;
-
