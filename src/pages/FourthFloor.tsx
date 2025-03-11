@@ -96,7 +96,7 @@ const FourthFloor = () => {
                 imageSrc="AR.jpg"
               />
               <HoverDetails
-                title="Ar Shahmizi"
+                title="Ar. MUHAMMAD ASSYAHMIZI BIN MOHD YUNUS"
                 description="Senior Lecturer"
                 position="top"
                 modelPosition={[-11, 16, 10]} 
