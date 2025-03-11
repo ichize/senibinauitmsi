@@ -59,19 +59,19 @@ const FirstFloor = () => {
                 modelPosition={[-23, 6, 0]} 
               />
               <HoverDetails
-                title="En Zikri"
+                title="En MOHD ZIKRI BIN MOHD ZAKI"
                 description="Lecturer"
                 position="right"
                 modelPosition={[-10, 6, -15]} 
               />
               <HoverDetails
-                title="Pn Farah"
+                title="Pn FARAH HANNA BINTI® AHMAD FUAD"
                 description="Lecturer"
                 position="top"
                 modelPosition={[10, 6, -15]} 
               />
               <HoverDetails
-                title="Cik Ainsyah"
+                title="Cik NOOR AINSYAH BINTI ZULKIFLI"
                 description="Lecturer"
                 position="right"
                 modelPosition={[6, 6, -16]} 
