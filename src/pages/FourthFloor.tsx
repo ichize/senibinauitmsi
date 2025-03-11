@@ -41,55 +41,55 @@ const FourthFloor = () => {
                 modelPosition={[-20, 16, 15]} 
               />
               <HoverDetails
-                title="Dr. Farid Al-Hakeem"
+                title="Dr FARID AL HAKEEM BIN YUSERRIE"
                 description="Senior Lecturer"
                 position="top"
                 modelPosition={[-17, 16, 15]} 
               />
               <HoverDetails
-                title="En Mat"
+                title="En AHMAD FAIZ BIN MOHD NAZAMUDIN"
                 description="Lecturer"
                 position="top"
                 modelPosition={[-14, 16, 15]} 
               />
               <HoverDetails
-                title="En Syathir Amani"
+                title="En MOHAMMAD SYATHIR AMINI BIN SHAHBUDIN"
                 description="Lecturer"
                 position="top"
                 modelPosition={[-2, 16, 15]} 
               />
               <HoverDetails
-                title="En SAHA"
+                title="En SALAHUDDIN ABDUL HAKEEM BIN ABAS"
                 description="Lecturer"
                 position="top"
                 modelPosition={[1, 16, 15]} 
               />
               <HoverDetails
-                title="Ar Dr. Jamal"
+                title="Ar. Dr JAMALUDIN BIN MUHAMAD"
                 description="Lecturer"
                 position="top"
                 modelPosition={[7, 16, 15]} 
               />
               <HoverDetails
-                title="Dr. Aiman"
-                description="Lecturer"
+                title="Dr SAYED MUHAMMAD AIMAN BIN SAYED ABUL KHAIR"
+                description="Senior Lecturer"
                 position="top"
                 modelPosition={[10, 16, 15]} 
               />
               <HoverDetails
-                title="En Izzat"
+                title="Ts. IZZAT BIN ANUAR"
                 description="Lecturer"
                 position="top"
                 modelPosition={[13, 16, 15]} 
               />
               <HoverDetails
                 title="unoccupied"
-                description="Senior Lecturer"
+                description="-"
                 position="top"
                 modelPosition={[-17, 16, 10]} 
               />
               <HoverDetails
-                title="En AR"
+                title="En ABDUL RAHMAN BIN KHAMARUZAMAN"
                 description="Lecturer"
                 position="top"
                 modelPosition={[-14, 16, 10]}
@@ -102,13 +102,13 @@ const FourthFloor = () => {
                 modelPosition={[-11, 16, 10]} 
               />
               <HoverDetails
-                title="En Shahin"
+                title="En MOHAMAD SHAHIN BIN SHAHDAN"
                 description="Lecturer"
                 position="top"
                 modelPosition={[-2, 16, 10]} 
               />
               <HoverDetails
-                title="En Faris"
+                title="En MUHAMMAD FARIS ARMAN BIN"
                 description="Lecturer"
                 position="top"
                 modelPosition={[10, 16, 10]} 
