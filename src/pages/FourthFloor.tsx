@@ -44,7 +44,8 @@ const FourthFloor = () => {
                 title="Dr FARID AL HAKEEM BIN YUSERRIE"
                 description="Senior Lecturer"
                 position="top"
-                modelPosition={[-17, 16, 15]} 
+                modelPosition={[-17, 16, 15]}
+                imageSrc="Farid.jpg"
               />
               <HoverDetails
                 title="En AHMAD FAIZ BIN MOHD NAZAMUDIN"
