@@ -51,7 +51,8 @@ const FourthFloor = () => {
                 title="En AHMAD FAIZ BIN MOHD NAZAMUDIN"
                 description="Lecturer"
                 position="top"
-                modelPosition={[-14, 16, 15]} 
+                modelPosition={[-14, 16, 15]}
+                imageSrc="Mamoo.jpg"
               />
               <HoverDetails
                 title="En MOHAMMAD SYATHIR AMINI BIN SHAHBUDIN"
