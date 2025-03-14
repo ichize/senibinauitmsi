@@ -64,6 +64,7 @@ const SecondFloor = () => {
                 description="Senior Lecturer"
                 position="right"                
                 modelPosition={[10, 8, -8]} 
+                imageSrc="Hanim.jpg"
               />
               <HoverDetails
                 title="En MOHAMMAD NAZRIN BIN ZAINAL ABIDIN"
@@ -77,54 +78,63 @@ const SecondFloor = () => {
                 description="Senior Lecturer"
                 position="right"                
                 modelPosition={[5, 8, -20]} 
+                imageSrc="Maya.jpg"
               />
               <HoverDetails
                 title="Ar. IZNNY BINTI ISMAIL"
                 description="Senior Lecturer"
                 position="right"                
-                modelPosition={[16, 8, -8]} 
+                modelPosition={[16, 8, -8]}
+                imageSrc="Iznny.jpg"
               />
               <HoverDetails
                 title="En MD ANWAR BIN MD YUSOF"
                 description="Senior Lecturer"
                 position="right"                
-                modelPosition={[-8, 8, -15]} 
+                modelPosition={[-8, 8, -15]}
+                imageSrc="Anwar.jpg"
               />
               <HoverDetails
                 title="Dr NOR SYAMIMI BINTI SAMSUDIN"
                 description="Senior Lecturer"
                 position="right"                
-                modelPosition={[-18, 8, -8]} 
+                modelPosition={[-18, 8, -8]}
+                imageSrc="Mimi.jpg"
               />
               <HoverDetails
                 title="Dr FADHLIZIL FARIZ BIN ABDUL MUNIR"
                 description="Senior Lecturer"
                 position="right"                
                 modelPosition={[-15, 8, -8]} 
+                imageSrc="Fariz.jpg"
               />
               <HoverDetails
                 title="En AMIRUL AMIN BIN ISMAIL"
                 description="Senior Lecturer"
                 position="right"                
-                modelPosition={[-8, 8, -8]} 
+                modelPosition={[-8, 8, -8]}
+                imageSrc="Amin.jpg"
               />
               <HoverDetails
                 title="En AMRAN BIN ABDUL RAHIM"
                 description="Senior Lecturer"
                 position="right"                
-                modelPosition={[-11, 8, -8]} 
+                modelPosition={[-11, 8, -8]}
+                imageSrc="Amran.jpg"
               />
               <HoverDetails
                 title="En ADEEB BIN ZULKIFLI"
                 description="Senior Lecturer"
                 position="right"                
-                modelPosition={[-18, 8, -15]} 
+                modelPosition={[-18, 8, -15]}
+                imageSrc="Adeeb.jpg"
               />
               <HoverDetails
                 title="Dr IRYANI BINTI ABDUL HALIM CHOO"
                 description="Senior Lecturer"
                 position="right"                
-                modelPosition={[-15, 8, -15]} 
+                modelPosition={[-15, 8, -15]}
+                imageSrc="Iryani.jpg"
               />
               <HoverDetails
                 title="unoccupied"
