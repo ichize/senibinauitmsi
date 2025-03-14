@@ -71,10 +71,10 @@ const HoverDetails: React.FC<HoverDetailsProps> = ({
         >
           {/* Display the title, description, and image */}
           <div className="flex items-start mb-2">
+            <h4 className="text-base font-medium mb-1">{title}</h4>
             {imageSrc && (
              <img src={imageSrc} alt={title} className="w-20 h-25 object-cover mb-2 rounded" />
             )}
-            <h4 className="text-base font-medium mb-1">{title}</h4>
           </div>           
           <p className="text-sm text-gray-600">{description}</p>
         </div>
