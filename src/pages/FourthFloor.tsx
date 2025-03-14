@@ -58,31 +58,36 @@ const FourthFloor = () => {
                 title="En MOHAMMAD SYATHIR AMINI BIN SHAHBUDIN"
                 description="Lecturer"
                 position="top"
-                modelPosition={[-2, 16, 15]} 
+                modelPosition={[-2, 16, 15]}
+                imageSrc="Syathir.jpg"
               />
               <HoverDetails
                 title="En SALAHUDDIN ABDUL HAKEEM BIN ABAS"
                 description="Lecturer"
                 position="top"
-                modelPosition={[1, 16, 15]} 
+                modelPosition={[1, 16, 15]}
+                imageSrc="Saha.jpg"
               />
               <HoverDetails
                 title="Ar. Dr JAMALUDIN BIN MUHAMAD"
                 description="Lecturer"
                 position="top"
-                modelPosition={[7, 16, 15]} 
+                modelPosition={[7, 16, 15]}
+                imageSrc="Jamal.jpg"
               />
               <HoverDetails
                 title="Dr SAYED MUHAMMAD AIMAN BIN SAYED ABUL KHAIR"
                 description="Senior Lecturer"
                 position="top"
                 modelPosition={[10, 16, 15]} 
+                imageSrc="Aiman.jpg"
               />
               <HoverDetails
                 title="Ts. IZZAT BIN ANUAR"
                 description="Lecturer"
                 position="top"
-                modelPosition={[13, 16, 15]} 
+                modelPosition={[13, 16, 15]}
+                imageSrc="Izzat.jpg"
               />
               <HoverDetails
                 title="unoccupied"
@@ -108,13 +113,15 @@ const FourthFloor = () => {
                 title="En MOHAMAD SHAHIN BIN SHAHDAN"
                 description="Lecturer"
                 position="top"
-                modelPosition={[-2, 16, 10]} 
+                modelPosition={[-2, 16, 10]}
+                imageSrc="Shahin.jpg"
               />
               <HoverDetails
                 title="En MUHAMMAD FARIS ARMAN BIN"
                 description="Lecturer"
                 position="top"
                 modelPosition={[10, 16, 10]} 
+                imageSrc="Baa.jpg"
               />
               <HoverDetails
                 title="Classroom"
