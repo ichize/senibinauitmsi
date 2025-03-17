@@ -15,7 +15,6 @@ export const useThreeJsScene = ({
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [retryCount, setRetryCount] = useState(0);
-  const [isARSupported, setIsARSupported] = useState(false); // AR Support State
   
   // Store Three.js objects for use in subsequent renders
   const sceneRef = useRef<THREE.Scene | null>(null);
@@ -26,9 +25,6 @@ export const useThreeJsScene = ({
   const animationFrameRef = useRef<number | null>(null);
   const loadingRef = useRef<boolean>(true);
   
-  const raycaster = useRef(new THREE.Raycaster());
-  const mouse = useRef(new THREE.Vector2());
-
   // Expose the ThreeJS objects for external use (like updating hotspot positions)
   const refs: ThreeJsSceneRefs = {
     scene: sceneRef.current,
@@ -39,10 +35,15 @@ export const useThreeJsScene = ({
     animationFrame: animationFrameRef.current
   };
 
+  const raycaster = useRef(new THREE.Raycaster());
+  const mouse = useRef(new THREE.Vector2());
+
+  // Method to handle renderer resize
   const resizeRendererToDisplaySize = () => {
     resizeRenderer(containerRef, cameraRef.current, rendererRef.current, onHotspotUpdate);
   };
 
+  // Function to retry loading the model
   const retryLoadModel = () => {
     if (retryCount < 3) {
       console.log(`Retrying model load (attempt ${retryCount + 1}/3)...`);
@@ -50,7 +51,7 @@ export const useThreeJsScene = ({
       setError(null);
       setIsLoading(true);
       loadingRef.current = true;
-
+      
       // Clear the current model if any
       if (sceneRef.current && modelRef.current) {
         sceneRef.current.remove(modelRef.current);
@@ -59,75 +60,89 @@ export const useThreeJsScene = ({
     }
   };
 
-  // Handle WebXR AR session creation
-  const startARSession = () => {
-    if (rendererRef.current) {
-      rendererRef.current.xr.enabled = true;
-      rendererRef.current.xr.setReferenceSpaceType('local');
-      
-      navigator.xr?.requestSession('immersive-ar', { requiredFeatures: ['hit-test'] })
-        .then(session => {
-          rendererRef.current!.xr.setSession(session);
-        })
-        .catch(error => {
-          console.error("Failed to start AR session:", error);
-        });
-    }
-  };
-
   useEffect(() => {
     if (!containerRef.current) return;
+    
+    // Reset loading state when model source changes or when retrying
+    setIsLoading(true);
+    loadingRef.current = true;
+    setError(null);
 
-    // Check if AR is supported
-    if ('xr' in navigator) {
-      navigator.xr.isSessionSupported('immersive-ar').then(supported => {
-        setIsARSupported(supported);
-      });
-    }
-
-    // Scene setup
-    if (!sceneRef.current) {
+    // Clean up previous scene
+    if (sceneRef.current) {
+      // Clear existing model if any
+      if (modelRef.current) {
+        sceneRef.current.remove(modelRef.current);
+        modelRef.current = null;
+      }
+    } else {
+      // Scene setup (only if not already created)
       const scene = new THREE.Scene();
+      // Correct scene background color syntax
       scene.background = new THREE.Color(0x595959);
       sceneRef.current = scene;
     }
 
-    // Camera setup
+    // Camera setup (only if not already created)
     if (!cameraRef.current && containerRef.current) {
       const camera = new THREE.PerspectiveCamera(
-        75,
-        containerRef.current.clientWidth / containerRef.current.clientHeight,
-        0.1,
+        75, 
+        containerRef.current.clientWidth / containerRef.current.clientHeight, 
+        0.1, 
         1000
       );
       camera.position.z = 50;
       cameraRef.current = camera;
     }
 
-    // Renderer setup
+    // Renderer setup (only if not already created)
     if (!rendererRef.current && containerRef.current) {
       const renderer = setupRenderer(containerRef.current);
       rendererRef.current = renderer;
-      renderer.xr.enabled = true; // Enable WebXR
     }
 
-    // Lighting setup
+    // Controls setup (only if not already created)
+    if (!controlsRef.current && cameraRef.current && rendererRef.current) {
+      const controls = new OrbitControls(cameraRef.current, rendererRef.current.domElement);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.25;
+      controls.screenSpacePanning = false;
+      controls.maxDistance = 100;
+      
+      // Add event listener to update hotspot positions when user interacts
+      if (onHotspotUpdate) {
+        controls.addEventListener('change', onHotspotUpdate);
+      }
+      controlsRef.current = controls;
+    }
+
+    // Setup lighting (only if scene is newly created)
     if (sceneRef.current && !sceneRef.current.children.length) {
       setupLighting(sceneRef.current);
     }
 
-    // Load the model
-    if (sceneRef.current && cameraRef.current && containerRef.current) {
+    // Load model
+    if (sceneRef.current && cameraRef.current && controlsRef.current && containerRef.current) {
+      // Ensure model path is correct - try both with and without leading slash
+      let fixedModelSrc = modelSrc;
+      if (!fixedModelSrc.startsWith('/') && !fixedModelSrc.startsWith('http')) {
+        fixedModelSrc = `/${modelSrc}`;
+      }
+      
+      console.log(`Loading model from: ${fixedModelSrc}`);
+      
       loadModel(
-        modelSrc,
-        sceneRef.current,
-        cameraRef.current,
-        controlsRef.current!,
-        containerRef.current,
+        fixedModelSrc, 
+        sceneRef.current, 
+        cameraRef.current, 
+        controlsRef.current, 
+        containerRef.current, 
         () => {
           setIsLoading(false);
           loadingRef.current = false;
-          if (onModelLoaded) onModelLoaded();
+          if (onModelLoaded) {
+            onModelLoaded();
+          }
         },
         (errorMsg) => {
           setError(errorMsg);
@@ -137,30 +152,95 @@ export const useThreeJsScene = ({
       );
     }
 
+    // Handle raycasting for mouse click events
+    const onMouseMove = (event: MouseEvent) => {
+      if (!containerRef.current || !cameraRef.current) return;
+      
+      // Calculate mouse position in normalized device coordinates (-1 to +1)
+      const rect = containerRef.current.getBoundingClientRect();
+      mouse.current.x = ((event.clientX - rect.left) / containerRef.current.clientWidth) * 2 - 1;
+      mouse.current.y = -((event.clientY - rect.top) / containerRef.current.clientHeight) * 2 + 1;
+    };
+
+    const onMouseClick = () => {
+      if (!modelRef.current || !cameraRef.current) return;
+      
+      // Update the raycaster with the mouse position and camera
+      raycaster.current.setFromCamera(mouse.current, cameraRef.current);
+      
+      // Find intersects with objects
+      const intersects = raycaster.current.intersectObjects(modelRef.current.children, true);
+      if (intersects.length > 0 && onObjectClick) {
+        // Call the callback with the clicked object
+        onObjectClick(intersects[0].object);
+      }
+    };
+
+    if (containerRef.current) {
+      containerRef.current.addEventListener('mousemove', onMouseMove);
+      containerRef.current.addEventListener('click', onMouseClick);
+    }
+
+    // Handle window resize
+    const handleResize = () => {
+      resizeRendererToDisplaySize();
+    };
+
+    window.addEventListener('resize', handleResize);
+
     // Animation loop
     const animate = () => {
       animationFrameRef.current = requestAnimationFrame(animate);
+      if (!sceneRef.current || !cameraRef.current || !rendererRef.current) return;
+      
       if (controlsRef.current) controlsRef.current.update();
-      if (rendererRef.current && sceneRef.current && cameraRef.current) {
-        rendererRef.current.render(sceneRef.current, cameraRef.current);
+      rendererRef.current.render(sceneRef.current, cameraRef.current);
+      
+      // Update hotspot positions in every frame
+      if (onHotspotUpdate) {
+        onHotspotUpdate();
       }
-      if (onHotspotUpdate) onHotspotUpdate();
     };
+    
+    // Start animation only if it's not already running
+    if (!animationFrameRef.current) {
+      animate();
+    }
 
-    animate();
-
+    // Cleanup
     return () => {
-      if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
+      // Cancel animation frame
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+        animationFrameRef.current = null;
+      }
+      
+      // Remove event listeners
+      window.removeEventListener('resize', handleResize);
+      if (containerRef.current) {
+        containerRef.current.removeEventListener('mousemove', onMouseMove);
+        containerRef.current.removeEventListener('click', onMouseClick);
+      }
+      
+      // Remove controls event listener
+      if (controlsRef.current && onHotspotUpdate) {
+        controlsRef.current.removeEventListener('change', onHotspotUpdate);
+      }
+      
+      // We'll keep the renderer, camera, and scene for reuse
+      // but remove the model to save memory
+      if (sceneRef.current && modelRef.current) {
+        sceneRef.current.remove(modelRef.current);
+        modelRef.current = null;
+      }
     };
-  }, [modelSrc]);
+  }, [modelSrc, retryCount]);
 
   return {
     isLoading,
     error,
     refs,
     resizeRendererToDisplaySize,
-    retryLoadModel,
-    isARSupported, // New state for AR support
-    startARSession // New function to start AR session
+    retryLoadModel
   };
 };
