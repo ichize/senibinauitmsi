@@ -5,6 +5,7 @@ interface HoverDetailsProps {
   x?: number;
   y?: number;
   title: string;
+  surname?: string;
   description: string;
   imageSrc?: string; // New prop for image
   position?: 'right' | 'left' | 'top' | 'bottom';
@@ -66,16 +67,20 @@ const HoverDetails: React.FC<HoverDetailsProps> = ({
             animationFillMode: 'forwards',
             minWidth: '220px',
             maxWidth: '300px',
-            zIndex: 50, // Higher z-index to ensure it appears on top of dots
+            zIndex: 100,
           }}
         >
           {/* Display the title, description, and image */}
           <div className="flex items-start mb-2">
-            <h4 className="text-base font-medium mb-1">{title}</h4>
             {imageSrc && (
              <img src={imageSrc} alt={title} className="w-20 h-25 object-cover mb-2 rounded" />
             )}
-          </div>           
+          <div>
+            <h4 className="text-base font-medium mb-1">{title}</h4> {/* Main title */}
+            {surname && <p className="text-sm font-normal text-gray-600">{surname}</p>} {/* Surname, smaller font */}
+          </div>
+        </div>
+          
           <p className="text-sm text-gray-600">{description}</p>
         </div>
       )}
