@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { VRButton } from 'three/examples/jsm/webxr/VRButton.js'; // WebXR VR Button
 import { UseThreeJsSceneProps, ThreeJsSceneRefs } from './three-js-scene/types';
 import { setupLighting, setupRenderer, resizeRenderer } from './three-js-scene/sceneUtils';
 import { loadModel } from './three-js-scene/modelLoader';
@@ -98,7 +99,13 @@ export const useThreeJsScene = ({
     // Renderer setup (only if not already created)
     if (!rendererRef.current && containerRef.current) {
       const renderer = setupRenderer(containerRef.current);
+      
+      // Enable WebXR on the renderer
+      renderer.xr.enabled = true;
       rendererRef.current = renderer;
+
+      // Add the VR button to enter XR mode
+      document.body.appendChild(VRButton.createButton(renderer));
     }
 
     // Controls setup (only if not already created)
