@@ -5,7 +5,7 @@ interface HoverDetailsProps {
   x?: number;
   y?: number;
   title: string;
-  surname?: string; // Added surname prop for the second row
+  surname?: string;
   description: string;
   imageSrc?: string; // New prop for image
   position?: 'right' | 'left' | 'top' | 'bottom';
@@ -71,19 +71,17 @@ const HoverDetails: React.FC<HoverDetailsProps> = ({
             zIndex: 100,
           }}
         >
-          {/* Display the title, surname, description, and image */}
-          <div className="flex items-start mb-2">
+          {/* Display the image, title, surname, and description in one column */}
+          <div className="mb-2">
             {imageSrc && (
               <img 
                 src={imageSrc} 
                 alt={title} 
-                className="w-20 h-25 object-cover mb-2 rounded" 
+                className="w-full h-auto object-cover mb-2 rounded" // Full width, stacked image
               />
             )}
-            <div>
-              <h4 className="text-base font-medium mb-1">{title}</h4> {/* Main title */}
-              {surname && <p className="text-sm font-normal text-gray-600">{surname}</p>} {/* Surname, smaller font */}
-            </div>
+            <h4 className="text-base font-medium mb-1">{title}</h4> {/* Main title */}
+            {surname && <p className="text-sm font-normal text-gray-600">{surname}</p>} {/* Surname, smaller font */}
           </div>
           
           <p className="text-sm text-gray-600">{description}</p>
@@ -94,4 +92,3 @@ const HoverDetails: React.FC<HoverDetailsProps> = ({
 };
 
 export default HoverDetails;
-
