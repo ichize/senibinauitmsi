@@ -5,7 +5,7 @@ interface HoverDetailsProps {
   x?: number;
   y?: number;
   title: string;
-  surname?: string;
+  surname?: string; // Added surname prop for the second row
   description: string;
   imageSrc?: string; // New prop for image
   position?: 'right' | 'left' | 'top' | 'bottom';
@@ -18,6 +18,7 @@ const HoverDetails: React.FC<HoverDetailsProps> = ({
   x,
   y,
   title,
+  surname, // Add surname to destructuring
   description,
   imageSrc, // Accept imageSrc as a prop
   position = 'right',
@@ -70,16 +71,20 @@ const HoverDetails: React.FC<HoverDetailsProps> = ({
             zIndex: 100,
           }}
         >
-          {/* Display the title, description, and image */}
+          {/* Display the title, surname, description, and image */}
           <div className="flex items-start mb-2">
             {imageSrc && (
-             <img src={imageSrc} alt={title} className="w-20 h-25 object-cover mb-2 rounded" />
+              <img 
+                src={imageSrc} 
+                alt={title} 
+                className="w-20 h-25 object-cover mb-2 rounded" 
+              />
             )}
-          <div>
-            <h4 className="text-base font-medium mb-1">{title}</h4> {/* Main title */}
-            {surname && <p className="text-sm font-normal text-gray-600">{surname}</p>} {/* Surname, smaller font */}
+            <div>
+              <h4 className="text-base font-medium mb-1">{title}</h4> {/* Main title */}
+              {surname && <p className="text-sm font-normal text-gray-600">{surname}</p>} {/* Surname, smaller font */}
+            </div>
           </div>
-        </div>
           
           <p className="text-sm text-gray-600">{description}</p>
         </div>
@@ -89,3 +94,4 @@ const HoverDetails: React.FC<HoverDetailsProps> = ({
 };
 
 export default HoverDetails;
+
