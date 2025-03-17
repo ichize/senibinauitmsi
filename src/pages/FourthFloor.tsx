@@ -75,7 +75,7 @@ const FourthFloor = () => {
               <HoverDetails
                 title="Ar. Dr JAMALUDIN"
                 surname="MUHAMAD"
-                description="Lecturer"
+                description="Senior Lecturer"
                 position="bottom"
                 modelPosition={[7, 16, 15]}
                 imageSrc="Jamal.jpg"
@@ -98,6 +98,7 @@ const FourthFloor = () => {
               />
               <HoverDetails
                 title="unoccupied"
+                surname="-"
                 description="-"
                 position="top"
                 modelPosition={[-17, 16, 10]} 
@@ -127,8 +128,8 @@ const FourthFloor = () => {
                 imageSrc="Shahin.jpg"
               />
               <HoverDetails
-                title="En MUHAMMAD FARIS ARMAN"
-                surname="???"
+                title="En MUHAMMAD FARIS"
+                surname="ARMAN"
                 description="Lecturer"
                 position="bottom"
                 modelPosition={[10, 16, 10]} 
