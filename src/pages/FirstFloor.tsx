@@ -70,7 +70,7 @@ const FirstFloor = () => {
                 title="Pn FARAH HANNA"
                 surname="®AHMAD FUAD"
                 description="Lecturer"
-                position="top"
+                position="right"
                 modelPosition={[10, 6, -15]}
                 imageSrc="Farah.jpg"
               />
