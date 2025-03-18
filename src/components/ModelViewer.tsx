@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { useThreeJsScene } from '@/hooks/useThreeJsScene';
 import { useHotspotPositioning } from '@/hooks/useHotspotPositioning';
 import LoadingState from './model-viewer/LoadingState';
-import WebXRScene from './WebXRScene'; // Import the new WebXR scene
+import WebXRScene from './WebXRScene'; // Import the WebXR scene for AR/VR
 
 interface ModelViewerProps {
   modelSrc: string;
@@ -16,7 +16,7 @@ const ModelViewer: React.FC<ModelViewerProps> = ({ modelSrc, children }) => {
   // Create a callback for when hotspot positions need to be updated
   const onHotspotUpdateRef = useRef<() => void>(() => {});
 
-  // Initialize the Three.js scene
+  // Initialize the Three.js scene for regular 3D view
   const { isLoading, error, refs, resizeRendererToDisplaySize, retryLoadModel, toggleXR } = useThreeJsScene({
     modelSrc,
     containerRef,
@@ -25,10 +25,10 @@ const ModelViewer: React.FC<ModelViewerProps> = ({ modelSrc, children }) => {
       setTimeout(() => onHotspotUpdateRef.current(), 100);
     },
     onHotspotUpdate: () => onHotspotUpdateRef.current(),
-    isARActive, // Pass AR/VR state to scene
+    isARActive, // Pass AR/VR state to Three.js scene
   });
 
-  // Setup hotspot positioning
+  // Setup hotspot positioning for 3D mode
   const { updateHotspotPositions } = useHotspotPositioning({
     containerRef,
     cameraRef: { current: refs.camera },
@@ -39,7 +39,7 @@ const ModelViewer: React.FC<ModelViewerProps> = ({ modelSrc, children }) => {
   // Assign the update function to the ref so the ThreeJS scene can call it
   onHotspotUpdateRef.current = updateHotspotPositions;
 
-  // Add useEffect for resizing
+  // Handle resizing the renderer
   useEffect(() => {
     const handleResize = () => {
       resizeRendererToDisplaySize();
@@ -58,13 +58,15 @@ const ModelViewer: React.FC<ModelViewerProps> = ({ modelSrc, children }) => {
     };
   }, [resizeRendererToDisplaySize, modelSrc]);
 
+  // Toggle AR/VR mode
   const handleToggleARVR = () => {
     setIsARActive(!isARActive); // Toggle AR/VR mode
-    toggleXR(!isARActive); // Call the XR toggle function in the Three.js scene
+    toggleXR(!isARActive); // Call the XR toggle function for Three.js scene (if applicable)
   };
 
   return (
     <div className="relative w-full h-full min-h-[500px] md:min-h-[700px]" ref={containerRef}>
+      {/* Loading and error handling */}
       <LoadingState 
         isLoading={isLoading} 
         error={error} 
@@ -80,12 +82,13 @@ const ModelViewer: React.FC<ModelViewerProps> = ({ modelSrc, children }) => {
         {isARActive ? 'Exit AR/VR' : 'Enter AR/VR'}
       </button>
 
-      {/* Render WebXR scene or regular Three.js scene */}
+      {/* Conditionally render AR/VR scene or regular 3D viewer */}
       {isARActive ? (
-        <WebXRScene modelSrc={modelSrc} />  // Render WebXR scene when AR/VR mode is active
+        // Render WebXRScene for AR/VR mode
+        <WebXRScene modelSrc={modelSrc} />
       ) : (
         <>
-          {/* Interactive elements positioned over the 3D scene */}
+          {/* Regular 3D viewer */}
           <div className="absolute inset-0 pointer-events-none">
             {children}
           </div>
