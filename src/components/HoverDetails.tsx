@@ -7,20 +7,20 @@ interface HoverDetailsProps {
   title: string;
   surname?: string;
   description: string;
-  imageSrc?: string; // New prop for image
+  imageSrc?: string;
   position?: 'right' | 'left' | 'top' | 'bottom';
   className?: string;
-  modelPosition: [number, number, number]; // 3D coordinates in the model space (required)
-  cardOffset?: { x: number; y: number }; // Custom offset for the info card
+  modelPosition: [number, number, number];
+  cardOffset?: { x: number; y: number };
 }
 
 const HoverDetails: React.FC<HoverDetailsProps> = ({
   x,
   y,
   title,
-  surname, // Add surname to destructuring
+  surname,
   description,
-  imageSrc, // Accept imageSrc as a prop
+  imageSrc,
   position = 'right',
   className,
   modelPosition,
@@ -31,15 +31,15 @@ const HoverDetails: React.FC<HoverDetailsProps> = ({
   const getCardStyle = () => {
     switch (position) {
       case 'right':
-        return { left: `calc(100% + ${cardOffset.x}px)`, top: `${cardOffset.y}px` };
+        return { left: `calc(100% + ${cardOffset.x}px)`, top: '50%', transform: 'translateY(-50%)' };
       case 'left':
-        return { right: `calc(100% + ${cardOffset.x}px)`, top: `${cardOffset.y}px` };
+        return { right: `calc(100% + ${cardOffset.x}px)`, top: '50%', transform: 'translateY(-50%)' };
       case 'top':
-        return { bottom: `calc(100% + ${cardOffset.y}px)`, left: `${cardOffset.x}px` };
+        return { bottom: `calc(100% + ${cardOffset.y}px)`, left: '50%', transform: 'translateX(-50%)' };
       case 'bottom':
-        return { top: `calc(100% + ${cardOffset.y}px)`, left: `${cardOffset.x}px` };
+        return { top: `calc(100% + ${cardOffset.y}px)`, left: '50%', transform: 'translateX(-50%)' };
       default:
-        return { left: `calc(100% + ${cardOffset.x}px)`, top: `${cardOffset.y}px` };
+        return { left: `calc(100% + ${cardOffset.x}px)`, top: '50%', transform: 'translateY(-50%)' };
     }
   };
 
@@ -47,9 +47,9 @@ const HoverDetails: React.FC<HoverDetailsProps> = ({
     <div 
       className={cn(
         "hotspot absolute w-6 h-6 rounded-full bg-primary/80 flex items-center justify-center cursor-pointer shadow-lg pointer-events-auto",
-        isHovered ? "z-10" : "z-20" // Lower z-index when hovered so card appears on top
+        isHovered ? "z-10" : "z-20"
       )}
-      style={{ transform: 'translate(-50%, -50%)' }} // Center the hotspot on its position
+      style={{ transform: 'translate(-50%, -50%)' }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       data-position={modelPosition.join(',')}
@@ -77,11 +77,11 @@ const HoverDetails: React.FC<HoverDetailsProps> = ({
               <img 
                 src={imageSrc} 
                 alt={title} 
-                className="w-full h-auto object-cover mb-2 rounded" // Full width, stacked image
+                className="w-full h-auto object-cover mb-2 rounded"
               />
             )}
-            <h4 className="text-base font-medium mb-0">{title}</h4> {/* Main title */}
-            {surname && <p className="text-sm font-normal text-gray-600 mt-0">{surname}</p>} {/* Surname, smaller font */}
+            <h4 className="text-base font-medium mb-0">{title}</h4>
+            {surname && <p className="text-sm font-normal text-gray-600 mt-0">{surname}</p>}
           </div>
           
           <p className="text-sm text-gray-600">{description}</p>
