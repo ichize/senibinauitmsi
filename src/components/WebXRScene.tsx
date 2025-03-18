@@ -1,97 +1,107 @@
 import React, { useRef, useEffect } from 'react';
 import * as THREE from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { ARButton } from 'three/examples/jsm/webxr/ARButton';
 import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 interface WebXRSceneProps {
   modelSrc: string;
 }
 
 const WebXRScene: React.FC<WebXRSceneProps> = ({ modelSrc }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const sceneRef = useRef<THREE.Scene | null>(null);
+  const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
+  const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
+  const modelRef = useRef<THREE.Group | null>(null); // Store the model
 
   useEffect(() => {
-    let renderer: THREE.WebGLRenderer;
-    let scene: THREE.Scene;
-    let camera: THREE.PerspectiveCamera;
-    let controller1: THREE.Group, controller2: THREE.Group;
-    let loader: GLTFLoader;
+    // Set up the scene
+    const scene = new THREE.Scene();
+    sceneRef.current = scene;
 
-    const initWebXR = () => {
-      // Setup basic scene
-      scene = new THREE.Scene();
-      camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 20);
+    // Set up the camera
+    const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 1.6, 3); // Adjust position for better viewing in AR/VR
+    cameraRef.current = camera;
 
-      // Initialize WebGLRenderer with WebXR support
-      renderer = new THREE.WebGLRenderer({ antialias: true });
-      renderer.setPixelRatio(window.devicePixelRatio);
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.xr.enabled = true;
+    // Set up the renderer
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.xr.enabled = true; // Enable WebXR
+    rendererRef.current = renderer;
+    document.body.appendChild(renderer.domElement);
 
-      if (containerRef.current) {
-        containerRef.current.appendChild(renderer.domElement);
-        document.body.appendChild(ARButton.createButton(renderer)); // AR Button for entering AR mode
-      }
+    // Set up the lighting
+    const light = new THREE.HemisphereLight(0xffffff, 0x444444);
+    light.position.set(0, 1, 0);
+    scene.add(light);
 
-      // Load the 3D model using GLTFLoader
-      loader = new GLTFLoader();
-      loader.load(
-        modelSrc,
-        (gltf) => {
-          const model = gltf.scene;
-          scene.add(model);
-        },
-        undefined,
-        (error) => {
-          console.error('An error occurred loading the model:', error);
+    const directionalLight = new THREE.DirectionalLight(0xffffff);
+    directionalLight.position.set(0, 6, 0);
+    scene.add(directionalLight);
+
+    // Load the model
+    const loader = new GLTFLoader();
+    loader.load(modelSrc, (gltf) => {
+      modelRef.current = gltf.scene;
+      modelRef.current.scale.set(0.2, 0.2, 0.2); // Scale model to fit in AR/VR view
+      modelRef.current.position.set(0, 0, -2); // Position it in front of the camera
+      scene.add(modelRef.current);
+    });
+
+    // Set up WebXR controllers
+    const controller1 = renderer.xr.getController(0);
+    const controller2 = renderer.xr.getController(1);
+    scene.add(controller1, controller2);
+
+    const controllerModelFactory = new XRControllerModelFactory();
+    const controllerGrip1 = renderer.xr.getControllerGrip(0);
+    controllerGrip1.add(controllerModelFactory.createControllerModel(controllerGrip1));
+    scene.add(controllerGrip1);
+
+    const controllerGrip2 = renderer.xr.getControllerGrip(1);
+    controllerGrip2.add(controllerModelFactory.createControllerModel(controllerGrip2));
+    scene.add(controllerGrip2);
+
+    // Animation loop
+    const animate = () => {
+      renderer.setAnimationLoop(() => {
+        if (modelRef.current) {
+          modelRef.current.rotation.y += 0.01; // Rotate the model for effect
         }
-      );
-
-      // Add lights
-      const light = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
-      scene.add(light);
-
-      // Add controllers for interaction
-      const controllerModelFactory = new XRControllerModelFactory();
-      controller1 = renderer.xr.getController(0);
-      controller2 = renderer.xr.getController(1);
-      controller1.add(controllerModelFactory.createControllerModel(controller1));
-      controller2.add(controllerModelFactory.createControllerModel(controller2));
-      scene.add(controller1);
-      scene.add(controller2);
-
-      // Start the rendering loop
-      const animate = () => {
-        renderer.setAnimationLoop(() => {
-          renderer.render(scene, camera);
-        });
-      };
-
-      animate();
-
-      // Handle resizing
-      window.addEventListener('resize', onWindowResize);
+        renderer.render(scene, camera);
+      });
     };
 
-    const onWindowResize = () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    };
+    animate();
 
-    initWebXR();
-
+    // Clean up when component unmounts
     return () => {
-      // Clean up the scene, renderer, and event listeners
-      if (containerRef.current) {
-        containerRef.current.removeChild(renderer.domElement);
+      if (rendererRef.current) {
+        rendererRef.current.dispose();
+        document.body.removeChild(rendererRef.current.domElement);
       }
-      window.removeEventListener('resize', onWindowResize);
     };
   }, [modelSrc]);
 
-  return <div ref={containerRef} className="w-full h-full" />;
+  // Handle window resize to adjust aspect ratio
+  useEffect(() => {
+    const handleResize = () => {
+      if (cameraRef.current && rendererRef.current) {
+        cameraRef.current.aspect = window.innerWidth / window.innerHeight;
+        cameraRef.current.updateProjectionMatrix();
+        rendererRef.current.setSize(window.innerWidth, window.innerHeight);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  return null; // WebXR content is rendered via Three.js; no need to return JSX
 };
 
 export default WebXRScene;
+
