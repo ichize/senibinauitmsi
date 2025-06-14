@@ -31,6 +31,12 @@ export const RoomProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     // Ground Floor Studios
     { id: 'studio-1a', currentName: 'Studio 1A', description: 'Max Pax= 28. Projector', floor: 'Ground Floor', position: [25, 4, -12] },
     { id: 'studio-1b', currentName: 'Studio 1B', description: 'Max Pax= 28. Projector', floor: 'Ground Floor', position: [-25, 4, -12] },
+    { id: 'studio-08b', currentName: 'Studio 08B', description: 'Max Pax= 30. Fixed Workstation, 3 AC, Projector', floor: 'Ground Floor', position: [27, 2, 3] },
+    { id: 'studio-master-01', currentName: 'Studio Master 01', description: 'Max Pax= 25. 24 hours operational Studio, Fixed Workstation, Projector', floor: 'Ground Floor', position: [-4, 2, -3] },
+    { id: 'studio-master-03', currentName: 'Studio Master 03', description: 'Max Pax= 25. 24 hours operational Studio, Fixed Workstation, Projector', floor: 'Ground Floor', position: [9, 2, -3] },
+    { id: 'studio-08a', currentName: 'Studio 08A', description: 'Max Pax= 30. Fixed Workstation, 3 AC, Projector', floor: 'Ground Floor', position: [-22, 2, -3] },
+    { id: 'studio-master-04', currentName: 'Studio Master 04', description: 'Max Pax= 25. 24 hours operational Studio, Fixed Workstation, Projector', floor: 'Ground Floor', position: [-2, 2, 20] },
+    { id: 'studio-master-02', currentName: 'Studio Master 02', description: 'Max Pax= 25. 24 hours operational Studio, Fixed Workstation, Projector', floor: 'Ground Floor', position: [13, 2, 20] },
     
     // First Floor Studios
     { id: 'studio-01a', currentName: 'Studio 01A', description: 'Max Pax =30, 2 AC split unit, Projector', floor: 'First Floor', position: [24, 6, 2] },
