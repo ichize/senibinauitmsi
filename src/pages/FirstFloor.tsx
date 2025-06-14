@@ -1,3 +1,4 @@
+
 import React from 'react';
 import Layout from '@/components/Layout';
 import ModelViewer from '@/components/ModelViewer';
@@ -5,11 +6,16 @@ import HoverDetails from '@/components/HoverDetails';
 import { useRoomContext } from '@/contexts/RoomContext';
 
 const FirstFloor = () => {
-  const { namedRooms } = useRoomContext();
+  const { studios, namedRooms } = useRoomContext();
   
   const getRoomName = (id: string) => {
     const room = namedRooms.find(r => r.id === id);
     return room ? room.currentName : '';
+  };
+
+  const getStudioName = (id: string) => {
+    const studio = studios.find(s => s.id === id);
+    return studio ? studio.currentName : '';
   };
 
   return (
@@ -30,31 +36,31 @@ const FirstFloor = () => {
           <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-8 animate-scale-up">
             <ModelViewer modelSrc="Annex11F.gltf">
               <HoverDetails
-                title="Studio 01A"
+                title={getStudioName('studio-01a')}
                 description="Max Pax =30, 2 AC split unit, Projector"
                 position="right"
-                  modelPosition={[24, 6, 2]} 
+                modelPosition={[24, 6, 2]} 
               />
               <HoverDetails
-                title="Studio 03A extended"
+                title={getStudioName('studio-03a-extended')}
                 description="Max Pax =30, 2 AC split unit, Non projector"
                 position="right"
                 modelPosition={[24, 6, -10]} 
               />
               <HoverDetails
-                title="Studio 03A"
+                title={getStudioName('studio-03a')}
                 description="Max Pax =30, 2 AC split unit, Projector"
                 position="right"
                 modelPosition={[24, 6, -20]} 
               />
               <HoverDetails
-                title="Bilik Krit TEC"
+                title={getRoomName('crit-tec')}
                 description="Use for Crtique Sessions, Wrap up, Lectures, Projector, AP1 132"
                 position="bottom"
                 modelPosition={[11, 6, 15]} 
               />
               <HoverDetails
-                title="Studio 07A"
+                title={getStudioName('studio-07a')}
                 description="Max Pax =30, Fixed Work Station 3 AC split unit, Projector."
                 position="right"
                 modelPosition={[-12, 6, 15]} 
