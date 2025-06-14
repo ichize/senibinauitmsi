@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { cn } from '@/lib/utils';
 
@@ -68,7 +69,7 @@ const HoverDetails: React.FC<HoverDetailsProps> = ({
             animationFillMode: 'forwards',
             minWidth: '170px',
             maxWidth: '250px',
-            zIndex: 100,
+            zIndex: 1000,
           }}
         >
           {/* Display the image, title, surname, and description in one column */}
