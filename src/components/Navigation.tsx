@@ -14,6 +14,7 @@ const Navigation: React.FC = () => {
     { name: '2nd Floor', path: '/second-floor' },
     { name: '3rd Floor', path: '/third-floor' },
     { name: '4th Floor', path: '/fourth-floor' },
+    { name: 'Admin', path: '/admin' },
   ];
   
   return (
