@@ -1,7 +1,10 @@
+
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LECTURERS } from './lecturers-data';
 import LecturerCard from './LecturerCard';
+import { Button } from '@/components/ui/button';
+import { ArrowLeft } from 'lucide-react';
 
 const Lecturers: React.FC = () => {
   const navigate = useNavigate();
@@ -13,6 +16,18 @@ const Lecturers: React.FC = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-3xl mx-auto">
+        {/* Back button */}
+        <div className="mb-4">
+          <Button
+            onClick={() => navigate(-1)}
+            variant="ghost"
+            className="flex items-center gap-2"
+            aria-label="Go back"
+          >
+            <ArrowLeft className="mr-1" />
+            Back
+          </Button>
+        </div>
         <div className="mb-8">
           <h1 className="text-3xl md:text-4xl font-light mb-2">Lecturers Room Directory</h1>
           <p className="text-lg text-muted-foreground">
@@ -40,3 +55,4 @@ const Lecturers: React.FC = () => {
 };
 
 export default Lecturers;
+
