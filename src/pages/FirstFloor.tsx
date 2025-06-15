@@ -1,4 +1,3 @@
-
 import React, { useRef, useEffect } from 'react';
 import Layout from '@/components/Layout';
 import ModelViewer from '@/components/ModelViewer';
@@ -9,16 +8,15 @@ import { useSearchParams } from "react-router-dom";
 
 // Room ID to position mapping for First Floor
 const roomIdToPosition: Record<string, [number, number, number]> = {
+  "ap1-113": [-10, 6, -15],     // En MOHD ZIKRI
+  "ap1-118": [10, 6, -15],      // Pn FARAH HANNA
+  "ap1-117": [6, 6, -16],       // Cik NOOR AINSYAH
   "studio-01a": [24, 6, 2],
   "studio-03a-extended": [24, 6, -10],
   "studio-03a": [24, 6, -20],
   "crit-tec": [11, 6, 15],
   "studio-07a": [-12, 6, 15],
-  "crit-small": [-23, 6, 0],
-  "zikri": [-10, 6, -15],
-  "farah": [10, 6, -15],
-  "ainsyah": [6, 6, -16],
-  // Add more if needed (lecturers etc.)
+  "crit-small": [-23, 6, 0]
 };
 
 const FirstFloor = () => {

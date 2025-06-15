@@ -81,7 +81,7 @@ const FirstFloorHotspots: React.FC<FirstFloorHotspotsProps> = ({ roomIdToPositio
         autoOpen={targetRoomId === "crit-small"}
       />
       {/* Dynamic Lecturer Details */}
-      {["zikri", "farah", "ainsyah"].map((id) => {
+      {["ap1-113", "ap1-118", "ap1-117"].map((id) => {
         const lect = getLecturerByRoomId(id);
         if (!lect) return null;
         return (

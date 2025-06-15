@@ -1,4 +1,3 @@
-
 import React from 'react';
 import HoverDetails from '@/components/HoverDetails';
 import { useRoomContext } from '@/contexts/RoomContext';
@@ -103,7 +102,7 @@ const GroundFloorHotspots: React.FC<GroundFloorHotspotsProps> = ({ roomIdToPosit
         autoOpen={targetRoomId === "classroom-002"}
        />
       {/* Lecturer Hotspots using dynamic data */}
-      {["nasurudin", "azhan", "faisol", "wan"].map((id) => {
+      {["ap1-019", "ap1-004", "ap1-017", "ap1-023"].map((id) => {
         const lect = getLecturerByRoomId(id);
         if (!lect) return null;
         return (
