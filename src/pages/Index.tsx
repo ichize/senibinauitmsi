@@ -19,6 +19,22 @@ const Index = () => {
             </p>
           </div>
 
+          {/* Restore 3D Overview section */}
+          <div className="mb-12">
+            <h2 className="text-2xl font-medium mb-3">Overview 3D</h2>
+            <div className="bg-white rounded-lg shadow p-6 flex flex-col items-center space-y-2">
+              <img
+                src="/og-image.png"
+                alt="3D Overview"
+                className="w-full max-w-lg rounded-md mb-2"
+              />
+              <span className="text-gray-500 text-xs text-center">
+                Bird's-eye 3D perspective of the Architecture Department
+              </span>
+            </div>
+          </div>
+          {/* End 3D Overview section */}
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <div className="bg-white rounded-lg p-6 shadow animate-slide-in-from-left">
               <h3 className="text-lg font-medium mb-2">Ground Floor</h3>
@@ -104,10 +120,10 @@ const Index = () => {
       </div>
 
       <div className="flex flex-col items-center gap-4 my-8">
-        {/* ... maybe some other home content ... */}
+        {/* "The Lecturers" button updated */}
         <Button asChild variant="secondary" size="lg">
           <Link to="/lecturers">
-            View Lecturers Directory
+            The Lecturers
           </Link>
         </Button>
       </div>
