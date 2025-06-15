@@ -10,6 +10,8 @@ import { ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useRoomContext } from '@/contexts/RoomContext';
 import LecturerAdminPanel from "./LecturerAdminPanel";
+import StudioAdminPanel from "./StudioAdminPanel";
+import NamedRoomAdminPanel from "./NamedRoomAdminPanel";
 
 const Admin = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -161,127 +163,11 @@ const Admin = () => {
             </TabsList>
             
             <TabsContent value="studios" className="space-y-4">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Studio Management</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid gap-4">
-                    {studios.map((studio) => (
-                      <div key={studio.id} className="flex items-center justify-between p-4 border rounded-lg">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-4">
-                            {editingStudio === studio.id ? (
-                              <div className="flex items-center gap-2 flex-1">
-                                <Label htmlFor={`studio-${studio.id}`} className="sr-only">
-                                  Studio Name
-                                </Label>
-                                <Input
-                                  id={`studio-${studio.id}`}
-                                  value={newStudioName}
-                                  onChange={(e) => setNewStudioName(e.target.value)}
-                                  className="flex-1"
-                                  placeholder="Enter new studio name"
-                                />
-                                <Button 
-                                  onClick={() => handleStudioRename(studio.id)}
-                                  size="sm"
-                                >
-                                  Save
-                                </Button>
-                                <Button 
-                                  onClick={cancelEdit}
-                                  variant="outline"
-                                  size="sm"
-                                >
-                                  Cancel
-                                </Button>
-                              </div>
-                            ) : (
-                              <>
-                                <div className="flex-1">
-                                  <h3 className="font-medium">{studio.currentName}</h3>
-                                  <p className="text-sm text-gray-600">{studio.description}</p>
-                                  <p className="text-xs text-gray-500">{studio.floor}</p>
-                                </div>
-                                <Button 
-                                  onClick={() => startEditingStudio(studio)}
-                                  variant="outline"
-                                  size="sm"
-                                >
-                                  Rename
-                                </Button>
-                              </>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
+              <StudioAdminPanel />
             </TabsContent>
 
             <TabsContent value="named-rooms" className="space-y-4">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Named Rooms Management</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid gap-4">
-                    {namedRooms.map((room) => (
-                      <div key={room.id} className="flex items-center justify-between p-4 border rounded-lg">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-4">
-                            {editingRoom === room.id ? (
-                              <div className="flex items-center gap-2 flex-1">
-                                <Label htmlFor={`room-${room.id}`} className="sr-only">
-                                  Room Name
-                                </Label>
-                                <Input
-                                  id={`room-${room.id}`}
-                                  value={newRoomName}
-                                  onChange={(e) => setNewRoomName(e.target.value)}
-                                  className="flex-1"
-                                  placeholder="Enter new room name"
-                                />
-                                <Button 
-                                  onClick={() => handleRoomRename(room.id)}
-                                  size="sm"
-                                >
-                                  Save
-                                </Button>
-                                <Button 
-                                  onClick={cancelEdit}
-                                  variant="outline"
-                                  size="sm"
-                                >
-                                  Cancel
-                                </Button>
-                              </div>
-                            ) : (
-                              <>
-                                <div className="flex-1">
-                                  <h3 className="font-medium">{room.currentName}</h3>
-                                  <p className="text-sm text-gray-600">{room.description}</p>
-                                  <p className="text-xs text-gray-500">{room.floor}</p>
-                                </div>
-                                <Button 
-                                  onClick={() => startEditingRoom(room)}
-                                  variant="outline"
-                                  size="sm"
-                                >
-                                  Rename
-                                </Button>
-                              </>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
+              <NamedRoomAdminPanel />
             </TabsContent>
             <TabsContent value="lecturers" className="space-y-4">
               <LecturerAdminPanel />
