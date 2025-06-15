@@ -4,10 +4,30 @@ import Layout from '@/components/Layout';
 import ModelViewer from '@/components/ModelViewer';
 import HoverDetails from '@/components/HoverDetails';
 import { useRoomContext } from '@/contexts/RoomContext';
+import { useSearchParams } from "react-router-dom";
+
+// Room ID to position mapping for First Floor
+const roomIdToPosition: Record<string, [number, number, number]> = {
+  "studio-01a": [24, 6, 2],
+  "studio-03a-extended": [24, 6, -10],
+  "studio-03a": [24, 6, -20],
+  "crit-tec": [11, 6, 15],
+  "studio-07a": [-12, 6, 15],
+  "crit-small": [-23, 6, 0],
+  "zikri": [-10, 6, -15],
+  "farah": [10, 6, -15],
+  "ainsyah": [6, 6, -16],
+  // Add more if needed (lecturers etc.)
+};
+
+const getPersonId = (name: string) => name?.toLowerCase().replace(/\s|[^\w]/g, '');
 
 const FirstFloor = () => {
   const { studios, namedRooms } = useRoomContext();
-  
+  const [params] = useSearchParams();
+  const targetRoomId = params.get("room")?.toLowerCase() ?? undefined;
+  const targetRoomPosition = targetRoomId && roomIdToPosition[targetRoomId] ? roomIdToPosition[targetRoomId] : undefined;
+
   const getRoomName = (id: string) => {
     const room = namedRooms.find(r => r.id === id);
     return room ? room.currentName : '';
@@ -34,50 +54,71 @@ const FirstFloor = () => {
           </div>
           
           <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-8 animate-scale-up">
-            <ModelViewer modelSrc="Annex11F.gltf">
+            <ModelViewer modelSrc="Annex11F.gltf" targetRoomPosition={targetRoomPosition}>
               <HoverDetails
                 title={getStudioName('studio-01a')}
+                roomId="studio-01a"
                 description="Max Pax =30, 2 AC split unit, Projector"
                 position="right"
-                modelPosition={[24, 6, 2]} 
+                modelPosition={[24, 6, 2]}
+                isHighlighted={targetRoomId === "studio-01a"}
+                autoOpen={targetRoomId === "studio-01a"}
               />
               <HoverDetails
                 title={getStudioName('studio-03a-extended')}
+                roomId="studio-03a-extended"
                 description="Max Pax =30, 2 AC split unit, Non projector"
                 position="right"
-                modelPosition={[24, 6, -10]} 
+                modelPosition={[24, 6, -10]}
+                isHighlighted={targetRoomId === "studio-03a-extended"}
+                autoOpen={targetRoomId === "studio-03a-extended"}
               />
               <HoverDetails
                 title={getStudioName('studio-03a')}
+                roomId="studio-03a"
                 description="Max Pax =30, 2 AC split unit, Projector"
                 position="right"
-                modelPosition={[24, 6, -20]} 
+                modelPosition={[24, 6, -20]}
+                isHighlighted={targetRoomId === "studio-03a"}
+                autoOpen={targetRoomId === "studio-03a"}
               />
               <HoverDetails
                 title={getRoomName('crit-tec')}
+                roomId="crit-tec"
                 description="Use for Crtique Sessions, Wrap up, Lectures, Projector, AP1 132"
                 position="bottom"
-                modelPosition={[11, 6, 15]} 
+                modelPosition={[11, 6, 15]}
+                isHighlighted={targetRoomId === "crit-tec"}
+                autoOpen={targetRoomId === "crit-tec"}
               />
               <HoverDetails
                 title={getStudioName('studio-07a')}
+                roomId="studio-07a"
                 description="Max Pax =30, Fixed Work Station 3 AC split unit, Projector."
                 position="right"
-                modelPosition={[-12, 6, 15]} 
+                modelPosition={[-12, 6, 15]}
+                isHighlighted={targetRoomId === "studio-07a"}
+                autoOpen={targetRoomId === "studio-07a"}
               />
               <HoverDetails
                 title={getRoomName('crit-small')}
+                roomId="crit-small"
                 description="Use for Crtique Sessions, Wrap up, Lectures, Projector, AP1 104"
                 position="bottom"
-                modelPosition={[-23, 6, 0]} 
+                modelPosition={[-23, 6, 0]}
+                isHighlighted={targetRoomId === "crit-small"}
+                autoOpen={targetRoomId === "crit-small"}
               />
               <HoverDetails
                 title="En MOHD ZIKRI"
                 surname="MOHD ZAKI"
                 description="Lecturer"
                 position="right"
-                modelPosition={[-10, 6, -15]} 
+                modelPosition={[-10, 6, -15]}
                 imageSrc="Zikri.jpg"
+                roomId="zikri"
+                isHighlighted={targetRoomId === "zikri"}
+                autoOpen={targetRoomId === "zikri"}
               />
               <HoverDetails
                 title="Pn FARAH HANNA"
@@ -86,6 +127,9 @@ const FirstFloor = () => {
                 position="right"
                 modelPosition={[10, 6, -15]}
                 imageSrc="Farah.jpg"
+                roomId="farah"
+                isHighlighted={targetRoomId === "farah"}
+                autoOpen={targetRoomId === "farah"}
               />
               <HoverDetails
                 title="Cik NOOR AINSYAH"
@@ -94,6 +138,9 @@ const FirstFloor = () => {
                 position="right"
                 modelPosition={[6, 6, -16]}
                 imageSrc="Ainsyah.jpg"
+                roomId="ainsyah"
+                isHighlighted={targetRoomId === "ainsyah"}
+                autoOpen={targetRoomId === "ainsyah"}
               />
             </ModelViewer>
           </div>
@@ -160,3 +207,4 @@ const FirstFloor = () => {
 };
 
 export default FirstFloor;
+

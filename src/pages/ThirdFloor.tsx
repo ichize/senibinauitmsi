@@ -1,12 +1,29 @@
+
 import React from 'react';
 import Layout from '@/components/Layout';
 import ModelViewer from '@/components/ModelViewer';
 import HoverDetails from '@/components/HoverDetails';
 import { useRoomContext } from '@/contexts/RoomContext';
+import { useSearchParams } from "react-router-dom";
+
+// RoomId to position mapping for Third Floor
+const roomIdToPosition: Record<string, [number, number, number]> = {
+  "classroom-0303": [24, 12, 2],
+  "studio-3a": [-8, 12, 13],
+  "studio-3b": [11, 12, 13],
+  "floating-studio-05": [-15, 12, -10],
+  "classroom-0313": [-24, 12, 2],
+  "studio-05b": [-24, 12, -10],
+  "studio-04b": [24, 12, -10],
+  "floating-studio-04": [13, 12, -10],
+};
 
 const ThirdFloor = () => {
   const { studios } = useRoomContext();
-  
+  const [params] = useSearchParams();
+  const targetRoomId = params.get("room")?.toLowerCase() ?? undefined;
+  const targetRoomPosition = targetRoomId && roomIdToPosition[targetRoomId] ? roomIdToPosition[targetRoomId] : undefined;
+
   const getStudioName = (id: string) => {
     const studio = studios.find(s => s.id === id);
     return studio ? studio.currentName : '';
@@ -28,54 +45,78 @@ const ThirdFloor = () => {
           </div>
           
           <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-8 animate-scale-up">
-            <ModelViewer modelSrc="Annex13F.gltf">
+            <ModelViewer modelSrc="Annex13F.gltf" targetRoomPosition={targetRoomPosition}>
               <HoverDetails
                 title="Classroom"
+                roomId="classroom-0303"
                 description="Max pax= 40, AC split unit, AP1 0303"
                 position="right"
                 modelPosition={[24, 12, 2]}
+                isHighlighted={targetRoomId === "classroom-0303"}
+                autoOpen={targetRoomId === "classroom-0303"}
               />
               <HoverDetails
                 title={getStudioName('studio-3a')}
+                roomId="studio-3a"
                 description="Fixed Work Station 3 AC split unit, Projector"
                 position="top"
                 modelPosition={[-8, 12, 13]}
+                isHighlighted={targetRoomId === "studio-3a"}
+                autoOpen={targetRoomId === "studio-3a"}
               />
               <HoverDetails
                 title={getStudioName('studio-3b')}
+                roomId="studio-3b"
                 description="Fixed Work Station 3 AC split unit, Projector"
                 position="top"
                 modelPosition={[11, 12, 13]}
+                isHighlighted={targetRoomId === "studio-3b"}
+                autoOpen={targetRoomId === "studio-3b"}
               />
               <HoverDetails
                 title="Floating Studio 05"
+                roomId="floating-studio-05"
                 description="Open Layout, 2 AC Split Unit"
                 position="right"
                 modelPosition={[-15, 12, -10]}
+                isHighlighted={targetRoomId === "floating-studio-05"}
+                autoOpen={targetRoomId === "floating-studio-05"}
               />
               <HoverDetails
                 title="Classroom"
+                roomId="classroom-0313"
                 description="Max pax= 40, AC split unit, AP1 0313"
                 position="left"
                 modelPosition={[-24, 12, 2]}
+                isHighlighted={targetRoomId === "classroom-0313"}
+                autoOpen={targetRoomId === "classroom-0313"}
               />
               <HoverDetails
                 title="Studio 05B"
+                roomId="studio-05b"
                 description="Max Pax= 25, Fixed Work Station 3 AC split unit, Projector"
                 position="bottom"
-                modelPosition={[-24, 12, -10]} 
+                modelPosition={[-24, 12, -10]}
+                isHighlighted={targetRoomId === "studio-05b"}
+                autoOpen={targetRoomId === "studio-05b"}
               />
               <HoverDetails
                 title="Studio 04B"
+                roomId="studio-04b"
                 description="Max Pax =30, Fixed Work Station 3 AC split unit, Projector"
                 position="right"
-                modelPosition={[24, 12, -10]} 
+                modelPosition={[24, 12, -10]}
+                isHighlighted={targetRoomId === "studio-04b"}
+                autoOpen={targetRoomId === "studio-04b"}
               />
                <HoverDetails
                 title="Floating Studio 04"
+                roomId="floating-studio-04"
                 description="Open Layout, 2 AC Split Unit"
                 position="right"
-                modelPosition={[13, 12, -10]} 
+                modelPosition={[13, 12, -10]}
+                isHighlighted={targetRoomId === "floating-studio-04"}
+                autoOpen={targetRoomId === "floating-studio-04"}
               />
             </ModelViewer>
           </div>

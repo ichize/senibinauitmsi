@@ -1,12 +1,38 @@
+
 import React from 'react';
 import Layout from '@/components/Layout';
 import ModelViewer from '@/components/ModelViewer';
 import HoverDetails from '@/components/HoverDetails';
 import { useRoomContext } from '@/contexts/RoomContext';
+import { useSearchParams } from "react-router-dom";
+
+// RoomId to position mapping for Fourth Floor
+const roomIdToPosition: Record<string, [number, number, number]> = {
+  "studio-4c": [25, 16, -12],
+  "surau-l": [20, 16, 15],
+  "surau-p": [-20, 16, 15],
+  "farid": [-17, 16, 15],
+  "mamoo": [-14, 16, 15],
+  "syathir": [-2, 16, 15],
+  "saha": [1, 16, 15],
+  "jamal": [7, 16, 15],
+  "aiman": [10, 16, 15],
+  "izzat": [13, 16, 15],
+  "unoccupied": [-17, 16, 10],
+  "ar": [-14, 16, 10],
+  "mizi": [-11, 16, 10],
+  "shahin": [-2, 16, 10],
+  "baa": [10, 16, 10],
+  "classroom-403": [-25, 16, 3],
+  "classroom-439": [25, 16, 3],
+};
 
 const FourthFloor = () => {
   const { studios, namedRooms } = useRoomContext();
-  
+  const [params] = useSearchParams();
+  const targetRoomId = params.get("room")?.toLowerCase() ?? undefined;
+  const targetRoomPosition = targetRoomId && roomIdToPosition[targetRoomId] ? roomIdToPosition[targetRoomId] : undefined;
+
   const getStudioName = (id: string) => {
     const studio = studios.find(s => s.id === id);
     return studio ? studio.currentName : '';
@@ -33,26 +59,34 @@ const FourthFloor = () => {
           </div>
           
           <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-8 animate-scale-up">
-            <ModelViewer modelSrc="Annex14F.gltf">
+            <ModelViewer modelSrc="Annex14F.gltf" targetRoomPosition={targetRoomPosition}>
               <HoverDetails
                 title={getStudioName('studio-4c')}
+                roomId="studio-4c"
                 description="Max Pax =28. Projector"
                 position="right"
-                modelPosition={[25, 16, -12]} 
+                modelPosition={[25, 16, -12]}
+                isHighlighted={targetRoomId === "studio-4c"}
+                autoOpen={targetRoomId === "studio-4c"}
               />
               <HoverDetails
                 title={getRoomName('surau-l')}
+                roomId="surau-l"
                 description="5 times Appoinment with Allah"
                 position="left"
-                modelPosition={[20, 16, 15]} 
+                modelPosition={[20, 16, 15]}
+                isHighlighted={targetRoomId === "surau-l"}
+                autoOpen={targetRoomId === "surau-l"}
               />
               <HoverDetails
                 title={getRoomName('surau-p')}
+                roomId="surau-p"
                 description="5 times Appoinment with Allah"
                 position="top"
-                modelPosition={[-20, 16, 15]} 
+                modelPosition={[-20, 16, 15]}
+                isHighlighted={targetRoomId === "surau-p"}
+                autoOpen={targetRoomId === "surau-p"}
               />
-              
               <HoverDetails
                 title="Dr FARID AL HAKEEM"
                 surname="YUSERRIE"
@@ -60,6 +94,9 @@ const FourthFloor = () => {
                 position="right"
                 modelPosition={[-17, 16, 15]}
                 imageSrc="Farid.jpg"
+                roomId="farid"
+                isHighlighted={targetRoomId === "farid"}
+                autoOpen={targetRoomId === "farid"}
               />
               <HoverDetails
                 title="En AHMAD FAIZ"
@@ -68,6 +105,9 @@ const FourthFloor = () => {
                 position="right"
                 modelPosition={[-14, 16, 15]}
                 imageSrc="Mamoo.jpg"
+                roomId="mamoo"
+                isHighlighted={targetRoomId === "mamoo"}
+                autoOpen={targetRoomId === "mamoo"}
               />
               <HoverDetails
                 title="En MOHAMMAD SYATHIR AMINI"
@@ -76,6 +116,9 @@ const FourthFloor = () => {
                 position="right"
                 modelPosition={[-2, 16, 15]}
                 imageSrc="Syathir.jpg"
+                roomId="syathir"
+                isHighlighted={targetRoomId === "syathir"}
+                autoOpen={targetRoomId === "syathir"}
               />
               <HoverDetails
                 title="En SALAHUDDIN ABDUL HAKEEM"
@@ -84,6 +127,9 @@ const FourthFloor = () => {
                 position="right"
                 modelPosition={[1, 16, 15]}
                 imageSrc="Saha.jpg"
+                roomId="saha"
+                isHighlighted={targetRoomId === "saha"}
+                autoOpen={targetRoomId === "saha"}
               />
               <HoverDetails
                 title="Ar. Dr JAMALUDIN"
@@ -92,14 +138,20 @@ const FourthFloor = () => {
                 position="right"
                 modelPosition={[7, 16, 15]}
                 imageSrc="Jamal.jpg"
+                roomId="jamal"
+                isHighlighted={targetRoomId === "jamal"}
+                autoOpen={targetRoomId === "jamal"}
               />
               <HoverDetails
                 title="Dr SAYED MUHAMMAD AIMAN"
                 surname="SAYED ABUL KHAIR"
                 description="Senior Lecturer"
                 position="right"
-                modelPosition={[10, 16, 15]} 
+                modelPosition={[10, 16, 15]}
                 imageSrc="Aiman.jpg"
+                roomId="aiman"
+                isHighlighted={targetRoomId === "aiman"}
+                autoOpen={targetRoomId === "aiman"}
               />
               <HoverDetails
                 title="Ts. IZZAT"
@@ -108,13 +160,19 @@ const FourthFloor = () => {
                 position="right"
                 modelPosition={[13, 16, 15]}
                 imageSrc="Izzat.jpg"
+                roomId="izzat"
+                isHighlighted={targetRoomId === "izzat"}
+                autoOpen={targetRoomId === "izzat"}
               />
               <HoverDetails
                 title="unoccupied"
                 surname="-"
                 description="-"
                 position="right"
-                modelPosition={[-17, 16, 10]} 
+                modelPosition={[-17, 16, 10]}
+                roomId="unoccupied"
+                isHighlighted={targetRoomId === "unoccupied"}
+                autoOpen={targetRoomId === "unoccupied"}
               />
               <HoverDetails
                 title="En ABDUL RAHMAN"
@@ -123,6 +181,9 @@ const FourthFloor = () => {
                 position="right"
                 modelPosition={[-14, 16, 10]}
                 imageSrc="AR.jpg"
+                roomId="ar"
+                isHighlighted={targetRoomId === "ar"}
+                autoOpen={targetRoomId === "ar"}
               />
               <HoverDetails
                 title="Ar. MUHAMMAD ASSYAHMIZI"
@@ -131,6 +192,9 @@ const FourthFloor = () => {
                 position="right"
                 modelPosition={[-11, 16, 10]}
                 imageSrc="Mizi.png"
+                roomId="mizi"
+                isHighlighted={targetRoomId === "mizi"}
+                autoOpen={targetRoomId === "mizi"}
               />
               <HoverDetails
                 title="En MOHAMAD SHAHIN"
@@ -139,26 +203,38 @@ const FourthFloor = () => {
                 position="right"
                 modelPosition={[-2, 16, 10]}
                 imageSrc="Shahin.jpg"
+                roomId="shahin"
+                isHighlighted={targetRoomId === "shahin"}
+                autoOpen={targetRoomId === "shahin"}
               />
               <HoverDetails
                 title="En MUHAMMAD FARIS"
                 surname="ARMAN"
                 description="Lecturer"
                 position="right"
-                modelPosition={[10, 16, 10]} 
+                modelPosition={[10, 16, 10]}
                 imageSrc="Baa.jpeg"
+                roomId="baa"
+                isHighlighted={targetRoomId === "baa"}
+                autoOpen={targetRoomId === "baa"}
               />
               <HoverDetails
                 title="Classroom"
                 description="Max Pax= 40. Projector, AP1 403"
                 position="right"
-                modelPosition={[-25, 16, 3]} 
+                modelPosition={[-25, 16, 3]}
+                roomId="classroom-403"
+                isHighlighted={targetRoomId === "classroom-403"}
+                autoOpen={targetRoomId === "classroom-403"}
               />
               <HoverDetails
                 title="Classroom"
                 description="Max Pax= 40. Projector, AP1 439"
                 position="right"
-                modelPosition={[25, 16, 3]} 
+                modelPosition={[25, 16, 3]}
+                roomId="classroom-439"
+                isHighlighted={targetRoomId === "classroom-439"}
+                autoOpen={targetRoomId === "classroom-439"}
               />
             </ModelViewer>
           </div>
