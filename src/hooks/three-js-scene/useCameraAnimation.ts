@@ -4,7 +4,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 /**
  * Animates the camera from an architectural front view to a target.
- * - Starts at (0, 15, 45) looking at (0, 0, 0)
+ * - Starts at (0, 15, -45) looking at (0, 0, 0)
  * - Animates both camera position and look target to room
  */
 export function focusCameraOnPosition(
@@ -18,8 +18,8 @@ export function focusCameraOnPosition(
 ) {
   if (!camera || !controls) return;
 
-  // --- Animation starting point (front architectural view) ---
-  const overviewStartPos = new THREE.Vector3(0, 15, 45);
+  // --- Animation starting point (architectural view FROM the actual front, which is negative Z) ---
+  const overviewStartPos = new THREE.Vector3(0, 15, -45); // Changed to -45 Z for actual front
   const overviewStartTarget = new THREE.Vector3(0, 0, 0);
 
   // --- Animation end: room target and camera relative to it ---
@@ -63,10 +63,11 @@ export function focusCameraOnPosition(
     }
   }
 
-  // Instantly place camera at "front architectural view" at start of animation.
+  // Instantly place camera at architectural front view at start of animation.
   camera.position.copy(overviewStartPos);
   controls.target.copy(overviewStartTarget);
   controls.update();
 
   requestAnimationFrame(animate);
 }
+
