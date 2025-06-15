@@ -257,11 +257,13 @@ export const useThreeJsScene = ({
     const newCameraPos = new THREE.Vector3().copy(lookTarget).add(direction.multiplyScalar(desiredDistance));
     newCameraPos.y += yOffset;
 
-    // Animate camera (simple lerp)
-    const duration = 850; // ms
-    const startPos = camera.position.clone();
+    // --- CHANGE: Use overview starting position (0,0,50) for animation start ---
+    const overviewStartPos = new THREE.Vector3(0, 0, 50);
     const startTarget = controls.target.clone();
     let start: number | null = null;
+
+    // Animate camera (simple lerp)
+    const duration = 850; // ms
 
     function animate(now: number) {
       if (start === null) start = now;
@@ -269,7 +271,7 @@ export const useThreeJsScene = ({
       const t = Math.min(1, elapsed / duration);
 
       // Interpolate position and controls target
-      camera.position.lerpVectors(startPos, newCameraPos, t);
+      camera.position.lerpVectors(overviewStartPos, newCameraPos, t);
       controls.target.lerpVectors(startTarget, lookTarget, t);
 
       controls.update();
