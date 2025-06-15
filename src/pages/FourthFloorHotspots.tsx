@@ -32,7 +32,7 @@ const FourthFloorHotspots: React.FC<FourthFloorHotspotsProps> = ({ roomIdToPosit
 
   // Lecturer office hotspots
   const lecturerRoomIds = [
-    "farid", "mamoo", "syathir", "saha", "jamal", "aiman", "izzat", "ar", "mizi", "shahin", "baa"
+    "farid", "mamoo", "syathir", "saha", "jamal", "aiman", "izzat", "ap1-413", "mizi", "shahin", "baa"
   ];
 
   return (
