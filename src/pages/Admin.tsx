@@ -9,6 +9,7 @@ import { toast } from 'sonner';
 import { ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useRoomContext } from '@/contexts/RoomContext';
+import LecturerAdminPanel from "./LecturerAdminPanel";
 
 const Admin = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -283,9 +284,7 @@ const Admin = () => {
               </Card>
             </TabsContent>
             <TabsContent value="lecturers" className="space-y-4">
-              <div className="p-10 text-center text-lg text-gray-500">
-                Lecturer management coming soon...
-              </div>
+              <LecturerAdminPanel />
             </TabsContent>
           </Tabs>
         </div>
