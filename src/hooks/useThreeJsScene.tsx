@@ -236,11 +236,57 @@ export const useThreeJsScene = ({
     };
   }, [modelSrc, retryCount]);
 
+  // Camera focus/animation for deep link
+  const focusCameraOnPosition = (target: [number, number, number]) => {
+    if (!cameraRef.current || !controlsRef.current) return;
+    const camera = cameraRef.current;
+    const controls = controlsRef.current;
+
+    // Target to look at
+    const lookTarget = new THREE.Vector3(...target);
+
+    // Calculate a position offset (back 38 units, up 10 units)
+    const direction = new THREE.Vector3().subVectors(camera.position, lookTarget).normalize();
+    // Distance can be tuned for desired FOV
+    const desiredDistance = 38;
+    const newCameraPos = new THREE.Vector3().copy(lookTarget).add(direction.multiplyScalar(desiredDistance));
+    newCameraPos.y += 10;
+
+    // Animate camera (simple lerp)
+    const duration = 850; // ms
+    const startPos = camera.position.clone();
+    const startTarget = controls.target.clone();
+    let start: number | null = null;
+
+    function animate(now: number) {
+      if (start === null) start = now;
+      const elapsed = now - start;
+      const t = Math.min(1, elapsed / duration);
+
+      // Interpolate position and controls target
+      camera.position.lerpVectors(startPos, newCameraPos, t);
+      controls.target.lerpVectors(startTarget, lookTarget, t);
+
+      controls.update();
+
+      if (t < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        // Snap to end
+        camera.position.copy(newCameraPos);
+        controls.target.copy(lookTarget);
+        controls.update();
+      }
+    }
+    requestAnimationFrame(animate);
+  };
+
   return {
     isLoading,
     error,
     refs,
     resizeRendererToDisplaySize,
-    retryLoadModel
+    retryLoadModel,
+    focusCameraOnPosition // NEW!
   };
 };

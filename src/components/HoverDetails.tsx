@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 
 interface HoverDetailsProps {
@@ -13,6 +13,9 @@ interface HoverDetailsProps {
   className?: string;
   modelPosition: [number, number, number];
   cardOffset?: { x: number; y: number };
+  roomId?: string; // NEW
+  isHighlighted?: boolean; // NEW
+  autoOpen?: boolean; // Optionally auto-open, e.g. when deep-linked
 }
 
 const HoverDetails: React.FC<HoverDetailsProps> = ({
@@ -26,8 +29,16 @@ const HoverDetails: React.FC<HoverDetailsProps> = ({
   className,
   modelPosition,
   cardOffset = { x: 0, y: 0 },
+  roomId,
+  isHighlighted = false,
+  autoOpen = false,
 }) => {
-  const [isHovered, setIsHovered] = useState(false);
+  const [isHovered, setIsHovered] = useState<boolean>(!!autoOpen);
+
+  // Auto-open for deep links on mount
+  useEffect(() => {
+    if (autoOpen) setIsHovered(true);
+  }, [autoOpen]);
 
   const getCardStyle = () => {
     switch (position) {
@@ -47,17 +58,20 @@ const HoverDetails: React.FC<HoverDetailsProps> = ({
   return (
     <div 
       className={cn(
-        "hotspot absolute w-6 h-6 rounded-full bg-primary/80 flex items-center justify-center cursor-pointer shadow-lg pointer-events-auto",
-        isHovered ? "z-10" : "z-20"
+        "hotspot absolute w-6 h-6 rounded-full flex items-center justify-center cursor-pointer shadow-lg pointer-events-auto outline-none",
+        isHighlighted 
+          ? "bg-yellow-400 animate-pulse ring-2 ring-yellow-400 z-30"
+          : "bg-primary/80 z-20"
       )}
+      tabIndex={0}
       style={{ transform: 'translate(-50%, -50%)' }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       data-position={modelPosition.join(',')}
+      data-room-id={roomId}
     >
-      <div className="w-2 h-2 bg-white rounded-full"></div>
-      
-      {/* Render the info card conditionally based on hover state */}
+      <div className={cn("w-2 h-2 bg-white rounded-full", isHighlighted && "bg-yellow-500")} />
+      {/* Info card */}
       {isHovered && (
         <div 
           className={cn(
@@ -72,7 +86,6 @@ const HoverDetails: React.FC<HoverDetailsProps> = ({
             zIndex: 1000,
           }}
         >
-          {/* Display the image, title, surname, and description in one column */}
           <div className="mb-2">
             {imageSrc && (
               <img 
@@ -84,7 +97,6 @@ const HoverDetails: React.FC<HoverDetailsProps> = ({
             <h4 className="text-base font-medium mb-0">{title}</h4>
             {surname && <p className="text-sm font-normal text-gray-600 mt-0">{surname}</p>}
           </div>
-          
           <p className="text-sm text-gray-600">{description}</p>
         </div>
       )}
