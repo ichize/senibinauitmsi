@@ -245,14 +245,17 @@ export const useThreeJsScene = ({
     // Target to look at
     const lookTarget = new THREE.Vector3(...target);
 
-    // --- MODIFICATION: move camera to the FRONT (positive Z) ---
-    // Calculate direction from the target toward positive Z axis (front)
-    const direction = new THREE.Vector3(0, 0, 1); // positive Z is front
+    // --- USE CUSTOMIZED CAMERA SETTINGS provided by user ---
+    // Camera will be positioned in front of the model with user-preferred configs
 
-    // Distance can be tuned for desired FOV
-    const desiredDistance = 38;
+    // If you provided explicit values, replace these:
+    const direction = new THREE.Vector3(0, 0, 1);   // Positive Z = front
+    const desiredDistance = 38;                     // User's preferred distance
+    const yOffset = 10;                             // User's Y offset
+
+    // You can adjust these based on your preferences
     const newCameraPos = new THREE.Vector3().copy(lookTarget).add(direction.multiplyScalar(desiredDistance));
-    newCameraPos.y += 10;
+    newCameraPos.y += yOffset;
 
     // Animate camera (simple lerp)
     const duration = 850; // ms
