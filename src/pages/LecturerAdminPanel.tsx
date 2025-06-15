@@ -12,7 +12,6 @@ const LecturerAdminPanel: React.FC = () => {
   const [editId, setEditId] = useState<string | null>(null);
   const [form, setForm] = useState<Partial<(typeof lecturers)[0]>>({});
 
-  // For future: Room/floor dropdown could be dynamic
   const startEdit = (lect) => {
     setEditId(lect.id);
     setForm({ ...lect });
@@ -30,7 +29,7 @@ const LecturerAdminPanel: React.FC = () => {
         role: form.role ?? "",
         photo: form.photo ?? "",
         floor: form.floor ?? "",
-        roomId: form.roomId ?? "",
+        // roomId intentionally removed from updates for safety
       });
       toast.success("Lecturer info updated!");
       setEditId(null);
@@ -97,16 +96,6 @@ const LecturerAdminPanel: React.FC = () => {
                     />
                   </div>
                   <div className="flex-1 min-w-[140px]">
-                    <Label htmlFor={`roomId-${lect.id}`}>Room ID</Label>
-                    <Input
-                      id={`roomId-${lect.id}`}
-                      name="roomId"
-                      value={form.roomId ?? ""}
-                      onChange={handleChange}
-                      className="mb-1"
-                    />
-                  </div>
-                  <div className="flex-1 min-w-[140px]">
                     <Label htmlFor={`photo-${lect.id}`}>Photo (filename)</Label>
                     <Input
                       id={`photo-${lect.id}`}
@@ -116,10 +105,24 @@ const LecturerAdminPanel: React.FC = () => {
                       className="mb-1"
                     />
                   </div>
+                  <div className="flex-1 min-w-[140px]">
+                    <Label htmlFor={`roomId-${lect.id}`}>Room ID <span className="text-xs text-gray-400">(fixed)</span></Label>
+                    <Input
+                      id={`roomId-${lect.id}`}
+                      name="roomId"
+                      value={lect.roomId}
+                      readOnly
+                      tabIndex={-1}
+                      className="bg-gray-100 text-gray-500 cursor-not-allowed border-dashed border-2 border-gray-300 opacity-80"
+                    />
+                  </div>
                 </div>
                 <div className="flex gap-2 mt-3">
                   <Button onClick={handleSave} size="sm">Save</Button>
                   <Button variant="outline" onClick={handleCancel} size="sm">Cancel</Button>
+                </div>
+                <div className="text-xs text-gray-400 mt-2 italic">
+                  Note: <b>Room ID</b> is fixed, used to connect lecturers to their floor hotspot, and cannot be changed.
                 </div>
               </div>
             ) : (
@@ -148,4 +151,3 @@ const LecturerAdminPanel: React.FC = () => {
 };
 
 export default LecturerAdminPanel;
-
