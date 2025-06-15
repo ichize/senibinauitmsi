@@ -1,4 +1,3 @@
-
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from '@/components/ui/sonner';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -12,6 +11,7 @@ import Admin from '@/pages/Admin';
 import NotFound from '@/pages/NotFound';
 import { RoomProvider } from '@/contexts/RoomContext';
 import './App.css';
+import Lecturers from '@/pages/Lecturers';
 
 const queryClient = new QueryClient();
 
@@ -27,6 +27,7 @@ function App() {
             <Route path="/second-floor" element={<SecondFloor />} />
             <Route path="/third-floor" element={<ThirdFloor />} />
             <Route path="/fourth-floor" element={<FourthFloor />} />
+            <Route path="/lecturers" element={<Lecturers />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
