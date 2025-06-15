@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -152,6 +151,96 @@ const LECTURERS = [
     floor: 'second-floor',
     roomId: 'iryani'
   },
+  // --------- Fourth Floor Lecturers (NEW) -----------
+  {
+    displayName: 'Dr FARID AL HAKEEM',
+    surname: 'YUSERRIE',
+    role: 'Senior Lecturer',
+    photo: 'Farid.jpg',
+    floor: 'fourth-floor',
+    roomId: 'farid'
+  },
+  {
+    displayName: 'En AHMAD FAIZ',
+    surname: 'MOHD NAZAMUDIN',
+    role: 'Lecturer',
+    photo: 'Mamoo.jpg',
+    floor: 'fourth-floor',
+    roomId: 'mamoo'
+  },
+  {
+    displayName: 'En MOHAMMAD SYATHIR AMINI',
+    surname: 'SHAHBUDIN',
+    role: 'Lecturer',
+    photo: 'Syathir.jpg',
+    floor: 'fourth-floor',
+    roomId: 'syathir'
+  },
+  {
+    displayName: 'En SALAHUDDIN ABDUL HAKEEM',
+    surname: 'ABAS',
+    role: 'Lecturer',
+    photo: 'Saha.jpg',
+    floor: 'fourth-floor',
+    roomId: 'saha'
+  },
+  {
+    displayName: 'Ar. Dr JAMALUDIN',
+    surname: 'MUHAMAD',
+    role: 'Senior Lecturer',
+    photo: 'Jamal.jpg',
+    floor: 'fourth-floor',
+    roomId: 'jamal'
+  },
+  {
+    displayName: 'Dr SAYED MUHAMMAD AIMAN',
+    surname: 'SAYED ABUL KHAIR',
+    role: 'Senior Lecturer',
+    photo: 'Aiman.jpg',
+    floor: 'fourth-floor',
+    roomId: 'aiman'
+  },
+  {
+    displayName: 'Ts. IZZAT',
+    surname: 'ANUAR',
+    role: 'Lecturer',
+    photo: 'Izzat.jpg',
+    floor: 'fourth-floor',
+    roomId: 'izzat'
+  },
+  // "unoccupied" is not an actual lecturer and not added
+  {
+    displayName: 'En ABDUL RAHMAN',
+    surname: 'KHAMARUZAMAN',
+    role: 'Lecturer',
+    photo: 'AR.jpg',
+    floor: 'fourth-floor',
+    roomId: 'ar'
+  },
+  {
+    displayName: 'Ar. MUHAMMAD ASSYAHMIZI',
+    surname: 'MOHD YUNUS',
+    role: 'Senior Lecturer',
+    photo: 'Mizi.png',
+    floor: 'fourth-floor',
+    roomId: 'mizi'
+  },
+  {
+    displayName: 'En MOHAMAD SHAHIN',
+    surname: 'SHAHDAN',
+    role: 'Lecturer',
+    photo: 'Shahin.jpg',
+    floor: 'fourth-floor',
+    roomId: 'shahin'
+  },
+  {
+    displayName: 'En MUHAMMAD FARIS',
+    surname: 'ARMAN',
+    role: 'Lecturer',
+    photo: 'Baa.jpeg',
+    floor: 'fourth-floor',
+    roomId: 'baa'
+  },
 ].sort((a, b) => a.displayName.localeCompare(b.displayName));
 
 const Lecturers: React.FC = () => {
@@ -204,4 +293,3 @@ const Lecturers: React.FC = () => {
 };
 
 export default Lecturers;
-
