@@ -245,8 +245,10 @@ export const useThreeJsScene = ({
     // Target to look at
     const lookTarget = new THREE.Vector3(...target);
 
-    // Calculate a position offset (back 38 units, up 10 units)
-    const direction = new THREE.Vector3().subVectors(camera.position, lookTarget).normalize();
+    // --- MODIFICATION: move camera to the FRONT (positive Z) ---
+    // Calculate direction from the target toward positive Z axis (front)
+    const direction = new THREE.Vector3(0, 0, 1); // positive Z is front
+
     // Distance can be tuned for desired FOV
     const desiredDistance = 38;
     const newCameraPos = new THREE.Vector3().copy(lookTarget).add(direction.multiplyScalar(desiredDistance));
