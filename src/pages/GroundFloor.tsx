@@ -18,7 +18,9 @@ const roomIdToPosition: Record<string, [number, number, number]> = {
 const GroundFloor = () => {
   const [params] = useSearchParams();
   const targetRoomId = params.get("room")?.toLowerCase() ?? undefined;
-  const targetRoomPosition = targetRoomId && roomIdToPosition[targetRoomId] ? roomIdToPosition[targetRoomPosition] : undefined;
+  // FIX: Use targetRoomId (not targetRoomPosition) for lookup
+  const targetRoomPosition =
+    targetRoomId && roomIdToPosition[targetRoomId] ? roomIdToPosition[targetRoomId] : undefined;
 
   // --- ModelViewer auto-scroll-to-view logic ---
   const modelViewerRef = useRef<HTMLDivElement>(null);

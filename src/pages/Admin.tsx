@@ -14,7 +14,7 @@ const Admin = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-  const { studios, namedRooms, updateStudioName, updateRoomName } = useRoomContext();
+  const { studios, namedRooms, updateStudioName, updateRoomName, lecturers, updateLecturer } = useRoomContext();
 
   // Check localStorage for existing auth state on component mount
   useEffect(() => {
@@ -153,9 +153,10 @@ const Admin = () => {
           </div>
 
           <Tabs defaultValue="studios" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
+            <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="studios">Studios</TabsTrigger>
               <TabsTrigger value="named-rooms">Named Rooms</TabsTrigger>
+              <TabsTrigger value="lecturers">Lecturers</TabsTrigger>
             </TabsList>
             
             <TabsContent value="studios" className="space-y-4">
@@ -280,6 +281,11 @@ const Admin = () => {
                   </div>
                 </CardContent>
               </Card>
+            </TabsContent>
+            <TabsContent value="lecturers" className="space-y-4">
+              <div className="p-10 text-center text-lg text-gray-500">
+                Lecturer management coming soon...
+              </div>
             </TabsContent>
           </Tabs>
         </div>

@@ -8,11 +8,23 @@ interface RoomData {
   position: [number, number, number];
 }
 
+interface LecturerData {
+  id: string;
+  displayName: string;
+  surname: string;
+  role: string;
+  photo: string;
+  floor: string;
+  roomId: string;
+}
+
 interface RoomContextType {
   studios: RoomData[];
   namedRooms: RoomData[];
   updateStudioName: (id: string, newName: string) => void;
   updateRoomName: (id: string, newName: string) => void;
+  lecturers: LecturerData[];
+  updateLecturer: (id: string, updates: Partial<LecturerData>) => void;
 }
 
 const RoomContext = createContext<RoomContextType | undefined>(undefined);
@@ -66,6 +78,30 @@ export const RoomProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     { id: 'surau-p', currentName: 'Surau P', description: '5 times Appoinment with Allah', floor: 'Fourth Floor', position: [-20, 16, 15] },
   ]);
 
+  // Initial lecturer data (can eventually be loaded from a data source)
+  const [lecturers, setLecturers] = useState<LecturerData[]>([
+    // Example; these should match your lecturer cards/data
+    {
+      id: "nasurudin",
+      displayName: "Ts. MOHD NASURUDIN",
+      surname: "HASBULLAH",
+      role: "Senior Lecturer",
+      photo: "Nas.jpg",
+      floor: "Ground Floor",
+      roomId: "nasurudin",
+    },
+    {
+      id: "azhan",
+      displayName: "Dr AZHAN",
+      surname: "ABD AZIZ",
+      role: "Senior Lecturer",
+      photo: "Azhan.jpg",
+      floor: "Ground Floor",
+      roomId: "azhan",
+    },
+    // ... add others as needed for your context ...
+  ]);
+
   const updateStudioName = (id: string, newName: string) => {
     setStudios(prev => prev.map(studio => 
       studio.id === id ? { ...studio, currentName: newName } : studio
@@ -78,8 +114,15 @@ export const RoomProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     ));
   };
 
+  // Handler to update basic lecturer info (stub for now)
+  const updateLecturer = (id: string, updates: Partial<LecturerData>) => {
+    setLecturers((prev) =>
+      prev.map((lect) => (lect.id === id ? { ...lect, ...updates } : lect))
+    );
+  };
+
   return (
-    <RoomContext.Provider value={{ studios, namedRooms, updateStudioName, updateRoomName }}>
+    <RoomContext.Provider value={{ studios, namedRooms, updateStudioName, updateRoomName, lecturers, updateLecturer }}>
       {children}
     </RoomContext.Provider>
   );
