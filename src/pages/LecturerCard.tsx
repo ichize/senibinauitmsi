@@ -24,12 +24,14 @@ const LecturerCard: React.FC<LecturerCardProps> = ({
   loadingPriority = false,
 }) => (
   <div className="bg-white rounded-xl shadow p-4 flex items-center gap-4">
-    <img
-      src={`/${photo}`}
-      alt={displayName}
-      className="w-16 h-16 rounded-full object-cover border border-muted"
-      loading={loadingPriority ? 'eager' : 'lazy'}
-    />
+    <div className="w-24 h-32 flex-shrink-0">
+      <img
+        src={`/${photo}`}
+        alt={displayName}
+        className="w-full h-full object-cover rounded-lg border border-muted"
+        loading={loadingPriority ? 'eager' : 'lazy'}
+      />
+    </div>
     <div className="flex-1">
       <div className="font-medium">{displayName}</div>
       <div className="text-sm text-gray-600">{surname}</div>
