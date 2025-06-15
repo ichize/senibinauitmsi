@@ -60,7 +60,7 @@ const HoverDetails: React.FC<HoverDetailsProps> = ({
       className={cn(
         "hotspot absolute w-6 h-6 rounded-full flex items-center justify-center cursor-pointer shadow-lg pointer-events-auto outline-none",
         isHighlighted 
-          ? "bg-yellow-400 animate-pulse ring-2 ring-yellow-400 z-30"
+          ? "bg-yellow-400 animate-pulse ring-4 ring-yellow-400 z-30" // <-- ring-4 for much bolder ring
           : "bg-primary/80 z-20"
       )}
       tabIndex={0}
@@ -105,3 +105,4 @@ const HoverDetails: React.FC<HoverDetailsProps> = ({
 };
 
 export default HoverDetails;
+
