@@ -11,19 +11,18 @@ const roomIdToPosition: Record<string, [number, number, number]> = {
   "studio-4c": [25, 16, -12],
   "surau-l": [20, 16, 15],
   "surau-p": [-20, 16, 15],
-  "farid": [-17, 16, 15],
-  "mamoo": [-14, 16, 15],
-  "syathir": [-2, 16, 15],
-  "saha": [1, 16, 15],
-  "jamal": [7, 16, 15],
-  "aiman": [10, 16, 15],
-  "izzat": [13, 16, 15],
+  "ap1-412": [-17, 16, 15],    // Dr Farid
+  "ap1-414": [-14, 16, 15],    // En Ahmad Faiz (Mamoo)
+  "ap1-422": [-2, 16, 15],     // En Syathir
+  "ap1-424": [1, 16, 15],      // En Saha
+  "ap1-428": [7, 16, 15],      // Ar. Dr Jamaludin
+  "ap1-430": [10, 16, 15],     // Dr Sayed Muhammad Aiman
+  "ap1-432": [13, 16, 15],     // Ts. Izzat
   "unoccupied": [-17, 16, 10],
-  // "ar": [-14, 16, 10],    // Remove old mapping
-  "ap1-413": [-14, 16, 10], // Add/replace with new roomId
-  "mizi": [-11, 16, 10],
-  "shahin": [-2, 16, 10],
-  "baa": [10, 16, 10],
+  "ap1-413": [-14, 16, 10],    // En Abdul Rahman
+  "ap1-415": [-11, 16, 10],    // Ar. Muhammad Assyahmizi (Mizi)
+  "ap1-421": [-2, 16, 10],     // En Mohamad Shahin
+  "ap1-429": [10, 16, 10],     // En Muhammad Faris (Baa)
   "classroom-403": [-25, 16, 3],
   "classroom-439": [25, 16, 3],
 };
