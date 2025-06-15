@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import Layout from '@/components/Layout';
 import ModelViewer from '@/components/ModelViewer';
 import HoverDetails from '@/components/HoverDetails';
@@ -18,7 +18,18 @@ const roomIdToPosition: Record<string, [number, number, number]> = {
 const GroundFloor = () => {
   const [params] = useSearchParams();
   const targetRoomId = params.get("room")?.toLowerCase() ?? undefined;
-  const targetRoomPosition = targetRoomId && roomIdToPosition[targetRoomId] ? roomIdToPosition[targetRoomId] : undefined;
+  const targetRoomPosition = targetRoomId && roomIdToPosition[targetRoomId] ? roomIdToPosition[targetRoomPosition] : undefined;
+
+  // --- ModelViewer auto-scroll-to-view logic ---
+  const modelViewerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (targetRoomId && modelViewerRef.current) {
+      setTimeout(() => {
+        modelViewerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 120);
+    }
+  }, [targetRoomId]);
 
   return (
     <Layout>
@@ -35,7 +46,10 @@ const GroundFloor = () => {
             </p>
           </div>
           
-          <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-8 animate-scale-up">
+          <div
+            className="bg-white rounded-lg shadow-lg overflow-hidden mb-8 animate-scale-up"
+            ref={modelViewerRef}
+          >
             <ModelViewer modelSrc="Annex1GF.gltf" targetRoomPosition={targetRoomPosition}>
               <HoverDetails
                 title="Studio 08B"

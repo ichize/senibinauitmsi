@@ -1,5 +1,4 @@
-
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import Layout from '@/components/Layout';
 import ModelViewer from '@/components/ModelViewer';
 import HoverDetails from '@/components/HoverDetails';
@@ -38,6 +37,17 @@ const FirstFloor = () => {
     return studio ? studio.currentName : '';
   };
 
+  // --- ModelViewer auto-scroll-to-view logic ---
+  const modelViewerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (targetRoomId && modelViewerRef.current) {
+      setTimeout(() => {
+        modelViewerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 120);
+    }
+  }, [targetRoomId]);
+
   return (
     <Layout>
       <div className="container mx-auto px-4 py-8">
@@ -53,7 +63,10 @@ const FirstFloor = () => {
             </p>
           </div>
           
-          <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-8 animate-scale-up">
+          <div
+            className="bg-white rounded-lg shadow-lg overflow-hidden mb-8 animate-scale-up"
+            ref={modelViewerRef}
+          >
             <ModelViewer modelSrc="Annex11F.gltf" targetRoomPosition={targetRoomPosition}>
               <HoverDetails
                 title={getStudioName('studio-01a')}
@@ -207,4 +220,3 @@ const FirstFloor = () => {
 };
 
 export default FirstFloor;
-
