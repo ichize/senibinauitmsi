@@ -210,7 +210,7 @@ export const LECTURERS = [
     role: 'Lecturer',
     photo: 'AR.jpg',
     floor: 'fourth-floor',
-    roomId: 'ar'
+    roomId: 'ap1-413'
   },
   {
     displayName: 'Ar. MUHAMMAD ASSYAHMIZI',
