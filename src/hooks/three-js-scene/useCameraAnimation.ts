@@ -3,16 +3,9 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 /**
- * Animates the camera from a given origin to a target position and controls.target.
- * This matches the behavior for deep link transitions.
- * 
- * @param camera The PerspectiveCamera to animate.
- * @param controls The OrbitControls instance.
- * @param lookTarget The destination 3D point the camera should look at.
- * @param desiredDistance The distance from lookTarget for the camera to end up at (along the positive Z).
- * @param yOffset Optional Y offset to apply at the end position.
- * @param durationMs Duration of the animation in ms (default 850).
- * @param onComplete Optional callback after animation.
+ * Animates the camera from an architectural front view to a target.
+ * - Starts at (0, 15, 45) looking at (0, 0, 0)
+ * - Animates both camera position and look target to room
  */
 export function focusCameraOnPosition(
   camera: THREE.PerspectiveCamera | null,
@@ -25,26 +18,37 @@ export function focusCameraOnPosition(
 ) {
   if (!camera || !controls) return;
 
+  // --- Animation starting point (front architectural view) ---
+  const overviewStartPos = new THREE.Vector3(0, 15, 45);
+  const overviewStartTarget = new THREE.Vector3(0, 0, 0);
+
+  // --- Animation end: room target and camera relative to it ---
   const lookTarget = new THREE.Vector3(...target);
 
-  // End position: in front of lookTarget, offset by desiredDistance and yOffset
-  const direction = new THREE.Vector3(0, 0, 1);
+  // Place camera at desiredDistance "in front" of the room (along local +Z),
+  // then offset Y
+  const direction = new THREE.Vector3(0, 0, 1); // Z-forward in Three.js
   const newCameraPos = lookTarget.clone().add(direction.multiplyScalar(desiredDistance));
   newCameraPos.y += yOffset;
 
-  // **Start position is always fixed at (0,0,50) (the overview camera pos)**
-  const overviewStartPos = new THREE.Vector3(0, 0, 50);
-  const startTarget = controls.target.clone();
   let start: number | null = null;
+
+  function easeInOut(t: number) {
+    // Simple smoothing (sinusoidal)
+    return t < 0.5
+      ? 2 * t * t
+      : -1 + (4 - 2 * t) * t;
+  }
 
   function animate(now: number) {
     if (start === null) start = now;
     const elapsed = now - start;
-    const t = Math.min(1, elapsed / durationMs);
+    let t = Math.min(1, elapsed / durationMs);
+    t = easeInOut(t);
 
-    // Interpolate position and controls target
+    // Interpolate camera position and controls target
     camera.position.lerpVectors(overviewStartPos, newCameraPos, t);
-    controls.target.lerpVectors(startTarget, lookTarget, t);
+    controls.target.lerpVectors(overviewStartTarget, lookTarget, t);
 
     controls.update();
 
@@ -58,5 +62,11 @@ export function focusCameraOnPosition(
       onComplete && onComplete();
     }
   }
+
+  // Instantly place camera at "front architectural view" at start of animation.
+  camera.position.copy(overviewStartPos);
+  controls.target.copy(overviewStartTarget);
+  controls.update();
+
   requestAnimationFrame(animate);
 }
