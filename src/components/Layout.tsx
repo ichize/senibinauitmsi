@@ -26,7 +26,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 <span className="font-medium">Architecture</span> Explorer
               </div>
             </div>
-            <Navigation />
+            <div className="absolute left-1/2 transform -translate-x-1/2">
+              <Navigation />
+            </div>
+            <div></div>
           </div>
         </div>
       </header>
@@ -60,4 +63,3 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 };
 
 export default Layout;
-
