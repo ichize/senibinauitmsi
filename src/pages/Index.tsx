@@ -89,6 +89,11 @@ const Index = () => {
           <div className="mt-6 text-center text-sm text-gray-500">
             Click and drag to rotate. Use scroll wheel to zoom in and out.
           </div>
+          <div className="text-center mt-2 text-sm text-muted-foreground">
+            {visitorCount !== null
+              ? `${visitorCount} visitors have explored Annex 1 so far.`
+              : 'Loading visitor count...'}
+          </div>
         </div>
       </section>
       
