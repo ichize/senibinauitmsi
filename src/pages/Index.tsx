@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import ModelViewer from '@/components/ModelViewer';
-import { useVisitorTracker } from '@/hooks/useVisitorTracker'; // ✅ Hook for tracking visitors
 
 const floors = [
   { name: 'Ground Floor', path: '/ground-floor', description: 'Entrance, Master Studios, Studios, Classroom, Lab and Lecturer Offices' },
@@ -15,21 +14,25 @@ const floors = [
 ];
 
 const Index = () => {
-  useVisitorTracker(); // ✅ Fire visitor tracking
   const [visitorCount, setVisitorCount] = useState<number | null>(null);
 
   useEffect(() => {
-    // 👇 Replace this URL with your deployed Google Apps Script if different
-    fetch('https://script.google.com/macros/s/AKfycbwVOVFDDjd1S4eCuxGKyXt3sZ5pJMkgHOPBN8C0-g7SzMV3sWx-a3gG5MRrJQAYlwYM/exec?action=count')
-      .then(res => res.json())
-      .then(data => {
-        if (typeof data.count === 'number') {
-          setVisitorCount(data.count);
+    const trackVisitor = async () => {
+      try {
+        const res = await fetch(
+          'https://script.google.com/macros/s/AKfycbwVOVFDDjd1S4eCuxGKyXt3sZ5pJMkgHOPBN8C0-g7SzMV3sWx-a3gG5MRrJQAYlwYM/exec',
+          { method: 'GET' }
+        );
+        const data = await res.json();
+        if (typeof data.visitorCount === 'number') {
+          setVisitorCount(data.visitorCount);
         }
-      })
-      .catch(err => {
-        console.error('Failed to fetch visitor count:', err);
-      });
+      } catch (error) {
+        console.error('Visitor tracking failed:', error);
+      }
+    };
+
+    trackVisitor();
   }, []);
 
   return (
@@ -39,7 +42,6 @@ const Index = () => {
         <div className="absolute inset-0 z-0 bg-[url('https://images.unsplash.com/photo-1487958449943-2429e8be8625?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2670&q=80')] bg-cover bg-center">
           <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/60 to-background"></div>
         </div>
-
         <div className="relative z-10 container mx-auto px-4 pt-24 pb-48 md:pt-36 md:pb-64">
           <div className="max-w-3xl mx-auto text-center">
             <div className="inline-block px-3 py-1 mb-6 text-xs font-medium uppercase tracking-wider text-primary bg-primary/5 rounded-full animate-fade-in">
@@ -53,8 +55,6 @@ const Index = () => {
               Explore our building floor by floor with interactive 3D models.&nbsp;
               Discover spaces and details through an immersive digital experience.
             </p>
-
-            {/* Deep-link buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up" style={{ animationDelay: '300ms' }}>
               <Link to="/second-floor?room=crit-main" className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary hover:bg-primary/90 transition-colors">
                 Bilik Krit Utama
@@ -66,8 +66,6 @@ const Index = () => {
                 Bilik Krit TEC
               </Link>
             </div>
-
-            {/* Google Maps */}
             <div className="flex justify-center mt-6">
               <a
                 href="https://maps.app.goo.gl/8nYXVnFebumsi5FLA"
@@ -82,7 +80,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* 3D Model Viewer */}
+      {/* 3D model overview section */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
@@ -98,16 +96,16 @@ const Index = () => {
             Click and drag to rotate. Use scroll wheel to zoom in and out.
           </div>
 
-          {/* 👇 Visitor Count Display */}
-          <div className="text-center mt-2 text-sm text-muted-foreground">
-            {visitorCount !== null
-              ? `${visitorCount} visitors have explored Annex 1 so far.`
-              : 'Loading visitor count...'}
-          </div>
+          {/* ✅ Visitor Count Display */}
+          {visitorCount !== null && (
+            <div className="mt-6 text-center text-xs text-muted-foreground">
+              <p>Total Visitors: <strong>{visitorCount}</strong></p>
+            </div>
+          )}
         </div>
       </section>
 
-      {/* Floor grid */}
+      {/* Floor list */}
       <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
@@ -115,10 +113,7 @@ const Index = () => {
               <div key={floor.name} className="bg-white rounded-lg p-6 shadow">
                 <h3 className="text-lg font-medium mb-2">{floor.name}</h3>
                 <p className="text-sm text-gray-600 mb-4">{floor.description}</p>
-                <Link
-                  to={floor.path}
-                  className="inline-flex items-center text-primary hover:underline"
-                >
+                <Link to={floor.path} className="inline-flex items-center text-primary hover:underline">
                   Explore {floor.name}
                   <svg className="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -133,7 +128,9 @@ const Index = () => {
       {/* Lecturers button */}
       <div className="flex flex-col items-center gap-4 my-8">
         <Button asChild variant="secondary" size="lg">
-          <Link to="/lecturers">The Lecturers</Link>
+          <Link to="/lecturers">
+            The Lecturers
+          </Link>
         </Button>
       </div>
     </Layout>
