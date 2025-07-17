@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import ModelViewer from '@/components/ModelViewer';
-import { useVisitorTracker } from '@/hooks/useVisitorTracker'; // ✅ Import visitor tracking hook
+import { useVisitorTracker } from '@/hooks/useVisitorTracker'; // ✅ Tracks user visit
+import { useVisitorCount } from '@/hooks/useVisitorCount';     // ✅ Fetches total visitors
 
 const floors = [
   { name: 'Ground Floor', path: '/ground-floor', description: 'Entrance, Master Studios, Studios, Classroom, Lab and Lecturer Offices' },
@@ -15,16 +16,17 @@ const floors = [
 ];
 
 const Index = () => {
-  useVisitorTracker(); // ✅ Track visitor on page load
+  useVisitorTracker(); // Logs visit on load
+  const visitorCount = useVisitorCount(); // Gets visitor count
 
   return (
     <Layout>
-      {/* Hero section with gradient overlay and background image */}
+      {/* Hero section */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 z-0 bg-[url('https://images.unsplash.com/photo-1487958449943-2429e8be8625?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2670&q=80')] bg-cover bg-center">
           <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/60 to-background"></div>
         </div>
-        
+
         <div className="relative z-10 container mx-auto px-4 pt-24 pb-48 md:pt-36 md:pb-64">
           <div className="max-w-3xl mx-auto text-center">
             <div className="inline-block px-3 py-1 mb-6 text-xs font-medium uppercase tracking-wider text-primary bg-primary/5 rounded-full animate-fade-in">
@@ -38,7 +40,8 @@ const Index = () => {
               Explore our building floor by floor with interactive 3D models.&nbsp;
               Discover spaces and details through an immersive digital experience.
             </p>
-            {/* Updated: Add 3 deep-link buttons */}
+
+            {/* Deep-link buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up" style={{ animationDelay: '300ms' }}>
               <Link
                 to="/second-floor?room=crit-main"
@@ -59,6 +62,7 @@ const Index = () => {
                 Bilik Krit TEC
               </Link>
             </div>
+
             {/* Google Maps Button */}
             <div className="flex justify-center mt-6">
               <a
@@ -73,8 +77,8 @@ const Index = () => {
           </div>
         </div>
       </section>
-      
-      {/* 3D model overview section */}
+
+      {/* 3D model overview */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
@@ -83,12 +87,16 @@ const Index = () => {
               Explore our interactive 3D model of the building. Use your mouse to rotate and zoom.
             </p>
           </div>
+
           <div className="bg-white rounded-lg shadow-lg p-4">
             <ModelViewer modelSrc="Annex1.glb" />
           </div>
+
           <div className="mt-6 text-center text-sm text-gray-500">
             Click and drag to rotate. Use scroll wheel to zoom in and out.
           </div>
+
+          {/* ✅ Visitor count display */}
           <div className="text-center mt-2 text-sm text-muted-foreground">
             {visitorCount !== null
               ? `${visitorCount} visitors have explored Annex 1 so far.`
@@ -96,7 +104,7 @@ const Index = () => {
           </div>
         </div>
       </section>
-      
+
       {/* Floor list grid */}
       <section className="py-16">
         <div className="container mx-auto px-4">
@@ -123,9 +131,7 @@ const Index = () => {
       {/* Lecturers directory button */}
       <div className="flex flex-col items-center gap-4 my-8">
         <Button asChild variant="secondary" size="lg">
-          <Link to="/lecturers">
-            The Lecturers
-          </Link>
+          <Link to="/lecturers">The Lecturers</Link>
         </Button>
       </div>
     </Layout>
