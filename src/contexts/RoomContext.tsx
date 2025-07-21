@@ -26,6 +26,8 @@ interface RoomContextType {
   updateRoomName: (id: string, newName: string) => void;
   lecturers: LecturerData[];
   updateLecturer: (id: string, updates: Partial<LecturerData>) => void;
+  lecturersLoading: boolean;
+  lecturersError: string | null;
 }
 
 const RoomContext = createContext<RoomContextType | undefined>(undefined);
@@ -106,6 +108,7 @@ export const RoomProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             roomId: row.roomID,
           }))
         );
+        setLecturersError(null);
       }
       setLecturersLoading(false);
     };
@@ -131,7 +134,7 @@ export const RoomProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   return (
-    <RoomContext.Provider value={{ studios, namedRooms, updateStudioName, updateRoomName, lecturers, updateLecturer }}>
+    <RoomContext.Provider value={{ studios, namedRooms, updateStudioName, updateRoomName, lecturers, updateLecturer, lecturersLoading, lecturersError }}>
       {children}
       {/* Optionally, you can provide loading/error state via context or handle in Lecturers page */}
     </RoomContext.Provider>

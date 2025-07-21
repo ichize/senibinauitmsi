@@ -9,29 +9,14 @@ import { supabase } from '@/lib/supabaseClient';
 
 const Lecturers: React.FC = () => {
   const navigate = useNavigate();
-  const { lecturers } = useRoomContext();
+  const { lecturers, lecturersLoading, lecturersError } = useRoomContext();
 
   // --- Academic Advisor Search State ---
   const [search, setSearch] = useState('');
   const [results, setResults] = useState<{ "Student Name": string; "Academic Advisor": string }[]>([]);
   const [loading, setLoading] = useState(false);
 
-  // --- Local state for lecturers loading/error ---
-  const [lecturersLoading, setLecturersLoading] = useState(true);
-  const [lecturersError, setLecturersError] = useState<string | null>(null);
-
-  // Detect when lecturers are loaded (since context does not provide loading/error)
-  useEffect(() => {
-    // If lecturers is empty, assume loading unless error is set
-    if (lecturers.length === 0) {
-      // Wait a short time before showing loading (to avoid flicker)
-      const timeout = setTimeout(() => setLecturersLoading(true), 100);
-      return () => clearTimeout(timeout);
-    } else {
-      setLecturersLoading(false);
-      setLecturersError(null);
-    }
-  }, [lecturers]);
+  // Optionally, you could fetch error state from context if you add it there
 
   useEffect(() => {
     if (search.trim() === '') {
