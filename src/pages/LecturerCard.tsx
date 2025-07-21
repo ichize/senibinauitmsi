@@ -31,9 +31,14 @@ const LecturerCard: React.FC<LecturerCardProps> = ({
         className="w-full h-full object-cover rounded-lg border border-muted"
         loading={loadingPriority ? 'eager' : 'lazy'}
         onError={(e) => {
-          (e.target as HTMLImageElement).src = '/placeholder.svg';
+        const img = e.target as HTMLImageElement;
+        if (!img.dataset.fallback) {
+        img.src = '/placeholder.svg';
+        img.dataset.fallback = 'true'; // prevent infinite loop
+          }
         }}
       />
+
 
       
     </div>
