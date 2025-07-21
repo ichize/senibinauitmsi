@@ -1,14 +1,42 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LecturerCard from './LecturerCard';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { useRoomContext } from '@/contexts/RoomContext';
+import { supabase } from '@/lib/supabaseClient';
 
 const Lecturers: React.FC = () => {
   const navigate = useNavigate();
   const { lecturers } = useRoomContext();
+
+  // --- Academic Advisor Search State ---
+  const [search, setSearch] = useState('');
+  const [results, setResults] = useState<{ "Student Name": string; "Academic Advisor": string }[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (search.trim() === '') {
+      setResults([]);
+      return;
+    }
+    setLoading(true);
+    const fetchResults = async () => {
+      const { data, error } = await supabase
+        .from('academic_advisor')
+        .select('"Student Name", "Academic Advisor"')
+        .ilike('Student Name', `%${search}%`);
+      if (!error && data) {
+        setResults(data);
+      } else {
+        setResults([]);
+      }
+      setLoading(false);
+    };
+    const timeout = setTimeout(fetchResults, 300); // debounce
+    return () => clearTimeout(timeout);
+  }, [search]);
 
   const handleClick = (floor: string, roomId: string) => {
     // NOTE: Use the url format that matches existing routes (e.g., /ground-floor)
@@ -20,6 +48,39 @@ const Lecturers: React.FC = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-3xl mx-auto">
+        {/* Academic Advisor Search */}
+        <section className="mb-8">
+          <h2 className="text-2xl font-semibold mb-2">Search Academic Advisor</h2>
+          <input
+            type="text"
+            className="w-full border rounded px-3 py-2 mb-2"
+            placeholder="Enter student name..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+          />
+          {loading && <div className="text-sm text-gray-500">Searching...</div>}
+          {results.length > 0 && (
+            <table className="w-full mt-4 border text-left">
+              <thead>
+                <tr>
+                  <th className="border px-2 py-1">Student Name</th>
+                  <th className="border px-2 py-1">Academic Advisor</th>
+                </tr>
+              </thead>
+              <tbody>
+                {results.map((row, i) => (
+                  <tr key={i}>
+                    <td className="border px-2 py-1">{row["Student Name"]}</td>
+                    <td className="border px-2 py-1">{row["Academic Advisor"]}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+          {search && !loading && results.length === 0 && (
+            <div className="text-sm text-gray-500 mt-2">No results found.</div>
+          )}
+        </section>
         {/* Back button */}
         <div className="mb-4">
           <Button

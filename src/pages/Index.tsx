@@ -19,70 +19,10 @@ const floors = [
 const Index = () => {
   const { visitorCount } = useVisitorTracker(); // ✅ Hook tracks and fetches count
 
-  // --- Academic Advisor Search State ---
-  const [search, setSearch] = useState('');
-  const [results, setResults] = useState<{ "Student Name": string; "Academic Advisor": string }[]>([]);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    if (search.trim() === '') {
-      setResults([]);
-      return;
-    }
-    setLoading(true);
-    const fetchResults = async () => {
-      const { data, error } = await supabase
-        .from('academic_advisor')
-        .select('"Student Name", "Academic Advisor"')
-        .ilike('Student Name', `%${search}%`);
-      if (!error && data) {
-        setResults(data);
-      } else {
-        setResults([]);
-      }
-      setLoading(false);
-    };
-    const timeout = setTimeout(fetchResults, 300); // debounce
-    return () => clearTimeout(timeout);
-  }, [search]);
+  // Remove Academic Advisor Search section and related state/effect
 
   return (
     <Layout>
-      {/* Academic Advisor Search */}
-      <section className="container mx-auto px-4 pt-8 pb-4">
-        <div className="max-w-xl mx-auto mb-8">
-          <h2 className="text-2xl font-semibold mb-2">Search Academic Advisor</h2>
-          <input
-            type="text"
-            className="w-full border rounded px-3 py-2 mb-2"
-            placeholder="Enter student name..."
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-          />
-          {loading && <div className="text-sm text-gray-500">Searching...</div>}
-          {results.length > 0 && (
-            <table className="w-full mt-4 border text-left">
-              <thead>
-                <tr>
-                  <th className="border px-2 py-1">Student Name</th>
-                  <th className="border px-2 py-1">Academic Advisor</th>
-                </tr>
-              </thead>
-              <tbody>
-                {results.map((row, i) => (
-                  <tr key={i}>
-                    <td className="border px-2 py-1">{row["Student Name"]}</td>
-                    <td className="border px-2 py-1">{row["Academic Advisor"]}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
-          {search && !loading && results.length === 0 && (
-            <div className="text-sm text-gray-500 mt-2">No results found.</div>
-          )}
-        </div>
-      </section>
       {/* Hero section */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 z-0 bg-[url('https://images.unsplash.com/photo-1487958449943-2429e8be8625?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2670&q=80')] bg-cover bg-center">
@@ -125,6 +65,19 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Stylish Visitor Count Card */}
+      <div className="flex justify-center my-6">
+        <div className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-xl shadow-lg px-6 py-4 flex items-center gap-3 animate-fade-in">
+          <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m9-4a4 4 0 11-8 0 4 4 0 018 0zm6 4v2a2 2 0 01-2 2h-1.5M3 16v2a2 2 0 002 2h1.5" />
+          </svg>
+          <div>
+            <div className="text-lg font-bold">Total Visitors Today</div>
+            <div className="text-2xl font-extrabold animate-pulse">{visitorCount === null ? '...' : visitorCount}</div>
+          </div>
+        </div>
+      </div>
 
       {/* 3D model overview section */}
       <section className="py-16 bg-gray-50">
