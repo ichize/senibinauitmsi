@@ -24,23 +24,18 @@ const LecturerCard: React.FC<LecturerCardProps> = ({
 }) => (
   <div className="bg-white rounded-xl shadow p-4 flex items-center gap-4">
     <div className="w-24 h-32 flex-shrink-0">
-      
       <img
         src={photo_url || '/placeholder.svg'}
         alt={displayName}
         className="w-full h-full object-cover rounded-lg border border-muted"
         loading={loadingPriority ? 'eager' : 'lazy'}
         onError={(e) => {
-        const img = e.target as HTMLImageElement;
-        if (!img.dataset.fallback) {
-        img.src = '/placeholder.svg';
-        img.dataset.fallback = 'true'; // prevent infinite loop
+          const img = e.currentTarget;
+          if (img.src !== window.location.origin + '/placeholder.svg') {
+            img.src = '/placeholder.svg';
           }
         }}
       />
-
-
-      
     </div>
     <div className="flex-1">
       <div className="font-medium">{displayName}</div>
@@ -59,4 +54,3 @@ const LecturerCard: React.FC<LecturerCardProps> = ({
 );
 
 export default LecturerCard;
-
