@@ -16,25 +16,6 @@ const Lecturers: React.FC = () => {
   const [results, setResults] = useState<{ "Student Name": string; "Academic Advisor": string }[]>([]);
   const [loading, setLoading] = useState(false);
 
-  // --- Lecturer Photos from Supabase ---
-  const [lecturersWithPhoto, setLecturersWithPhoto] = useState<any[]>([]);
-
-  useEffect(() => {
-    async function fetchPhotos() {
-      const ids = lecturers.map(l => l.id);
-      const { data, error } = await supabase
-        .from('user_credentials')
-        .select('id, photo_url')
-        .in('id', ids);
-      const merged = lecturers.map(lect => ({
-        ...lect,
-        photo_url: data?.find(u => u.id === lect.id)?.photo_url || '',
-      }));
-      setLecturersWithPhoto(merged);
-    }
-    fetchPhotos();
-  }, [lecturers]);
-
   useEffect(() => {
     if (search.trim() === '') {
       setResults([]);
@@ -58,6 +39,8 @@ const Lecturers: React.FC = () => {
   }, [search]);
 
   const handleClick = (floor: string, roomId: string) => {
+    // NOTE: Use the url format that matches existing routes (e.g., /ground-floor)
+    // Assume floor value in context is like "Ground Floor" and convert to "ground-floor"
     const path = `/${floor.toLowerCase().replace(/\s+/g, "-")}`;
     navigate(`${path}?room=${roomId}`);
   };
@@ -117,10 +100,10 @@ const Lecturers: React.FC = () => {
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {lecturersWithPhoto.map((lect, idx) => (
+          {lecturers.map((lect, idx) => (
             <LecturerCard
               key={lect.id}
-              photo_url={lect.photo_url}
+              photo={lect.photo}
               displayName={lect.displayName}
               surname={lect.surname}
               role={lect.role}
