@@ -116,7 +116,6 @@ const Lecturers: React.FC = () => {
                 photo={lect.photo}
                 displayName={lect.displayName}
                 surname={lect.surname}
-                role={lect.role}
                 floor={lect.floor}
                 roomID={lect.roomID}
                 onClick={handleClick}

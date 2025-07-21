@@ -6,7 +6,6 @@ interface LecturerCardProps {
   photo: string;
   displayName: string;
   surname: string;
-  role: string;
   floor: string;
   roomID: string;
   onClick: (floor: string, roomID: string) => void;
@@ -17,7 +16,6 @@ const LecturerCard: React.FC<LecturerCardProps> = ({
   photo,
   displayName,
   surname,
-  role,
   floor,
   roomID,
   onClick,
@@ -35,7 +33,6 @@ const LecturerCard: React.FC<LecturerCardProps> = ({
     <div className="flex-1">
       <div className="font-medium">{displayName}</div>
       <div className="text-sm text-gray-600">{surname}</div>
-      <div className="text-xs text-gray-400 mb-2">{role}</div>
       <Button
         size="sm"
         className="mt-1"
