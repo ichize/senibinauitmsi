@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { LECTURERS } from "@/pages/lecturers-data";
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { supabase } from "@/lib/supabaseClient";
 
 interface RoomData {
   id: string;
@@ -79,13 +79,38 @@ export const RoomProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     { id: 'surau-p', currentName: 'Surau P', description: '5 times Appoinment with Allah', floor: 'Fourth Floor', position: [-20, 16, 15] },
   ]);
 
-  // Import all lecturers from lecturers-data.ts; assign id from roomId if not present
-  const [lecturers, setLecturers] = useState<LecturerData[]>(
-    LECTURERS.map((l) => ({
-      ...l,
-      id: l.roomId ?? l.displayName.replace(/\s+/g, '').toLowerCase(),
-    }))
-  );
+  // --- Lecturers from Supabase ---
+  const [lecturers, setLecturers] = useState<LecturerData[]>([]);
+  const [lecturersLoading, setLecturersLoading] = useState(true);
+  const [lecturersError, setLecturersError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchLecturers = async () => {
+      setLecturersLoading(true);
+      setLecturersError(null);
+      const { data, error } = await supabase
+        .from('user_credentials')
+        .select('id, title, username, surname, role, photo_url, roomID, floor');
+      if (error) {
+        setLecturersError(error.message);
+        setLecturers([]);
+      } else if (data) {
+        setLecturers(
+          data.map((row: any) => ({
+            id: row.id,
+            displayName: `${row.title ? row.title + ' ' : ''}${row.username}`.trim(),
+            surname: row.surname,
+            role: row.role || '',
+            photo: row.photo_url,
+            floor: row.floor,
+            roomId: row.roomID,
+          }))
+        );
+      }
+      setLecturersLoading(false);
+    };
+    fetchLecturers();
+  }, []);
 
   const updateStudioName = (id: string, newName: string) => {
     setStudios(prev => prev.map(studio => 
@@ -108,6 +133,7 @@ export const RoomProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   return (
     <RoomContext.Provider value={{ studios, namedRooms, updateStudioName, updateRoomName, lecturers, updateLecturer }}>
       {children}
+      {/* Optionally, you can provide loading/error state via context or handle in Lecturers page */}
     </RoomContext.Provider>
   );
 };

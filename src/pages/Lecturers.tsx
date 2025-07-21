@@ -16,6 +16,23 @@ const Lecturers: React.FC = () => {
   const [results, setResults] = useState<{ "Student Name": string; "Academic Advisor": string }[]>([]);
   const [loading, setLoading] = useState(false);
 
+  // --- Local state for lecturers loading/error ---
+  const [lecturersLoading, setLecturersLoading] = useState(true);
+  const [lecturersError, setLecturersError] = useState<string | null>(null);
+
+  // Detect when lecturers are loaded (since context does not provide loading/error)
+  useEffect(() => {
+    // If lecturers is empty, assume loading unless error is set
+    if (lecturers.length === 0) {
+      // Wait a short time before showing loading (to avoid flicker)
+      const timeout = setTimeout(() => setLecturersLoading(true), 100);
+      return () => clearTimeout(timeout);
+    } else {
+      setLecturersLoading(false);
+      setLecturersError(null);
+    }
+  }, [lecturers]);
+
   useEffect(() => {
     if (search.trim() === '') {
       setResults([]);
@@ -99,21 +116,30 @@ const Lecturers: React.FC = () => {
             Click on a lecturer to go directly to their office on the 3D floor plan.
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {lecturers.map((lect, idx) => (
-            <LecturerCard
-              key={lect.id}
-              photo={lect.photo}
-              displayName={lect.displayName}
-              surname={lect.surname}
-              role={lect.role}
-              floor={lect.floor}
-              roomId={lect.roomId}
-              onClick={handleClick}
-              loadingPriority={idx < 6}
-            />
-          ))}
-        </div>
+        {/* Loading/Error/Empty states for lecturers */}
+        {lecturersLoading ? (
+          <div className="text-center text-gray-500 py-8">Loading lecturers...</div>
+        ) : lecturersError ? (
+          <div className="text-center text-red-500 py-8">Failed to load lecturers. Please try again later.</div>
+        ) : lecturers.length === 0 ? (
+          <div className="text-center text-gray-500 py-8">No lecturers found.</div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {lecturers.map((lect, idx) => (
+              <LecturerCard
+                key={lect.id}
+                photo={lect.photo}
+                displayName={lect.displayName}
+                surname={lect.surname}
+                role={lect.role}
+                floor={lect.floor}
+                roomId={lect.roomId}
+                onClick={handleClick}
+                loadingPriority={idx < 6}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
