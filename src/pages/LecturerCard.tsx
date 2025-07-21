@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 
@@ -26,10 +25,13 @@ const LecturerCard: React.FC<LecturerCardProps> = ({
   <div className="bg-white rounded-xl shadow p-4 flex items-center gap-4">
     <div className="w-24 h-32 flex-shrink-0">
       <img
-        src={photo_url || '/placeholder.svg'}
+        src={photo_url && photo_url.length > 0 ? photo_url : '/default-user.png'}
         alt={displayName}
         className="w-full h-full object-cover rounded-lg border border-muted"
         loading={loadingPriority ? 'eager' : 'lazy'}
+        onError={(e) => {
+          (e.target as HTMLImageElement).src = '/default-user.png';
+        }}
       />
     </div>
     <div className="flex-1">
@@ -49,3 +51,4 @@ const LecturerCard: React.FC<LecturerCardProps> = ({
 );
 
 export default LecturerCard;
+
