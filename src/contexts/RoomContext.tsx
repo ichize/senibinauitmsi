@@ -92,7 +92,7 @@ export const RoomProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       setLecturersError(null);
       const { data, error } = await supabase
         .from('user_credentials')
-        .select('id, title, username, surname, role, photo_url, roomID, floor');
+        .select('id, title, username, surname, photo_url, roomID, floor'); // removed 'role'
       if (error) {
         setLecturersError(error.message);
         setLecturers([]);
@@ -100,9 +100,9 @@ export const RoomProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         setLecturers(
           data.map((row: any) => ({
             id: row.id,
-            displayName: row.username,
+            displayName: `${row.title ? row.title + ' ' : ''}${row.username}`.trim(),
             surname: row.surname,
-            role: row.role || '',
+            role: '', // role not in table yet
             photo: row.photo_url,
             floor: row.floor,
             roomID: row.roomID,
