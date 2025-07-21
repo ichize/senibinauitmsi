@@ -13,7 +13,6 @@ interface LecturerData {
   id: string;
   displayName: string;
   surname: string;
-  role: string;
   photo: string;
   floor: string;
   roomID: string;
@@ -92,7 +91,7 @@ export const RoomProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       setLecturersError(null);
       const { data, error } = await supabase
         .from('user_credentials')
-        .select('id, title, username, surname, photo_url, roomID, floor'); // removed 'role'
+        .select('id, title, username, surname, photo_url, roomID, floor');
       if (error) {
         setLecturersError(error.message);
         setLecturers([]);
@@ -102,7 +101,6 @@ export const RoomProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             id: row.id,
             displayName: `${row.title ? row.title + ' ' : ''}${row.username}`.trim(),
             surname: row.surname,
-            role: '', // role not in table yet
             photo: row.photo_url,
             floor: row.floor,
             roomID: row.roomID,
