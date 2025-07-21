@@ -16,7 +16,7 @@ interface LecturerData {
   role: string;
   photo: string;
   floor: string;
-  roomId: string;
+  roomID: string;
 }
 
 interface RoomContextType {
@@ -100,12 +100,12 @@ export const RoomProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         setLecturers(
           data.map((row: any) => ({
             id: row.id,
-            displayName: `${row.title ? row.title + ' ' : ''}${row.username}`.trim(),
+            displayName: row.username,
             surname: row.surname,
             role: row.role || '',
             photo: row.photo_url,
             floor: row.floor,
-            roomId: row.roomID,
+            roomID: row.roomID,
           }))
         );
         setLecturersError(null);
