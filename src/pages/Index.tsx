@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import ModelViewer from '@/components/ModelViewer';
 import { useVisitorTracker } from '@/hooks/useVisitorTracker'; // ✅ Ensure hook is working
+import { useState, useEffect } from 'react';
+import { supabase } from '@/lib/supabaseClient';
 
 const floors = [
   { name: 'Ground Floor', path: '/ground-floor', description: 'Entrance, Master Studios, Studios, Classroom, Lab and Lecturer Offices' },
@@ -17,8 +19,70 @@ const floors = [
 const Index = () => {
   const { visitorCount } = useVisitorTracker(); // ✅ Hook tracks and fetches count
 
+  // --- Academic Advisor Search State ---
+  const [search, setSearch] = useState('');
+  const [results, setResults] = useState<{ "Student Name": string; "Academic Advisor": string }[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (search.trim() === '') {
+      setResults([]);
+      return;
+    }
+    setLoading(true);
+    const fetchResults = async () => {
+      const { data, error } = await supabase
+        .from('academic_advisor')
+        .select('"Student Name", "Academic Advisor"')
+        .ilike('Student Name', `%${search}%`);
+      if (!error && data) {
+        setResults(data);
+      } else {
+        setResults([]);
+      }
+      setLoading(false);
+    };
+    const timeout = setTimeout(fetchResults, 300); // debounce
+    return () => clearTimeout(timeout);
+  }, [search]);
+
   return (
     <Layout>
+      {/* Academic Advisor Search */}
+      <section className="container mx-auto px-4 pt-8 pb-4">
+        <div className="max-w-xl mx-auto mb-8">
+          <h2 className="text-2xl font-semibold mb-2">Search Academic Advisor</h2>
+          <input
+            type="text"
+            className="w-full border rounded px-3 py-2 mb-2"
+            placeholder="Enter student name..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+          />
+          {loading && <div className="text-sm text-gray-500">Searching...</div>}
+          {results.length > 0 && (
+            <table className="w-full mt-4 border text-left">
+              <thead>
+                <tr>
+                  <th className="border px-2 py-1">Student Name</th>
+                  <th className="border px-2 py-1">Academic Advisor</th>
+                </tr>
+              </thead>
+              <tbody>
+                {results.map((row, i) => (
+                  <tr key={i}>
+                    <td className="border px-2 py-1">{row["Student Name"]}</td>
+                    <td className="border px-2 py-1">{row["Academic Advisor"]}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+          {search && !loading && results.length === 0 && (
+            <div className="text-sm text-gray-500 mt-2">No results found.</div>
+          )}
+        </div>
+      </section>
       {/* Hero section */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 z-0 bg-[url('https://images.unsplash.com/photo-1487958449943-2429e8be8625?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2670&q=80')] bg-cover bg-center">
