@@ -8,8 +8,8 @@ interface LecturerCardProps {
   surname: string;
   role: string;
   floor: string;
-  roomId: string;
-  onClick: (floor: string, roomId: string) => void;
+  roomID: string;
+  onClick: (floor: string, roomID: string) => void;
   loadingPriority?: boolean;
 }
 
@@ -19,7 +19,7 @@ const LecturerCard: React.FC<LecturerCardProps> = ({
   surname,
   role,
   floor,
-  roomId,
+  roomID,
   onClick,
   loadingPriority = false,
 }) => (
@@ -40,7 +40,7 @@ const LecturerCard: React.FC<LecturerCardProps> = ({
         size="sm"
         className="mt-1"
         variant="secondary"
-        onClick={() => onClick(floor, roomId)}
+        onClick={() => onClick(floor, roomID)}
       >
         Go to Room
       </Button>
