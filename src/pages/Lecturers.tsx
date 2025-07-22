@@ -110,18 +110,21 @@ const Lecturers: React.FC = () => {
           <div className="text-center text-gray-500 py-8">No lecturers found.</div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {lecturers.map((lect, idx) => (
-              <LecturerCard
-                key={lect.id}
-                photo={lect.photo}
-                displayName={lect.displayName}
-                surname={lect.surname}
-                floor={lect.floor}
-                roomID={lect.roomID}
-                onClick={handleClick}
-                loadingPriority={idx < 6}
-              />
-            ))}
+            {lecturers.map((lect, idx) => {
+              console.log('[Lecturers] Rendering:', lect);
+              return (
+                <LecturerCard
+                  key={lect.id}
+                  photo={lect.photo}
+                  displayName={lect.displayName}
+                  surname={lect.surname}
+                  floor={lect.floor}
+                  roomID={lect.roomID}
+                  onClick={handleClick}
+                  loadingPriority={idx < 6}
+                />
+              );
+            })}
           </div>
         )}
       </div>
