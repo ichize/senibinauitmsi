@@ -17,8 +17,8 @@ const ThirdFloorHotspots: React.FC<ThirdFloorHotspotsProps> = ({ roomIdToPositio
   };
 
   // Helper for future lecturer support if needed
-  const getLecturerByRoomId = (roomId: string) => 
-    lecturers.find((lect) => lect.roomId?.toLowerCase() === roomId);
+  const getLecturerByRoomId = (roomID: string) => 
+    lecturers.find((lect) => lect.roomID?.toLowerCase() === roomID);
 
   return (
     <>

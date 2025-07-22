@@ -10,8 +10,8 @@ interface GroundFloorHotspotsProps {
 const GroundFloorHotspots: React.FC<GroundFloorHotspotsProps> = ({ roomIdToPosition, targetRoomId }) => {
   const { lecturers, studios } = useRoomContext();
 
-  const getLecturerByRoomId = (roomId: string) => 
-    lecturers.find((lect) => lect.roomId?.toLowerCase() === roomId);
+  const getLecturerByRoomId = (roomId: string) =>
+    lecturers.find((lect) => lect.roomID?.toLowerCase() === roomId.toLowerCase());
 
   const getStudioName = (id: string) => {
     const studio = studios.find(s => s.id === id);
@@ -25,7 +25,7 @@ const GroundFloorHotspots: React.FC<GroundFloorHotspotsProps> = ({ roomIdToPosit
         roomId="studio-08b"
         description="Max Pax= 30. Fixed Workstation, 3 AC, Projector"
         position="right"
-        modelPosition={roomIdToPosition["studio-08b"]} 
+        modelPosition={roomIdToPosition["studio-08b"]}
         isHighlighted={targetRoomId === "studio-08b"}
         autoOpen={targetRoomId === "studio-08b"}
       />
