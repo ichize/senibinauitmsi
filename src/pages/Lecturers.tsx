@@ -9,9 +9,9 @@ const Lecturers: React.FC = () => {
   const navigate = useNavigate();
   const { lecturers, lecturersLoading, lecturersError } = useRoomContext();
 
-  const handleClick = (floor: string, roomId: string) => {
+  const handleClick = (floor: string, roomID: string) => {
     const path = `/${floor.toLowerCase().replace(/\s+/g, '-')}`;
-    navigate(`${path}?room=${roomId}`);
+    navigate(`${path}?room=${roomID}`);
   };
 
   if (lecturersLoading) {
@@ -29,7 +29,7 @@ const Lecturers: React.FC = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-3xl mx-auto">
-        {/* Back button */}
+        {/* Back Button */}
         <div className="mb-4">
           <Button
             onClick={() => navigate(-1)}
@@ -50,7 +50,7 @@ const Lecturers: React.FC = () => {
           </p>
         </div>
 
-        {/* Grid of Lecturer Cards */}
+        {/* Grid of Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {lecturers.map((lect, idx) => (
             <LecturerCard
@@ -59,7 +59,7 @@ const Lecturers: React.FC = () => {
               displayName={lect.displayName}
               surname={lect.surname}
               floor={lect.floor}
-              roomID={lect.roomID || lect.roomId} // supports either key
+              roomID={lect.roomID}
               onClick={handleClick}
               loadingPriority={idx < 6}
             />
