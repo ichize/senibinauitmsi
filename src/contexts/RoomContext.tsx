@@ -3,17 +3,17 @@ import { supabase } from "@/integrations/supabase/client";
 
 export interface RoomData {
   id: string;
-  currentName: string;
-  description: string;
+  name: string;
   floor: string;
-  position: [number, number, number];
+  type: string;
 }
 
 export interface LecturerData {
   id: string;
-  displayName: string;
-  surname: string;
-  photo: string;
+  name: string;
+  expertise: string;
+  phone: string;
+  email: string;
   floor: string;
   roomID: string;
 }
@@ -21,12 +21,12 @@ export interface LecturerData {
 interface RoomContextType {
   studios: RoomData[];
   namedRooms: RoomData[];
-  lecturers: LecturerData[];
-  lecturersLoading: boolean;
-  lecturersError: string | null;
   updateStudioName: (id: string, newName: string) => void;
   updateRoomName: (id: string, newName: string) => void;
+  lecturers: LecturerData[];
   updateLecturer: (id: string, updates: Partial<LecturerData>) => void;
+  lecturersLoading: boolean;
+  lecturersError: string | null;
   handleCardClick: (floor: string, roomID: string) => void;
 }
 
@@ -36,10 +36,9 @@ export const RoomProvider = ({ children }: { children: React.ReactNode }) => {
   const [studios, setStudios] = useState<RoomData[]>([]);
   const [namedRooms, setNamedRooms] = useState<RoomData[]>([]);
   const [lecturers, setLecturers] = useState<LecturerData[]>([]);
-  const [lecturersLoading, setLecturersLoading] = useState(true);
+  const [lecturersLoading, setLecturersLoading] = useState<boolean>(true);
   const [lecturersError, setLecturersError] = useState<string | null>(null);
 
-  // Fetch all three datasets on load
   useEffect(() => {
     const fetchStudios = async () => {
       const { data, error } = await supabase
@@ -49,8 +48,6 @@ export const RoomProvider = ({ children }: { children: React.ReactNode }) => {
 
       if (!error && data) {
         setStudios(data);
-      } else {
-        console.error("Error loading studio_rooms:", error);
       }
     };
 
@@ -62,8 +59,6 @@ export const RoomProvider = ({ children }: { children: React.ReactNode }) => {
 
       if (!error && data) {
         setNamedRooms(data);
-      } else {
-        console.error("Error loading named_rooms:", error);
       }
     };
 
@@ -92,17 +87,13 @@ export const RoomProvider = ({ children }: { children: React.ReactNode }) => {
 
   const updateStudioName = (id: string, newName: string) => {
     setStudios((prev) =>
-      prev.map((room) =>
-        room.id === id ? { ...room, currentName: newName } : room
-      )
+      prev.map((room) => (room.id === id ? { ...room, name: newName } : room))
     );
   };
 
   const updateRoomName = (id: string, newName: string) => {
     setNamedRooms((prev) =>
-      prev.map((room) =>
-        room.id === id ? { ...room, currentName: newName } : room
-      )
+      prev.map((room) => (room.id === id ? { ...room, name: newName } : room))
     );
   };
 
@@ -122,12 +113,12 @@ export const RoomProvider = ({ children }: { children: React.ReactNode }) => {
       value={{
         studios,
         namedRooms,
-        lecturers,
-        lecturersLoading,
-        lecturersError,
         updateStudioName,
         updateRoomName,
+        lecturers,
         updateLecturer,
+        lecturersLoading,
+        lecturersError,
         handleCardClick,
       }}
     >
