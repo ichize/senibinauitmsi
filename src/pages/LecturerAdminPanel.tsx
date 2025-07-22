@@ -54,7 +54,6 @@ const LecturerAdminPanel: React.FC = () => {
       updateLecturer(editId, {
         displayName: form.displayName!.trim(),
         surname: form.surname!.trim(),
-        role: form.role ?? "",
         photo: form.photo ?? "",
         floor: form.floor ?? "",
         // roomId intentionally removed from updates for safety
@@ -110,16 +109,6 @@ const LecturerAdminPanel: React.FC = () => {
                       id={`surname-${lect.id}`}
                       name="surname"
                       value={form.surname ?? ""}
-                      onChange={handleChange}
-                      className="mb-1"
-                    />
-                  </div>
-                  <div className="flex-1 min-w-[160px]">
-                    <Label htmlFor={`role-${lect.id}`}>Role</Label>
-                    <Input
-                      id={`role-${lect.id}`}
-                      name="role"
-                      value={form.role ?? ""}
                       onChange={handleChange}
                       className="mb-1"
                     />
