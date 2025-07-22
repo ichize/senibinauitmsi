@@ -110,7 +110,6 @@ const GroundFloorHotspots: React.FC<GroundFloorHotspotsProps> = ({ roomIdToPosit
             key={id}
             title={lect.displayName}
             surname={lect.surname}
-            description={lect.role}
             position="right"
             modelPosition={roomIdToPosition[id]}
             imageSrc={lect.photo}
