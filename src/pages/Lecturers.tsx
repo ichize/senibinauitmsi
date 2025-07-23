@@ -1,49 +1,106 @@
 import React from 'react';
 import { useRoomContext } from '@/contexts/RoomContext';
 import { Button } from '@/components/ui/button';
+import { ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const Lecturers: React.FC = () => {
+  const navigate = useNavigate();
   const { lecturers, lecturersLoading, lecturersError, handleCardClick } = useRoomContext();
 
-  if (lecturersLoading)
-    return <div style={{ color: 'blue', fontSize: 24 }}>Loading lecturers...</div>;
-  if (lecturersError)
-    return <div style={{ color: 'red', fontSize: 24 }}>Error: {lecturersError}</div>;
-  if (!lecturers.length)
-    return <div style={{ color: 'gray', fontSize: 24 }}>No lecturers found.</div>;
+  if (lecturersLoading) return (
+    <div className="container mx-auto px-4 py-8">
+      <div className="max-w-3xl mx-auto space-y-6">
+        <Skeleton className="h-10 w-48" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {[...Array(6)].map((_, i) => (
+            <div key={i} className="bg-white rounded-xl shadow p-4 flex items-center gap-4">
+              <Skeleton className="w-24 h-32 rounded-lg" />
+              <div className="flex-1 space-y-2">
+                <Skeleton className="h-6 w-3/4" />
+                <Skeleton className="h-4 w-1/2" />
+                <Skeleton className="h-4 w-1/4" />
+                <Skeleton className="h-8 w-24 mt-2" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+
+  if (lecturersError) return (
+    <div className="container mx-auto px-4 py-8">
+      <div className="max-w-3xl mx-auto text-red-500 p-4 bg-red-50 rounded-lg">
+        Error loading lecturers: {lecturersError}
+      </div>
+    </div>
+  );
+
+  if (!lecturers.length) return (
+    <div className="container mx-auto px-4 py-8">
+      <div className="max-w-3xl mx-auto text-gray-500 p-4 bg-gray-50 rounded-lg">
+        No lecturers found.
+      </div>
+    </div>
+  );
 
   return (
-    <div className="max-w-4xl mx-auto p-8">
-      <h1 className="text-3xl font-bold mb-6">Lecturers</h1>
-      <div className="flex flex-wrap gap-6">
-        {lecturers.map((lect) => (
-          <div
-            key={lect.id}
-            className="bg-white rounded-xl shadow p-4 flex items-center gap-4"
-            style={{ border: '2px solid red', background: 'purple', color: 'black', zIndex: 9999 }}
+    <div className="container mx-auto px-4 py-8">
+      <div className="max-w-3xl mx-auto">
+        {/* Back button */}
+        <div className="mb-4">
+          <Button
+            onClick={() => navigate(-1)}
+            variant="ghost"
+            className="flex items-center gap-2"
+            aria-label="Go back"
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <img
-                src={lect.photo?.startsWith('http') ? lect.photo : `/${lect.photo}`}
-                alt={lect.displayName}
-                className="w-full h-full object-cover rounded-lg border border-muted"
-                loading="lazy"
-              />
+            <ArrowLeft className="mr-1" />
+            Back
+          </Button>
+        </div>
+
+        {/* Header */}
+        <div className="mb-8">
+          <h1 className="text-3xl md:text-4xl font-light mb-2">Lecturers Room Directory</h1>
+          <p className="text-lg text-muted-foreground">
+            Click on a lecturer to go directly to their office on the 3D floor plan.
+          </p>
+        </div>
+
+        {/* Lecturers Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {lecturers.map((lect, idx) => (
+            <div
+              key={lect.id}
+              className="bg-white rounded-xl shadow p-4 flex items-center gap-4 hover:shadow-md transition-shadow"
+            >
+              <div className="w-24 h-32 flex-shrink-0">
+                <img
+                  src={lect.photo?.startsWith('http') ? lect.photo : `/${lect.photo}`}
+                  alt={lect.displayName}
+                  className="w-full h-full object-cover rounded-lg border border-muted"
+                  loading={idx < 4 ? 'eager' : 'lazy'}
+                />
+              </div>
+              <div className="flex-1">
+                <div className="font-medium">{lect.displayName}</div>
+                <div className="text-sm text-gray-600">{lect.surname}</div>
+                <div className="text-xs text-gray-400 mb-2">{lect.role}</div>
+                <Button
+                  size="sm"
+                  className="mt-1"
+                  variant="secondary"
+                  onClick={() => handleCardClick(lect.floor, lect.roomID)}
+                >
+                  Go to Room
+                </Button>
+              </div>
             </div>
-            <div className="flex-1">
-              <div className="font-medium">{lect.displayName}</div>
-              <div className="text-sm text-gray-600">{lect.surname}</div>
-              <Button
-                size="sm"
-                className="mt-1"
-                variant="secondary"
-                onClick={() => handleCardClick(lect.floor, lect.roomID)}
-              >
-                Go to Room
-              </Button>
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
