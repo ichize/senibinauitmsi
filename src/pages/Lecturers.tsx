@@ -8,12 +8,24 @@ import { supabase } from '@/lib/supabaseClient';
 
 const Lecturers: React.FC = () => {
   const navigate = useNavigate();
-  const { lecturers, lecturersLoading, lecturersError, handleCardClick } = useRoomContext();
+  const { lecturers, lecturersLoading, lecturersError } = useRoomContext();
 
   // --- Academic Advisor Search State ---
   const [search, setSearch] = useState('');
   const [results, setResults] = useState<{ "Student Name": string; "Academic Advisor": string }[]>([]);
   const [loading, setLoading] = useState(false);
+
+  // Helper to map floor string to route
+  const getFloorRoute = (floor: string) => {
+    switch (floor.toLowerCase()) {
+      case 'ground-floor': return '/ground-floor';
+      case 'first-floor': return '/first-floor';
+      case 'second-floor': return '/second-floor';
+      case 'third-floor': return '/third-floor';
+      case 'fourth-floor': return '/fourth-floor';
+      default: return '/';
+    }
+  } 
 
   useEffect(() => {
     if (search.trim() === '') {
@@ -149,12 +161,14 @@ const Lecturers: React.FC = () => {
               <div className="flex-1">
                 <div className="font-medium">{lect.displayName}</div>
                 <div className="text-sm text-gray-600">{lect.surname}</div>
-                <div className="text-xs text-gray-400 mb-2">{lect.role}</div>
                 <Button
                   size="sm"
                   className="mt-1"
                   variant="secondary"
-                  onClick={() => handleCardClick(lect.floor, lect.roomID)}
+                  onClick={() => {
+                    const route = getFloorRoute(lect.floor);
+                    navigate(`${route}?room=${lect.roomID}`);
+                  }}
                 >
                   Go to Room
                 </Button>
