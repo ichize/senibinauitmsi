@@ -4,10 +4,16 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Skeleton } from '@/components/ui/skeleton';
+import { supabase } from '@/lib/supabaseClient';
 
 const Lecturers: React.FC = () => {
   const navigate = useNavigate();
   const { lecturers, lecturersLoading, lecturersError, handleCardClick } = useRoomContext();
+
+  // --- Academic Advisor Search State ---
+  const [search, setSearch] = useState('');
+  const [results, setResults] = useState<{ "Student Name": string; "Academic Advisor": string }[]>([]);
+  const [loading, setLoading] = useState(false);
 
   if (lecturersLoading) return (
     <div className="container mx-auto px-4 py-8">
