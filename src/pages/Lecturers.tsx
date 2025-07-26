@@ -23,7 +23,8 @@ const Lecturers: React.FC = () => {
           if (typeof expertise === 'string') {
             expertise = expertise.split(',').map(e => e.trim());
           }
-          return Array.isArray(expertise) && expertise.includes(selectedExpertise);
+          // Compare expertise IDs as strings
+          return Array.isArray(expertise) && expertise.map(String).includes(selectedExpertise);
         })
       );
     }
