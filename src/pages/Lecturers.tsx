@@ -27,6 +27,22 @@ const Lecturers: React.FC = () => {
       default: return '/';
     }
   } 
+  const [selectedExpertise, setSelectedExpertise] = useState("");
+
+  useEffect(() => {
+    // fetch lecturers based on selectedExpertise
+  }, [selectedExpertise]);
+
+  return (
+    <>
+      <ExpertiseFilter
+        selectedExpertise={selectedExpertise}
+        onChange={setSelectedExpertise}
+      />
+
+      {/* render filtered lecturers */}
+    </>
+  );
 
   useEffect(() => {
     if (search.trim() === '') {
@@ -192,23 +208,5 @@ const Lecturers: React.FC = () => {
   );
 };
 
-const Lecturers = () => {
-  const [selectedExpertise, setSelectedExpertise] = useState("");
-
-  useEffect(() => {
-    // fetch lecturers based on selectedExpertise
-  }, [selectedExpertise]);
-
-  return (
-    <>
-      <ExpertiseFilter
-        selectedExpertise={selectedExpertise}
-        onChange={setSelectedExpertise}
-      />
-
-      {/* render filtered lecturers */}
-    </>
-  );
-};
 
 export default Lecturers;
