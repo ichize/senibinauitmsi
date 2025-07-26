@@ -10,6 +10,10 @@ import ExpertiseFilter from '@/components/ExpertiseFilter';
 const Lecturers: React.FC = () => {
   const navigate = useNavigate();
   const { lecturers, lecturersLoading, lecturersError } = useRoomContext();
+  // Debug: log lecturers array to check expertise field
+  useEffect(() => {
+    console.log('Lecturers from context:', lecturers);
+  }, [lecturers]);
   const [selectedExpertise, setSelectedExpertise] = useState('');
   const [filteredLecturers, setFilteredLecturers] = useState(lecturers);
   useEffect(() => {
