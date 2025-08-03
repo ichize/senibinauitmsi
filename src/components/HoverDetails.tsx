@@ -12,7 +12,7 @@ interface HoverDetailsProps {
   className?: string;
   modelPosition: [number, number, number];
   cardOffset?: { x: number; y: number };
-  roomId?: string; // NEW
+  roomID?: string; // NEW
   isHighlighted?: boolean; // NEW
   autoOpen?: boolean; // Optionally auto-open, e.g. when deep-linked
 }
@@ -28,7 +28,7 @@ const HoverDetails: React.FC<HoverDetailsProps> = ({
   className,
   modelPosition,
   cardOffset = { x: 0, y: 0 },
-  roomId,
+  roomID,
   isHighlighted = false,
   autoOpen = false,
 }) => {
@@ -67,7 +67,7 @@ const HoverDetails: React.FC<HoverDetailsProps> = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       data-position={modelPosition.join(',')}
-      data-room-id={roomId}
+      data-room-id={roomID}
     >
       <div className={cn("w-2 h-2 bg-white rounded-full", isHighlighted && "bg-red-500")} />
       {/* Info card */}
