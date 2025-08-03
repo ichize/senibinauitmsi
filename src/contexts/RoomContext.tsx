@@ -21,7 +21,7 @@ interface LecturerData {
 }
 
 interface RoomContextType {
-rooms: RoomData[];
+  rooms: RoomData[];
   lecturers: LecturerData[];
   updateLecturer: (id: string, updates: Partial<LecturerData>) => void;
   lecturersLoading: boolean;
