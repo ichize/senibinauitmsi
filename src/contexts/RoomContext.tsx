@@ -50,6 +50,7 @@ export const RoomProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         console.error('Error fetching rooms:', error);
         setRooms([]);
       } else if (data) {
+        console.log('[RoomContext] Rooms loaded:', data);
         setRooms(data);
       }
     };
