@@ -2,9 +2,10 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import { supabase } from "@/lib/supabaseClient";
 
 interface RoomData {
-  id: string;
-  currentName: string;
-  description: string;
+  roomID: string;
+  room_name: string;
+  room_type?: string;
+  capacity?: number;
   floor: string;
   position: [number, number, number];
 }
@@ -44,7 +45,7 @@ export const RoomProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const fetchRooms = async () => {
       const { data, error } = await supabase
         .from('rooms')
-        .select('*');
+        .select('roomID, room_name, room_type, capacity, floor, position');
       if (error) {
         console.error('Error fetching rooms:', error);
         setRooms([]);

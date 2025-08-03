@@ -14,8 +14,8 @@ const GroundFloorHotspots: React.FC<GroundFloorHotspotsProps> = ({ roomIdToPosit
     lecturers.find((lect) => lect.roomID?.toLowerCase() === roomId.toLowerCase());
 
   const getRoomName = (id: string) => {
-    const room = rooms.find(r => r.id === id);
-    return room ? room.currentName : id;
+    const room = rooms.find(r => r.roomID === id);
+    return room ? room.room_name : id;
   };
 
   return (

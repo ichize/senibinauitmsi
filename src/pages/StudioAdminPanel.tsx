@@ -13,7 +13,7 @@ const StudioAdminPanel: React.FC = () => {
   const [newStudioName, setNewStudioName] = useState('');
 
   // Only show studios (filter by type or naming convention)
-  const studios = rooms.filter(room => room.id.startsWith('studio'));
+  const studios = rooms.filter(room => room.roomID.startsWith('studio'));
 
   const handleStudioRename = async (studioId: string) => {
     if (!newStudioName.trim()) {
@@ -22,7 +22,7 @@ const StudioAdminPanel: React.FC = () => {
     }
     // Update studio name in Supabase
     const { error } = await import('@/lib/supabaseClient').then(({ supabase }) =>
-      supabase.from('rooms').update({ currentName: newStudioName.trim() }).eq('id', studioId)
+      supabase.from('rooms').update({ room_name: newStudioName.trim() }).eq('roomID', studioId)
     );
     if (error) {
       toast.error('Failed to rename studio');
@@ -34,8 +34,8 @@ const StudioAdminPanel: React.FC = () => {
   };
 
   const startEditingStudio = (studio: any) => {
-    setEditingStudio(studio.id);
-    setNewStudioName(studio.currentName);
+    setEditingStudio(studio.roomID);
+    setNewStudioName(studio.room_name);
   };
 
   const cancelEdit = () => {
@@ -51,23 +51,23 @@ const StudioAdminPanel: React.FC = () => {
       <CardContent>
         <div className="grid gap-4">
           {studios.map((studio) => (
-            <div key={studio.id} className="flex items-center justify-between p-4 border rounded-lg">
+            <div key={studio.roomID} className="flex items-center justify-between p-4 border rounded-lg">
               <div className="flex-1">
                 <div className="flex items-center gap-4">
-                  {editingStudio === studio.id ? (
+                  {editingStudio === studio.roomID ? (
                     <div className="flex items-center gap-2 flex-1">
-                      <Label htmlFor={`studio-${studio.id}`} className="sr-only">
+                      <Label htmlFor={`studio-${studio.roomID}`} className="sr-only">
                         Studio Name
                       </Label>
                       <Input
-                        id={`studio-${studio.id}`}
+                        id={`studio-${studio.roomID}`}
                         value={newStudioName}
                         onChange={(e) => setNewStudioName(e.target.value)}
                         className="flex-1"
                         placeholder="Enter new studio name"
                       />
                       <Button 
-                        onClick={() => handleStudioRename(studio.id)}
+                        onClick={() => handleStudioRename(studio.roomID)}
                         size="sm"
                       >
                         Save
@@ -83,8 +83,8 @@ const StudioAdminPanel: React.FC = () => {
                   ) : (
                     <>
                       <div className="flex-1">
-                        <h3 className="font-medium">{studio.currentName}</h3>
-                        <p className="text-sm text-gray-600">{studio.description}</p>
+                        <h3 className="font-medium">{studio.room_name}</h3>
+                        <p className="text-sm text-gray-600">{studio.room_type} {studio.capacity ? `(${studio.capacity} pax)` : ''}</p>
                         <p className="text-xs text-gray-500">{studio.floor}</p>
                       </div>
                       <Button 
