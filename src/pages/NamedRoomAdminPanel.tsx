@@ -8,18 +8,27 @@ import { toast } from 'sonner';
 import { useRoomContext } from '@/contexts/RoomContext';
 
 const NamedRoomAdminPanel: React.FC = () => {
-  const { namedRooms, updateRoomName } = useRoomContext();
+  const { rooms } = useRoomContext();
   const [editingRoom, setEditingRoom] = useState<string | null>(null);
   const [newRoomName, setNewRoomName] = useState('');
 
-  const handleRoomRename = (roomId: string) => {
+  // Only show named rooms (not studios)
+  const namedRooms = rooms.filter(room => !room.id.startsWith('studio'));
+
+  const handleRoomRename = async (roomId: string) => {
     if (!newRoomName.trim()) {
       toast.error('Please enter a valid name');
       return;
     }
-
-    updateRoomName(roomId, newRoomName.trim());
-    toast.success('Room renamed successfully');
+    // Update room name in Supabase
+    const { error } = await import('@/lib/supabaseClient').then(({ supabase }) =>
+      supabase.from('rooms').update({ currentName: newRoomName.trim() }).eq('id', roomId)
+    );
+    if (error) {
+      toast.error('Failed to rename room');
+    } else {
+      toast.success('Room renamed successfully');
+    }
     setEditingRoom(null);
     setNewRoomName('');
   };

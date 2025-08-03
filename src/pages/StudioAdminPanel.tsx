@@ -8,18 +8,27 @@ import { toast } from 'sonner';
 import { useRoomContext } from '@/contexts/RoomContext';
 
 const StudioAdminPanel: React.FC = () => {
-  const { studios, updateStudioName } = useRoomContext();
+  const { rooms } = useRoomContext();
   const [editingStudio, setEditingStudio] = useState<string | null>(null);
   const [newStudioName, setNewStudioName] = useState('');
 
-  const handleStudioRename = (studioId: string) => {
+  // Only show studios (filter by type or naming convention)
+  const studios = rooms.filter(room => room.id.startsWith('studio'));
+
+  const handleStudioRename = async (studioId: string) => {
     if (!newStudioName.trim()) {
       toast.error('Please enter a valid name');
       return;
     }
-
-    updateStudioName(studioId, newStudioName.trim());
-    toast.success('Studio renamed successfully');
+    // Update studio name in Supabase
+    const { error } = await import('@/lib/supabaseClient').then(({ supabase }) =>
+      supabase.from('rooms').update({ currentName: newStudioName.trim() }).eq('id', studioId)
+    );
+    if (error) {
+      toast.error('Failed to rename studio');
+    } else {
+      toast.success('Studio renamed successfully');
+    }
     setEditingStudio(null);
     setNewStudioName('');
   };
