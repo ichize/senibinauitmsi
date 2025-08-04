@@ -35,7 +35,7 @@ const DynamicHotspots: React.FC<DynamicHotspotsProps> = ({ floor, targetRoomId }
               key={room.roomID}
               title={lecturer.displayName}
               surname={lecturer.surname}
-              description={Array.isArray(lecturer.expertise) ? lecturer.expertise.join(", ") : lecturer.expertise || "Lecturer"}
+              description={Array.isArray(lecturer.expertise) && lecturer.expertise.length > 0 ? lecturer.expertise.join(", ") : (typeof lecturer.expertise === 'string' && lecturer.expertise ? lecturer.expertise : "Lecturer")}
               position="right"
               modelPosition={position}
               imageSrc={lecturer.photo}

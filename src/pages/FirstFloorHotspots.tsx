@@ -89,7 +89,7 @@ const FirstFloorHotspots: React.FC<FirstFloorHotspotsProps> = ({ roomIdToPositio
             key={id}
             title={lect.displayName}
             surname={lect.surname}
-            description={Array.isArray(lect.expertise) ? lect.expertise.join(", ") : lect.expertise || "Lecturer"}
+            description={Array.isArray(lect.expertise) && lect.expertise.length > 0 ? lect.expertise.join(", ") : (typeof lect.expertise === 'string' && lect.expertise ? lect.expertise : "Lecturer")}
             position="right"
             modelPosition={roomIdToPosition[id]}
             imageSrc={lect.photo}

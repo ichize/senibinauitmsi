@@ -88,7 +88,7 @@ const FourthFloorHotspots: React.FC<FourthFloorHotspotsProps> = ({ roomIdToPosit
             modelPosition={roomIdToPosition[id]}
             imageSrc={lect.photo}
             roomID={id}
-            description={Array.isArray(lect.expertise) ? lect.expertise.join(", ") : lect.expertise || "Lecturer"}
+            description={Array.isArray(lect.expertise) && lect.expertise.length > 0 ? lect.expertise.join(", ") : (typeof lect.expertise === 'string' && lect.expertise ? lect.expertise : "Lecturer")}
             isHighlighted={targetRoomId === id}
             autoOpen={targetRoomId === id}
           />
