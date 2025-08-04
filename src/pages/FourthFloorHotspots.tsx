@@ -50,7 +50,7 @@ const FourthFloorHotspots: React.FC<FourthFloorHotspotsProps> = ({ roomIdToPosit
       {/* Studio and Surau */}
       <HoverDetails
         title={getStudioName('studio-4c')}
-        roomId="studio-4c"
+        roomID="studio-4c"
         description="Max Pax =28. Projector"
         position="right"
         modelPosition={roomIdToPosition["studio-4c"]}
@@ -59,7 +59,7 @@ const FourthFloorHotspots: React.FC<FourthFloorHotspotsProps> = ({ roomIdToPosit
       />
       <HoverDetails
         title={getRoomName('surau-l')}
-        roomId="surau-l"
+        roomID="surau-l"
         description="5 times Appoinment with Allah"
         position="left"
         modelPosition={roomIdToPosition["surau-l"]}
@@ -68,7 +68,7 @@ const FourthFloorHotspots: React.FC<FourthFloorHotspotsProps> = ({ roomIdToPosit
       />
       <HoverDetails
         title={getRoomName('surau-p')}
-        roomId="surau-p"
+        roomID="surau-p"
         description="5 times Appoinment with Allah"
         position="top"
         modelPosition={roomIdToPosition["surau-p"]}
@@ -87,7 +87,8 @@ const FourthFloorHotspots: React.FC<FourthFloorHotspotsProps> = ({ roomIdToPosit
             position="right"
             modelPosition={roomIdToPosition[id]}
             imageSrc={lect.photo}
-            roomId={id}
+            roomID={id}
+            description={Array.isArray(lect.expertise) ? lect.expertise.join(", ") : lect.expertise || "Lecturer"}
             isHighlighted={targetRoomId === id}
             autoOpen={targetRoomId === id}
           />
@@ -100,7 +101,7 @@ const FourthFloorHotspots: React.FC<FourthFloorHotspotsProps> = ({ roomIdToPosit
         description="-"
         position="right"
         modelPosition={roomIdToPosition["unoccupied"]}
-        roomId="unoccupied"
+        roomID="unoccupied"
         isHighlighted={targetRoomId === "unoccupied"}
         autoOpen={targetRoomId === "unoccupied"}
       />
@@ -109,7 +110,7 @@ const FourthFloorHotspots: React.FC<FourthFloorHotspotsProps> = ({ roomIdToPosit
         description="Max Pax= 40. Projector, AP1 403"
         position="right"
         modelPosition={roomIdToPosition["classroom-403"]}
-        roomId="classroom-403"
+        roomID="classroom-403"
         isHighlighted={targetRoomId === "classroom-403"}
         autoOpen={targetRoomId === "classroom-403"}
       />
@@ -118,7 +119,7 @@ const FourthFloorHotspots: React.FC<FourthFloorHotspotsProps> = ({ roomIdToPosit
         description="Max Pax= 40. Projector, AP1 439"
         position="right"
         modelPosition={roomIdToPosition["classroom-439"]}
-        roomId="classroom-439"
+        roomID="classroom-439"
         isHighlighted={targetRoomId === "classroom-439"}
         autoOpen={targetRoomId === "classroom-439"}
       />

@@ -28,7 +28,7 @@ const FirstFloorHotspots: React.FC<FirstFloorHotspotsProps> = ({ roomIdToPositio
     <>
       <HoverDetails
         title={getStudioName('studio-01a')}
-        roomId="studio-01a"
+        roomID="studio-01a"
         description="Max Pax =30, 2 AC split unit, Projector"
         position="right"
         modelPosition={roomIdToPosition["studio-01a"]}
@@ -37,7 +37,7 @@ const FirstFloorHotspots: React.FC<FirstFloorHotspotsProps> = ({ roomIdToPositio
       />
       <HoverDetails
         title={getStudioName('studio-03a-extended')}
-        roomId="studio-03a-extended"
+        roomID="studio-03a-extended"
         description="Max Pax =30, 2 AC split unit, Non projector"
         position="right"
         modelPosition={roomIdToPosition["studio-03a-extended"]}
@@ -46,7 +46,7 @@ const FirstFloorHotspots: React.FC<FirstFloorHotspotsProps> = ({ roomIdToPositio
       />
       <HoverDetails
         title={getStudioName('studio-03a')}
-        roomId="studio-03a"
+        roomID="studio-03a"
         description="Max Pax =30, 2 AC split unit, Projector"
         position="right"
         modelPosition={roomIdToPosition["studio-03a"]}
@@ -55,7 +55,7 @@ const FirstFloorHotspots: React.FC<FirstFloorHotspotsProps> = ({ roomIdToPositio
       />
       <HoverDetails
         title={getRoomName('crit-tec')}
-        roomId="crit-tec"
+        roomID="crit-tec"
         description="Use for Crtique Sessions, Wrap up, Lectures, Projector, AP1 132"
         position="bottom"
         modelPosition={roomIdToPosition["crit-tec"]}
@@ -64,7 +64,7 @@ const FirstFloorHotspots: React.FC<FirstFloorHotspotsProps> = ({ roomIdToPositio
       />
       <HoverDetails
         title={getStudioName('studio-07a')}
-        roomId="studio-07a"
+        roomID="studio-07a"
         description="Max Pax =30, Fixed Work Station 3 AC split unit, Projector."
         position="right"
         modelPosition={roomIdToPosition["studio-07a"]}
@@ -73,7 +73,7 @@ const FirstFloorHotspots: React.FC<FirstFloorHotspotsProps> = ({ roomIdToPositio
       />
       <HoverDetails
         title={getRoomName('crit-small')}
-        roomId="crit-small"
+        roomID="crit-small"
         description="Use for Crtique Sessions, Wrap up, Lectures, Projector, AP1 104"
         position="bottom"
         modelPosition={roomIdToPosition["crit-small"]}
@@ -89,10 +89,11 @@ const FirstFloorHotspots: React.FC<FirstFloorHotspotsProps> = ({ roomIdToPositio
             key={id}
             title={lect.displayName}
             surname={lect.surname}
+            description={Array.isArray(lect.expertise) ? lect.expertise.join(", ") : lect.expertise || "Lecturer"}
             position="right"
             modelPosition={roomIdToPosition[id]}
             imageSrc={lect.photo}
-            roomId={id}
+            roomID={id}
             isHighlighted={targetRoomId === id}
             autoOpen={targetRoomId === id}
           />

@@ -24,7 +24,7 @@ const ThirdFloorHotspots: React.FC<ThirdFloorHotspotsProps> = ({ roomIdToPositio
     <>
       <HoverDetails
         title="Classroom"
-        roomId="classroom-0303"
+        roomID="classroom-0303"
         description="Max pax= 40, AC split unit, AP1 0303"
         position="right"
         modelPosition={roomIdToPosition["classroom-0303"]}
@@ -33,7 +33,7 @@ const ThirdFloorHotspots: React.FC<ThirdFloorHotspotsProps> = ({ roomIdToPositio
       />
       <HoverDetails
         title={getStudioName('studio-3a')}
-        roomId="studio-3a"
+        roomID="studio-3a"
         description="Fixed Work Station 3 AC split unit, Projector"
         position="top"
         modelPosition={roomIdToPosition["studio-3a"]}
@@ -42,7 +42,7 @@ const ThirdFloorHotspots: React.FC<ThirdFloorHotspotsProps> = ({ roomIdToPositio
       />
       <HoverDetails
         title={getStudioName('studio-3b')}
-        roomId="studio-3b"
+        roomID="studio-3b"
         description="Fixed Work Station 3 AC split unit, Projector"
         position="top"
         modelPosition={roomIdToPosition["studio-3b"]}
@@ -51,7 +51,7 @@ const ThirdFloorHotspots: React.FC<ThirdFloorHotspotsProps> = ({ roomIdToPositio
       />
       <HoverDetails
         title="Floating Studio 05"
-        roomId="floating-studio-05"
+        roomID="floating-studio-05"
         description="Open Layout, 2 AC Split Unit"
         position="right"
         modelPosition={roomIdToPosition["floating-studio-05"]}
@@ -60,7 +60,7 @@ const ThirdFloorHotspots: React.FC<ThirdFloorHotspotsProps> = ({ roomIdToPositio
       />
       <HoverDetails
         title="Classroom"
-        roomId="classroom-0313"
+        roomID="classroom-0313"
         description="Max pax= 40, AC split unit, AP1 0313"
         position="left"
         modelPosition={roomIdToPosition["classroom-0313"]}
@@ -69,7 +69,7 @@ const ThirdFloorHotspots: React.FC<ThirdFloorHotspotsProps> = ({ roomIdToPositio
       />
       <HoverDetails
         title="Studio 05B"
-        roomId="studio-05b"
+        roomID="studio-05b"
         description="Max Pax= 25, Fixed Work Station 3 AC split unit, Projector"
         position="bottom"
         modelPosition={roomIdToPosition["studio-05b"]}
@@ -78,7 +78,7 @@ const ThirdFloorHotspots: React.FC<ThirdFloorHotspotsProps> = ({ roomIdToPositio
       />
       <HoverDetails
         title="Studio 04B"
-        roomId="studio-04b"
+        roomID="studio-04b"
         description="Max Pax =30, Fixed Work Station 3 AC split unit, Projector"
         position="right"
         modelPosition={roomIdToPosition["studio-04b"]}
@@ -87,7 +87,7 @@ const ThirdFloorHotspots: React.FC<ThirdFloorHotspotsProps> = ({ roomIdToPositio
       />
       <HoverDetails
         title="Floating Studio 04"
-        roomId="floating-studio-04"
+        roomID="floating-studio-04"
         description="Open Layout, 2 AC Split Unit"
         position="right"
         modelPosition={roomIdToPosition["floating-studio-04"]}

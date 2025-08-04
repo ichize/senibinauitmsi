@@ -22,7 +22,7 @@ const GroundFloorHotspots: React.FC<GroundFloorHotspotsProps> = ({ roomIdToPosit
     <>
       <HoverDetails
         title={getStudioName('studio-08b')}
-        roomId="studio-08b"
+        roomID="studio-08b"
         description="Max Pax= 30. Fixed Workstation, 3 AC, Projector"
         position="right"
         modelPosition={roomIdToPosition["studio-08b"]}
@@ -31,7 +31,7 @@ const GroundFloorHotspots: React.FC<GroundFloorHotspotsProps> = ({ roomIdToPosit
       />
       <HoverDetails
         title={getStudioName('studio-master-01')}
-        roomId="studio-master-01"
+        roomID="studio-master-01"
         description="Max Pax= 25. 24 hours operational Studio, Fixed Workstation, Projector"
         position="right"
         modelPosition={roomIdToPosition["studio-master-01"]}
@@ -40,7 +40,7 @@ const GroundFloorHotspots: React.FC<GroundFloorHotspotsProps> = ({ roomIdToPosit
       />
       <HoverDetails
         title={getStudioName('studio-master-03')}
-        roomId="studio-master-03"
+        roomID="studio-master-03"
         description="Max Pax= 25. 24 hours operational Studio, Fixed Workstation, Projector"
         position="right"
         modelPosition={roomIdToPosition["studio-master-03"]}
@@ -49,7 +49,7 @@ const GroundFloorHotspots: React.FC<GroundFloorHotspotsProps> = ({ roomIdToPosit
       />
       <HoverDetails
         title={getStudioName('studio-08a')}
-        roomId="studio-08a"
+        roomID="studio-08a"
         description="Max Pax= 30. Fixed Workstation, 3 AC, Projector"
         position="right"
         modelPosition={roomIdToPosition["studio-08a"]}
@@ -58,7 +58,7 @@ const GroundFloorHotspots: React.FC<GroundFloorHotspotsProps> = ({ roomIdToPosit
       />
       <HoverDetails
         title="Arc.Lab"
-        roomId="arclab"
+        roomID="arclab"
         description="Laser Cutter"
         position="top"
         modelPosition={roomIdToPosition["arclab"]}
@@ -67,7 +67,7 @@ const GroundFloorHotspots: React.FC<GroundFloorHotspotsProps> = ({ roomIdToPosit
       />
       <HoverDetails
         title={getStudioName('studio-master-04')}
-        roomId="studio-master-04"
+        roomID="studio-master-04"
         description="Max Pax= 25. 24 hours operational Studio, Fixed Workstation, Projector"
         position="right"
         modelPosition={roomIdToPosition["studio-master-04"]}
@@ -76,7 +76,7 @@ const GroundFloorHotspots: React.FC<GroundFloorHotspotsProps> = ({ roomIdToPosit
       />
       <HoverDetails
         title={getStudioName('studio-master-02')}
-        roomId="studio-master-02"
+        roomID="studio-master-02"
         description="Max Pax= 25. 24 hours operational Studio, Fixed Workstation, Projector"
         position="right"
         modelPosition={roomIdToPosition["studio-master-02"]}
@@ -88,7 +88,7 @@ const GroundFloorHotspots: React.FC<GroundFloorHotspotsProps> = ({ roomIdToPosit
         description="Max Pax= 40. Projector, AP1 022"
         position="right"
         modelPosition={roomIdToPosition["classroom-022"]}
-        roomId="classroom-022"
+        roomID="classroom-022"
         isHighlighted={targetRoomId === "classroom-022"}
         autoOpen={targetRoomId === "classroom-022"}
        />
@@ -97,7 +97,7 @@ const GroundFloorHotspots: React.FC<GroundFloorHotspotsProps> = ({ roomIdToPosit
         description="Max Pax= 40. Projector, AP1 002"
         position="right"
         modelPosition={roomIdToPosition["classroom-002"]}
-        roomId="classroom-002"
+        roomID="classroom-002"
         isHighlighted={targetRoomId === "classroom-002"}
         autoOpen={targetRoomId === "classroom-002"}
        />
@@ -113,7 +113,8 @@ const GroundFloorHotspots: React.FC<GroundFloorHotspotsProps> = ({ roomIdToPosit
             position="right"
             modelPosition={roomIdToPosition[id]}
             imageSrc={lect.photo}
-            roomId={id}
+            roomID={id}
+            description={Array.isArray(lect.expertise) ? lect.expertise.join(", ") : lect.expertise || "Lecturer"}
             isHighlighted={targetRoomId === id}
             autoOpen={targetRoomId === id}
           />
