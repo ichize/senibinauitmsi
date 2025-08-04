@@ -1,4 +1,4 @@
-import React, { createContext, useContext, ReactNode } from 'react';
+import React, { createContext, useContext, ReactNode, useEffect } from 'react';
 import { useRooms, Room, UserCredential } from '@/hooks/useRooms';
 
 interface RoomData {
@@ -81,6 +81,22 @@ export const RoomProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const namedRooms = getNamedRooms().map(convertRoomToRoomData);
   const lecturers = fetchedLecturers.map(convertUserToLecturer);
   const roomIdToPosition = getRoomIdToPosition();
+
+  // Debug: Log missing roomIDs for hotspots
+  useEffect(() => {
+    if (!roomIdToPosition) return;
+    const allHotspotRoomIDs = [
+      ...studios.map(r => r.id),
+      ...namedRooms.map(r => r.id),
+      ...lecturers.map(l => l.roomID)
+    ].filter(Boolean);
+    const missing = allHotspotRoomIDs.filter(id => !roomIdToPosition[id]);
+    if (missing.length > 0) {
+      console.warn('Missing room positions for these roomIDs:', missing);
+    } else {
+      console.log('All hotspot roomIDs have positions.');
+    }
+  }, [studios, namedRooms, lecturers, roomIdToPosition]);
 
   const updateStudioName = async (id: string, newName: string) => {
     await updateRoomNameInDB(id, newName);
