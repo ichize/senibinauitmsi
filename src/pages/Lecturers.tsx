@@ -202,7 +202,12 @@ const Lecturers: React.FC = () => {
                   className="mt-1"
                   variant="secondary"
                   onClick={() => {
+                    console.log('Lecturer ID:', lect.id);
+                    console.log('Lecturer Display Name:', lect.displayName);
+                    console.log('Lecturer Floor:', lect.floor);
+                    console.log('Lecturer Room ID:', lect.roomID);
                     const route = getFloorRoute(lect.floor);
+                    console.log('Navigating to:', `${route}?room=${lect.roomID}`);
                     navigate(`${route}?room=${lect.roomID}`);
                   }}
                 >
