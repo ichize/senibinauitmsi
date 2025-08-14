@@ -44,7 +44,7 @@ const LecturerAdminPanel: React.FC = () => {
   };
 
   const handleSave = async () => {
-    if (editId && form.displayName?.trim() && form.surname?.trim()) {
+    if (editId && form.username?.trim() && form.surname?.trim()) {
       let photoUrl = form.photo ?? "";
 
       // If new file selected, upload to Supabase and get public URL
@@ -72,7 +72,7 @@ const LecturerAdminPanel: React.FC = () => {
 
       try {
         await updateLecturer(editId, {
-          displayName: form.displayName!.trim(),
+          username: form.username!.trim(),
           surname: form.surname!.trim(),
           floor: form.floor ?? "",
           roomID: form.roomID ?? "",
@@ -115,13 +115,13 @@ const LecturerAdminPanel: React.FC = () => {
               >
                 <div className="flex flex-wrap gap-4">
                   <div className="flex-1 min-w-[180px]">
-                    <Label htmlFor={`displayName-${lect.id}`}>
+                    <Label htmlFor={`username-${lect.id}`}>
                       Name <span className="text-xs text-gray-400">(fixed)</span>
                     </Label>
                     <Input
-                      id={`displayName-${lect.id}`}
-                      name="displayName"
-                      value={lect.displayName}
+                      id={`username-${lect.id}`}
+                      name="username"
+                      value={lect.username}
                       readOnly
                       tabIndex={-1}
                       className="bg-gray-100 text-gray-500 cursor-not-allowed border-dashed border-2 border-gray-300 opacity-80"
@@ -144,7 +144,7 @@ const LecturerAdminPanel: React.FC = () => {
                     <Label>Current Photo</Label>
                     <img
                       src={localPhotoURL || form.photo || lect.photo || "/placeholder.svg"}
-                      alt={form.displayName ?? lect.displayName}
+                      alt={form.username ?? lect.username}
                       className="w-14 h-14 rounded-full object-cover border mb-2"
                     />
                     <div>
@@ -202,12 +202,12 @@ const LecturerAdminPanel: React.FC = () => {
                   <div className="flex items-center gap-3">
                     <img
                       src={lect.photo || "/placeholder.svg"}
-                      alt={lect.displayName}
+                      alt={lect.username}
                       className="w-12 h-12 rounded-full object-cover border"
                     />
                     <div>
                       <div className="font-semibold">
-                        {lect.displayName}{" "}
+                        {lect.username}{" "}
                         <span className="text-gray-400 font-normal">
                           {lect.surname}
                         </span>

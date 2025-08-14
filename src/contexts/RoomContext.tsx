@@ -11,7 +11,7 @@ interface RoomData {
 
 interface LecturerData {
   id: string;
-  displayName: string;
+  username: string;
   surname: string;
   photo: string;
   floor: string;
@@ -56,7 +56,7 @@ const convertRoomToRoomData = (room: Room): RoomData => ({
 // Helper function to convert UserCredential to LecturerData for compatibility  
 const convertUserToLecturer = (user: UserCredential): LecturerData => ({
   id: user.id,
-  displayName: user.displayName || '',
+  username: user.username || '',
   surname: user.surname || '',
   photo: user.photo || '',
   floor: user.floor || '',
@@ -113,7 +113,7 @@ export const RoomProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const { error } = await supabase
         .from('user_credentials')
         .update({
-          displayName: updates.displayName,
+          username: updates.username,
           surname: updates.surname,
           photo: updates.photo,
           floor: updates.floor,
