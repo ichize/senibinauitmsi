@@ -25,7 +25,7 @@ interface RoomContextType {
   updateStudioName: (id: string, newName: string) => Promise<void>;
   updateRoomName: (id: string, newName: string) => Promise<void>;
   lecturers: LecturerData[];
-  updateLecturer: (id: string, updates: Partial<LecturerData>) => void;
+  updateLecturer: (id: string, updates: Partial<LecturerData>) => Promise<void>;
   lecturersLoading: boolean;
   lecturersError: string | null;
   roomIdToPosition: Record<string, [number, number, number]>;
@@ -106,9 +106,31 @@ export const RoomProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     await updateRoomNameInDB(id, newName);
   };
 
-  const updateLecturer = (id: string, updates: Partial<LecturerData>) => {
-    // This would need to be implemented to update Supabase
-    console.log('updateLecturer called but not implemented for Supabase yet:', id, updates);
+  const updateLecturer = async (id: string, updates: Partial<LecturerData>) => {
+    const { supabase } = await import('@/lib/supabaseClient');
+    
+    try {
+      const { error } = await supabase
+        .from('user_credentials')
+        .update({
+          displayName: updates.displayName,
+          surname: updates.surname,
+          photo: updates.photo,
+          floor: updates.floor,
+          roomID: updates.roomID,
+        })
+        .eq('id', id);
+
+      if (error) {
+        console.error('Error updating lecturer:', error);
+        throw error;
+      }
+      
+      console.log('Lecturer updated successfully:', id, updates);
+    } catch (error) {
+      console.error('Failed to update lecturer:', error);
+      throw error;
+    }
   };
 
   return (

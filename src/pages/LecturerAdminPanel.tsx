@@ -70,19 +70,24 @@ const LecturerAdminPanel: React.FC = () => {
         }
       }
 
-      updateLecturer(editId, {
-        displayName: form.displayName!.trim(),
-        surname: form.surname!.trim(),
-        floor: form.floor ?? "",
-        roomID: form.roomID ?? "",
-        photo: photoUrl,
-      });
+      try {
+        await updateLecturer(editId, {
+          displayName: form.displayName!.trim(),
+          surname: form.surname!.trim(),
+          floor: form.floor ?? "",
+          roomID: form.roomID ?? "",
+          photo: photoUrl,
+        });
 
-      toast.success("Lecturer info updated!");
-      setEditId(null);
-      setForm({});
-      setSelectedFile(null);
-      setLocalPhotoURL(null);
+        toast.success("Lecturer info updated!");
+        setEditId(null);
+        setForm({});
+        setSelectedFile(null);
+        setLocalPhotoURL(null);
+      } catch (error) {
+        toast.error("Failed to update lecturer");
+        console.error("Update error:", error);
+      }
     } else {
       toast.error("Full name and surname are required");
     }
