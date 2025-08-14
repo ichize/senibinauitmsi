@@ -128,16 +128,6 @@ const LecturerAdminPanel: React.FC = () => {
                       className="mb-1"
                     />
                   </div>
-                  <div className="flex-1 min-w-[120px]">
-                    <Label htmlFor={`floor-${lect.id}`}>Floor</Label>
-                    <Input
-                      id={`floor-${lect.id}`}
-                      name="floor"
-                      value={form.floor ?? ""}
-                      onChange={handleChange}
-                      className="mb-1"
-                    />
-                  </div>
                   <div className="flex-1 min-w-[180px] flex flex-col gap-2">
                     <Label>Current Photo</Label>
                     <img
