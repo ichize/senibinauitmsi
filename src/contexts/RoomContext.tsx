@@ -112,7 +112,10 @@ export const RoomProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const { supabase } = await import('@/lib/supabaseClient');
     
     try {
-      const { error } = await supabase
+      console.log('Updating lecturer with ID:', id);
+      console.log('Updates:', updates);
+      
+      const { data, error } = await supabase
         .from('user_credentials')
         .update({
           username: updates.username,
@@ -121,14 +124,16 @@ export const RoomProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           floor: updates.floor,
           roomID: updates.roomID,
         })
-        .eq('id', id);
+        .eq('id', id)
+        .select();
 
       if (error) {
-        console.error('Error updating lecturer:', error);
+        console.error('Supabase error details:', error);
         throw error;
       }
       
       console.log('Lecturer updated successfully:', id, updates);
+      console.log('Updated data:', data);
     } catch (error) {
       console.error('Failed to update lecturer:', error);
       throw error;
