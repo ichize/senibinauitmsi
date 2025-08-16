@@ -38,7 +38,7 @@ const DynamicHotspots: React.FC<DynamicHotspotsProps> = ({ floor, targetRoomId }
               description={Array.isArray(lecturer.expertise) && lecturer.expertise.length > 0 ? lecturer.expertise.join(", ") : (typeof lecturer.expertise === 'string' && lecturer.expertise ? lecturer.expertise : "Lecturer")}
               position="right"
               modelPosition={position}
-              imageSrc={lecturer.photo}
+              imageSrc={lecturer.photo_url}
               roomID={room.roomID}
               isHighlighted={targetRoomId === room.roomID}
               autoOpen={targetRoomId === room.roomID}
