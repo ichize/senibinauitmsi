@@ -7,6 +7,7 @@ import ModelViewer from '@/components/ModelViewer';
 import { useVisitorTracker } from '@/hooks/useVisitorTracker'; // ✅ Ensure hook is working
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabaseClient';
+import { useRoomContext } from '@/contexts/RoomContext';
 
 const floors = [
   { name: 'Ground Floor', path: '/ground-floor', description: 'Entrance, Master Studios, Studios, Classroom, Lab and Lecturer Offices' },
@@ -18,6 +19,26 @@ const floors = [
 
 const Index = () => {
   const { visitorCount } = useVisitorTracker(); // ✅ Hook tracks and fetches count
+  const { namedRooms } = useRoomContext();
+
+  const getRoomLink = (roomName: string, defaultRoomId: string) => {
+    const room = namedRooms.find(r => r.currentName === roomName || r.id === defaultRoomId);
+    if (room) {
+      // Determine the floor path based on the floor name
+      let floorPath = '/ground-floor'; // Default to ground floor
+      if (room.floor) {
+        switch (room.floor.toLowerCase()) {
+          case '1st floor': floorPath = '/first-floor'; break;
+          case '2nd floor': floorPath = '/second-floor'; break;
+          case '3rd floor': floorPath = '/third-floor'; break;
+          case '4th floor': floorPath = '/fourth-floor'; break;
+          case 'ground floor': floorPath = '/ground-floor'; break;
+        }
+      }
+      return `${floorPath}?room=${room.id}`; // Use room.id as the query parameter
+    }
+    return `/second-floor?room=${defaultRoomId}`; // Fallback to original hardcoded link
+  };
 
   // Remove Academic Advisor Search section and related state/effect
 
@@ -42,13 +63,13 @@ const Index = () => {
               Discover spaces and details through an immersive digital experience.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up" style={{ animationDelay: '300ms' }}>
-              <Link to="/second-floor?room=crit-main" className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary hover:bg-primary/90 transition-colors">
+              <Link to={getRoomLink('Bilik Krit Utama', 'ap1-234')} className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary hover:bg-primary/90 transition-colors">
                 Bilik Krit Utama
               </Link>
-              <Link to="/first-floor?room=crit-small" className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary hover:bg-primary/90 transition-colors">
+              <Link to={getRoomLink('Bilik Krit Kecil', 'ap1-104')} className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary hover:bg-primary/90 transition-colors">
                 Bilik Krit Kecil
               </Link>
-              <Link to="/first-floor?room=crit-tec" className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary hover:bg-primary/90 transition-colors">
+              <Link to={getRoomLink('Bilik Krit TEC', 'ap1-132')} className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary hover:bg-primary/90 transition-colors">
                 Bilik Krit TEC
               </Link>
             </div>
