@@ -91,7 +91,7 @@ const LecturerAdminPanel: React.FC = () => {
           surname: form.surname!.trim(),
           floor: form.floor ?? "",
           roomID: form.roomID ?? "",
-          photo: photoUrl,
+          photo_url: photoUrl,
         });
 
         toast.success("Lecturer info updated!");
