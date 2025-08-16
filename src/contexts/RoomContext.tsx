@@ -13,7 +13,7 @@ interface LecturerData {
   id: string;
   username: string;
   surname: string;
-  photo: string;
+  photo_url: string;
   floor: string;
   roomID: string;
   expertise?: string | string[];
