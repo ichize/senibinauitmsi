@@ -188,7 +188,7 @@ const Lecturers: React.FC = () => {
             >
               <div className="w-24 h-32 flex-shrink-0">
                 <img
-                  src={lect.photo?.startsWith('http') ? lect.photo : `/${lect.photo}`}
+                  src={lect.photo_url?.startsWith('http') ? lect.photo_url : `/${lect.photo_url }`}
                   alt={lect.username}
                   className="w-full h-full object-cover rounded-lg border border-muted"
                   loading={idx < 4 ? 'eager' : 'lazy'}
