@@ -115,11 +115,11 @@ export const RoomProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       console.log('Updating lecturer with ID:', id);
       console.log('Updates:', updates);
       
-      // IMPORTANT: If you are getting "invalid input syntax for type uuid" error, 
-      // it likely means the 'id' column in your 'user_credentials' table in Supabase is of type UUID, 
-      // but the 'id' being passed here is not a valid UUID format (e.g., '11').
-      // Please verify your Supabase table schema for 'user_credentials' and ensure 'id' is correctly handled.
-      // If your 'id' column is UUID, ensure the IDs fetched from the database are actual UUIDs.
+      // Convert the ID to a number as the database column is int4
+      const lecturerIdAsNumber = parseInt(id, 10);
+      if (isNaN(lecturerIdAsNumber)) {
+        throw new Error('Invalid lecturer ID. Expected a number.');
+      }
 
       const { data, error } = await supabase
         .from('user_credentials')
@@ -130,7 +130,7 @@ export const RoomProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           floor: updates.floor,
           roomID: updates.roomID,
         })
-        .eq('id', id)
+        .eq('id', lecturerIdAsNumber) // Use the parsed number ID here
         .select();
 
       if (error) {
