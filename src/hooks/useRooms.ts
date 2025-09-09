@@ -15,7 +15,7 @@ export interface UserCredential {
   room?: string; // links to rooms.roomID
   username?: string;
   surname?: string;
-  photo_url?: string;
+  photo?: string;
   expertise?: string | string[];
   roomID?: string; // for compatibility
   floor?: string; // floor information
@@ -66,7 +66,7 @@ export const useRooms = () => {
         const processedLecturers = lecturersData?.map(lecturer => ({
           ...lecturer,
           displayName: `${lecturer.title ? lecturer.title + ' ' : ''}${lecturer.username}`.trim(),
-          photo_url: lecturer.photo_url,
+          photo: lecturer.photo_url,
           roomID: lecturer.roomID, // Use the correct column
           floor: lecturer.floor || '',
           expertise: Array.isArray(lecturer.lecturer_expertise)
