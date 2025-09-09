@@ -157,11 +157,16 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Lecturers button */}
-      <div className="flex flex-col items-center gap-4 my-8">
+      {/* Navigation buttons */}
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-4 my-8">
         <Button asChild variant="secondary" size="lg">
           <Link to="/lecturers">
             The Lecturers
+          </Link>
+        </Button>
+        <Button asChild variant="outline" size="lg">
+          <Link to="/studio-plan">
+            Studio Plan Overview
           </Link>
         </Button>
       </div>
