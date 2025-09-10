@@ -4,10 +4,11 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import ModelViewer from '@/components/ModelViewer';
-import { useVisitorTracker } from '@/hooks/useVisitorTracker'; // ✅ Ensure hook is working
+import { useVisitorTracker } from '@/hooks/useVisitorTracker';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import { useRoomContext } from '@/contexts/RoomContext';
+import { ExternalLink, Users, Building2 } from 'lucide-react';
 
 const floors = [
   { name: 'Ground Floor', path: '/ground-floor', description: 'Entrance, Master Studios, Studios, Classroom, Lab and Lecturer Offices' },
@@ -18,7 +19,7 @@ const floors = [
 ];
 
 const Index = () => {
-  const { visitorCount } = useVisitorTracker(); // ✅ Hook tracks and fetches count
+  const { visitorCount } = useVisitorTracker();
   const { namedRooms } = useRoomContext();
 
   const getRoomLink = (roomName: string, defaultRoomId: string) => {
@@ -27,17 +28,14 @@ const Index = () => {
     console.log('Found room:', room);
 
     if (room) {
-      // Find the floor object that matches the room's floor (case-insensitive)
       const matchedFloor = floors.find(floor => 
         floor.name.toLowerCase() === room.floor?.toLowerCase()
       );
       
-      let floorPath = '/ground-floor'; // Default to ground floor
+      let floorPath = '/ground-floor';
       if (matchedFloor) {
         floorPath = matchedFloor.path;
       } else if (room.floor) {
-        // Fallback for cases where floor name doesn't exactly match predefined names
-        // This handles cases like "1st Floor" vs "first floor"
         const simpleFloorName = room.floor.toLowerCase().replace(/[^a-z0-9]/g, '');
         if (simpleFloorName.includes('ground')) floorPath = '/ground-floor';
         else if (simpleFloorName.includes('1st') || simpleFloorName.includes('first')) floorPath = '/first-floor';
@@ -46,129 +44,125 @@ const Index = () => {
         else if (simpleFloorName.includes('4th') || simpleFloorName.includes('fourth')) floorPath = '/fourth-floor';
       }
       console.log(`Generated floorPath: ${floorPath} for room ID: ${room.id}`);
-      return `${floorPath}?room=${room.id}`; // Use room.id as the query parameter
+      return `${floorPath}?room=${room.id}`;
     }
     console.log(`Room not found for ${roomName} or ${defaultRoomId}. Using fallback link.`);
-    return `/second-floor?room=${defaultRoomId}`; // Fallback to original hardcoded link
+    return `/second-floor?room=${defaultRoomId}`;
   };
-
-  // Remove Academic Advisor Search section and related state/effect
 
   return (
     <Layout>
-      {/* Hero section */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 z-0 bg-[url('https://images.unsplash.com/photo-1487958449943-2429e8be8625?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2670&q=80')] bg-cover bg-center">
-          <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/60 to-background"></div>
-        </div>
-        <div className="relative z-10 container mx-auto px-4 pt-24 pb-48 md:pt-36 md:pb-64">
-          <div className="max-w-3xl mx-auto text-center">
-            <div className="inline-block px-3 py-1 mb-6 text-xs font-medium uppercase tracking-wider text-primary bg-primary/5 rounded-full animate-fade-in">
-              Interactive Annex 1 Explorer
-            </div>
-            <h1 className="text-4xl md:text-6xl font-light tracking-tight mb-6 animate-slide-up" style={{ animationDelay: '100ms' }}>
-              Welcome to Architecture School <br />
-              <span className="font-normal">Annex 1</span>
-            </h1>
-            <p className="text-lg md:text-xl text-muted-foreground mb-8 animate-slide-up" style={{ animationDelay: '200ms' }}>
-              Explore our building floor by floor with interactive 3D models.&nbsp;
-              Discover spaces and details through an immersive digital experience.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up" style={{ animationDelay: '300ms' }}>
-              <Link to={getRoomLink('Bilik Krit Utama', 'ap1-234')} className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary hover:bg-primary/90 transition-colors">
-                Bilik Krit Utama
-              </Link>
-              <Link to={getRoomLink('Bilik Krit Kecil', 'ap1-104')} className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary hover:bg-primary/90 transition-colors">
-                Bilik Krit Kecil
-              </Link>
-              <Link to={getRoomLink('Bilik Krit TEC', 'ap1-132')} className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary hover:bg-primary/90 transition-colors">
-                Bilik Krit TEC
-              </Link>
-            </div>
-            <div className="flex justify-center mt-6">
-              <a
-                href="https://maps.app.goo.gl/8nYXVnFebumsi5FLA"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 transition-colors"
-              >
-                Location of Annex 1
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Stylish Visitor Count Card */}
-      <div className="flex justify-center my-6">
-        <div className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-xl shadow-lg px-6 py-4 flex items-center gap-3 animate-fade-in">
-          <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m9-4a4 4 0 11-8 0 4 4 0 018 0zm6 4v2a2 2 0 01-2 2h-1.5M3 16v2a2 2 0 002 2h1.5" />
-          </svg>
-          <div>
-            <div className="text-lg font-bold">Total Visitors Today</div>
-            <div className="text-2xl font-extrabold animate-pulse">{visitorCount === null ? '...' : visitorCount}</div>
-          </div>
-        </div>
-      </div>
-
-      {/* 3D model overview section */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-light tracking-tight mb-4">Building Overview</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Explore our interactive 3D model of the building. Use your mouse to rotate and zoom.
-            </p>
-          </div>
-          <div className="bg-white rounded-lg shadow-lg p-4">
-            <ModelViewer modelSrc="Annex1.glb" />
-          </div>
-          <div className="mt-6 text-center text-sm text-gray-500">
-            Click and drag to rotate. Use scroll wheel to zoom in and out.
-          </div>
-
-          {/* ✅ Visitor Count Display */}
-          {visitorCount !== null && (
-            <div className="mt-6 text-center text-xs text-muted-foreground">
-              <p>Total Visitors Today: <strong>{visitorCount}</strong></p>
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* Floor list */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
-            {floors.map(floor => (
-              <div key={floor.name} className="bg-white rounded-lg p-6 shadow">
-                <h3 className="text-lg font-medium mb-2">{floor.name}</h3>
-                <p className="text-sm text-gray-600 mb-4">{floor.description}</p>
-                <Link to={floor.path} className="inline-flex items-center text-primary hover:underline">
-                  Explore {floor.name}
-                  <svg className="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </Link>
+      <div className="lg:grid lg:grid-cols-4 lg:gap-8">
+        {/* Main Content */}
+        <div className="lg:col-span-3">
+          {/* Hero Section */}
+          <section className="relative min-h-screen bg-gradient-to-br from-primary/20 via-background to-secondary/20 overflow-hidden">
+            <div className="absolute inset-0 bg-[url('/images/studio-plan.png')] bg-cover bg-center opacity-10" />
+            <div className="relative container mx-auto px-4 py-20 text-center">
+              <div className="max-w-4xl mx-auto space-y-8">
+                <h1 className="text-5xl md:text-7xl font-light tracking-tight">
+                  Architecture School
+                  <span className="block text-primary font-normal">Annex 1</span>
+                </h1>
+                <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+                  Explore our state-of-the-art facilities and discover the spaces where creativity meets innovation
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                  <Button asChild size="lg" className="text-lg px-8 py-6 bg-primary hover:bg-primary/90">
+                    <Link to={getRoomLink("Bilik Krit Utama", "1")}>
+                      Start Exploring
+                    </Link>
+                  </Button>
+                  <Button asChild variant="outline" size="lg" className="text-lg px-8 py-6">
+                    <a
+                      href="https://maps.google.com/?q=Architecture+School+Annex+1"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <ExternalLink className="w-5 h-5 mr-2" />
+                      View Location
+                    </a>
+                  </Button>
+                </div>
               </div>
-            ))}
+            </div>
+          </section>
+
+          {/* Visitor Count */}
+          <section className="py-8">
+            <div className="container mx-auto px-4 text-center">
+              <div className="inline-flex items-center gap-3 bg-gradient-to-r from-primary/10 to-secondary/10 px-6 py-4 rounded-full border">
+                <div className="text-lg font-semibold">Total Visitors Today:</div>
+                <div className="text-2xl font-bold text-primary">{visitorCount === null ? '...' : visitorCount}</div>
+              </div>
+            </div>
+          </section>
+
+          {/* 3D Model Overview */}
+          <section className="py-16 bg-secondary/5">
+            <div className="container mx-auto px-4">
+              <div className="text-center mb-12">
+                <h2 className="text-3xl md:text-4xl font-light tracking-tight mb-4">Building Overview</h2>
+                <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                  Explore our interactive 3D model of the building. Use your mouse to rotate and zoom.
+                </p>
+              </div>
+              <div className="bg-card rounded-lg shadow-lg p-4">
+                <ModelViewer modelSrc="Annex1.glb" />
+              </div>
+              <div className="mt-6 text-center text-sm text-muted-foreground">
+                Click and drag to rotate. Use scroll wheel to zoom in and out.
+              </div>
+            </div>
+          </section>
+
+          {/* Floor List */}
+          <section className="py-16">
+            <div className="container mx-auto px-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
+                {floors.map(floor => (
+                  <div key={floor.name} className="bg-card rounded-lg p-6 shadow-sm border hover:shadow-md transition-shadow">
+                    <h3 className="text-lg font-semibold mb-2">{floor.name}</h3>
+                    <p className="text-sm text-muted-foreground mb-4">{floor.description}</p>
+                    <Button asChild variant="outline" size="sm" className="w-full">
+                      <Link to={floor.path}>
+                        Explore {floor.name}
+                      </Link>
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Secondary Navigation */}
+          <section className="py-16 bg-secondary/5">
+            <div className="container mx-auto px-4">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button asChild variant="secondary" size="lg" className="text-lg px-8 py-6">
+                  <Link to="/lecturers">
+                    <Users className="w-5 h-5 mr-2" />
+                    The Lecturers
+                  </Link>
+                </Button>
+                <Button asChild variant="secondary" size="lg" className="text-lg px-8 py-6">
+                  <Link to="/studio-plan">
+                    <Building2 className="w-5 h-5 mr-2" />
+                    Studio Plan Overview
+                  </Link>
+                </Button>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        {/* Instagram Feed Sidebar */}
+        <div className="lg:col-span-1 lg:sticky lg:top-20 lg:h-fit">
+          <div className="p-6 bg-card border rounded-lg shadow-sm">
+            <h3 className="text-lg font-semibold mb-4 text-center">Follow Our Journey</h3>
+            <div className="elfsight-app-a590ee74-19ef-423f-932e-b9b0dcfab450" data-elfsight-app-lazy></div>
           </div>
         </div>
-      </section>
-
-      {/* Navigation buttons */}
-      <div className="flex flex-col sm:flex-row items-center justify-center gap-4 my-8">
-        <Button asChild variant="secondary" size="lg">
-          <Link to="/lecturers">
-            The Lecturers
-          </Link>
-        </Button>
-        <Button asChild variant="outline" size="lg">
-          <Link to="/studio-plan">
-            Studio Plan Overview
-          </Link>
-        </Button>
       </div>
     </Layout>
   );

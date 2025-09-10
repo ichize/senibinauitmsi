@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 
@@ -8,7 +9,7 @@ const StudioPlan = () => {
       <div className="container mx-auto px-4 py-8">
         {/* Back Button */}
         <div className="mb-6">
-          <Link href="/">
+          <Link to="/">
             <Button variant="outline">← Back</Button>
           </Link>
         </div>
