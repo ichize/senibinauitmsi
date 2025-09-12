@@ -14,9 +14,12 @@ const StudioPlan = () => {
     padding: "2px 8px",
     borderRadius: "4px",
     fontWeight: 600,
-    fontSize: "1rem",
+    fontSize: "clamp(0.7rem, 2vw, 1rem)", // Responsive font size
     pointerEvents: "none",
     zIndex: 10,
+    textAlign: "center",
+    lineHeight: 1.2,
+    minWidth: "max-content",
   };
 
   return (
@@ -52,7 +55,16 @@ const StudioPlan = () => {
                     top: top?.trim(),
                   }}
                 >
-                  {room.room_name}
+                  <div>{room.room_name}</div>
+                  <div
+                    style={{
+                      fontWeight: 400,
+                      fontSize: "clamp(0.6rem, 1.5vw, 0.85rem)",
+                      opacity: 0.7,
+                    }}
+                  >
+                    {room.roomID}
+                  </div>
                 </span>
               );
             })}
