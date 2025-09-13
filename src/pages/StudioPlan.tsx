@@ -59,7 +59,7 @@ const StudioPlan = () => {
                   <div
                     style={{
                       fontWeight: 400,
-                      fontSize: "clamp(0.6rem, 1.5vw, 0.85rem)",
+                      fontSize: "clamp(0.05rem, 1.5vw, 0.85rem)",
                       opacity: 0.7,
                     }}
                   >
