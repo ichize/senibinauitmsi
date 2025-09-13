@@ -11,10 +11,10 @@ const StudioPlan = () => {
   const baseLabelStyle: React.CSSProperties = {
     position: "absolute",
     background: "rgba(255,255,255,0.85)",
-    padding: "2px 8px",
-    borderRadius: "4px",
+    padding: "1px 4px",
+    borderRadius: "2px",
     fontWeight: 600,
-    fontSize: "clamp(0.2rem, 3vw, 1rem)", // Responsive font size
+    fontSize: "clamp(0.1rem, 2vw, 1rem)", // Responsive font size
     pointerEvents: "none",
     zIndex: 10,
     textAlign: "center",
