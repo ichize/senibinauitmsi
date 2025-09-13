@@ -18,7 +18,7 @@ const StudioPlan = () => {
     pointerEvents: "none",
     zIndex: 10,
     textAlign: "center",
-    lineHeight: 1.5,
+    lineHeight: 1,
     minWidth: "max-content",
   };
 
