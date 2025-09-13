@@ -14,7 +14,7 @@ const StudioPlan = () => {
     padding: "2px 8px",
     borderRadius: "4px",
     fontWeight: 600,
-    fontSize: "clamp(0.5rem, 2vw, 1rem)", // Responsive font size
+    fontSize: "clamp(0.2rem, 3vw, 1rem)", // Responsive font size
     pointerEvents: "none",
     zIndex: 10,
     textAlign: "center",
