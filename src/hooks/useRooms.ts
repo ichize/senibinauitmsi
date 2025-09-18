@@ -4,7 +4,7 @@ import { supabase } from '@/lib/supabaseClient';
 export interface Room {
   roomID: string;
   room_name: string;
-  description?: string;
+  email?: string;
   floor?: string;
   position?: [number, number, number];
   room_type?: string;
