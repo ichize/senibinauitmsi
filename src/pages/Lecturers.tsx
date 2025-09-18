@@ -36,7 +36,7 @@ const Lecturers: React.FC = () => {
 
   // --- Academic Advisor Search State ---
   const [search, setSearch] = useState('');
-  const [results, setResults] = useState<{ "Student Name": string; "Academic Advisor": string }[]>([]);
+  const [results, setResults] = useState<{ "Student Name": string; "Batch Name": string; "Intake": string  }[]>([]);
   const [loading, setLoading] = useState(false);
 
   // Helper to map floor string to route
