@@ -16,6 +16,7 @@ export interface UserCredential {
   username?: string;
   surname?: string;
   photo_url?: string;
+  email?: string;
   expertise?: string | string[];
   roomID?: string; // for compatibility
   floor?: string; // floor information

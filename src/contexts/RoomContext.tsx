@@ -16,6 +16,7 @@ interface LecturerData {
   photo_url: string;
   floor: string;
   roomID: string;
+  email: string;
   expertise?: string | string[];
   title?: string;
 }
@@ -160,6 +161,7 @@ export const RoomProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           surname: updates.surname,
           photo_url: updates.photo_url,
           floor: updates.floor,
+          email: updates.email,
           roomID: updates.roomID,
         })
         .eq('id', lecturerIdAsNumber) // Use the parsed number ID here
