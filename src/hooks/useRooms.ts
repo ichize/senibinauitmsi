@@ -44,7 +44,7 @@ export const useRooms = () => {
         // Fetch lecturers from user_credentials with proper field mapping
         const { data: lecturersData, error: lecturersError } = await supabase
           .from('user_credentials')
-          .select('id, title, username, surname, photo_url, roomID, floor, lecturer_expertise:lecturer_expertise(expertise_id)');
+          .select('id, title, username, surname, photo_url, roomID, floor, email, lecturer_expertise:lecturer_expertise(expertise_id)');
 
         if (lecturersError) {
           throw lecturersError;
