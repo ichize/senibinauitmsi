@@ -72,7 +72,7 @@ const Index = () => {
                     <Link to={getRoomLink('Bilik Krit Utama', 'ap1-234')} className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary hover:bg-primary/90 transition-colors">
                       Bilik Krit Utama
                     </Link>
-                    <Link to={getRoomLink('Bilik Krit Kecil', 'ap1-104')} className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary hover:bg-primary/90 transition-colors">
+                    <Link to={getRoomLink('Bilik Krit Kecil', 'ap1-231')} className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary hover:bg-primary/90 transition-colors">
                       Bilik Krit Kecil
                     </Link>
                     <Link to={getRoomLink('Bilik Krit TEC', 'ap1-132')} className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary hover:bg-primary/90 transition-colors">
