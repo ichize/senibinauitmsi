@@ -60,7 +60,6 @@ const Index = () => {
         <div className="lg:col-span-3">
           {/* Hero Section */}
           <section className="relative min-h-screen bg-gradient-to-br from-primary/20 via-background to-secondary/20 overflow-hidden">
-            
             <div className="relative container mx-auto px-4 py-20 text-center">
               <div className="max-w-4xl mx-auto space-y-8">
                 <h1 className="text-5xl md:text-7xl font-normal tracking-tight">
@@ -94,8 +93,11 @@ const Index = () => {
                   </Button>
                 </div>
                 {/* 3D ModelViewer inserted here to fill the gap */}
-                <div className="w-full max-w-3xl mx-auto mt-10 mb-4 bg-card rounded-lg shadow-lg p-4 flex justify-center items-center min-h-[350px]">
-                  <ModelViewer modelSrc="Annex1.glb" />
+                <div className="text-center mb-12">
+                  <h2 className="text-3xl md:text-4xl font-light tracking-tight mb-4">Our Annex 1</h2>
+                  <div className="w-full max-w-3xl mx-auto mt-10 mb-4 bg-card rounded-lg shadow-lg p-4 flex justify-center items-center min-h-[350px]">
+                    <ModelViewer modelSrc="Annex1.glb" />
+                  </div>
                 </div>
               </div>
             </div>
