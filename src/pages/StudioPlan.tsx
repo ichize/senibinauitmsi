@@ -25,13 +25,6 @@ const StudioPlan = () => {
   return (
     <Layout>
       <div className="container mx-auto px-4 py-8">
-        {/* Back Button */}
-        <div className="mb-6">
-          <Link to="/">
-            <Button variant="outline">← Back</Button>
-          </Link>
-        </div>
-
         {/* Floor Plan Image */}
         <div className="text-center">
           <h2 className="text-2xl font-light mb-4">Studio Plan Overview</h2>
