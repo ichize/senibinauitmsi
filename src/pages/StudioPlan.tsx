@@ -34,11 +34,14 @@ const StudioPlan = () => {
               alt="Architecture Studio Plan"
               className="max-w-full h-auto rounded-lg shadow-md"
             />
-            {/* Render all room labels with location */}
+            {/* Render all room labels with position */}
             {rooms.map((room) => {
-              // Expecting location as "left%,top%" e.g. "50%,81%"
-              if (!room.location) return null;
-              const [left, top] = room.location.split(",");
+              // Expecting position as [x, y, z] coordinates but we need to convert to percentage
+              if (!room.position) return null;
+              // For studio plan, we'll need position data formatted as percentage strings
+              // This is a placeholder - you'll need to adjust based on your coordinate system
+              const left = "50%"; // placeholder
+              const top = "50%"; // placeholder
               return (
                 <span
                   key={room.roomID}
