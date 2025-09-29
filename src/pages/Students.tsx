@@ -6,51 +6,51 @@ const Students = () => {
   const degreeSegments = [
     {
       id: 1,
-      title: 'Segment 1',
-      description: 'Student work showcase',
-      driveLink: 'https://drive.google.com/drive/folders/',
+      title: 'Semester 01',
+      description: 'AAA400 & AAA405',
+      driveLink: 'https://drive.google.com/drive/folders/1S5exR_0hP4H7ZJBj0BzAnD7F711tNsHb?usp=drive_link',
       thumbnail: '/placeholder.svg'
     },
     {
       id: 2,
-      title: 'Segment 2',
-      description: 'Student work showcase',
-      driveLink: 'https://drive.google.com/drive/folders/',
+      title: 'Semester 02',
+      description: 'Design AAA450',
+      driveLink: 'https://drive.google.com/drive/folders/1VOvWmrZ5xM28IlyQVV7jQ5hq23LDM10G?usp=drive_link',
       thumbnail: '/placeholder.svg'
     },
     {
       id: 3,
-      title: 'Segment 3',
-      description: 'Student work showcase',
-      driveLink: 'https://drive.google.com/drive/folders/',
+      title: 'Semester 03',
+      description: 'AAA500',
+      driveLink: 'https://drive.google.com/drive/folders/1BokjqPxqvGct4eT4VIX1Fjmo5kCFm7iR?usp=drive_link',
       thumbnail: '/placeholder.svg'
     },
     {
       id: 4,
-      title: 'Segment 4',
-      description: 'Student work showcase',
-      driveLink: 'https://drive.google.com/drive/folders/',
+      title: 'Semester 04',
+      description: 'AAA550',
+      driveLink: 'https://drive.google.com/drive/folders/1oGmyG-hjiUjl3Cjz65IGfacIo3nzfPON?usp=drive_link',
       thumbnail: '/placeholder.svg'
     },
     {
       id: 5,
-      title: 'Segment 5',
-      description: 'Student work showcase',
-      driveLink: 'https://drive.google.com/drive/folders/',
+      title: 'Semester 05',
+      description: 'AAA600',
+      driveLink: 'https://drive.google.com/drive/folders/1BPQKHE9h3ykHdQDMSreXH6Y0BrhO3RAV?usp=drive_link',
       thumbnail: '/placeholder.svg'
     },
     {
       id: 6,
-      title: 'Segment 6',
-      description: 'Student work showcase',
-      driveLink: 'https://drive.google.com/drive/folders/',
+      title: 'Semester 07',
+      description: 'AAA650',
+      driveLink: 'https://drive.google.com/drive/folders/1KZ-Df7Mmi7Ja_WWXeBBfFTagN1cXKM6L?usp=drive_link',
       thumbnail: '/placeholder.svg'
     },
     {
       id: 7,
-      title: 'Segment 7',
+      title: 'Sester 08',
       description: 'Student work showcase',
-      driveLink: 'https://drive.google.com/drive/folders/',
+      driveLink: 'https://drive.google.com/drive/folders/1SMXxhXnSuBJU8nRbycO20AljvqDw_3Sw?usp=drive_link',
       thumbnail: '/placeholder.svg'
     }
   ];
@@ -58,30 +58,30 @@ const Students = () => {
   const masterSegments = [
     {
       id: 1,
-      title: 'Master Segment 1',
+      title: 'Master Semester 01',
       description: 'Graduate student work',
-      driveLink: 'https://drive.google.com/drive/folders/',
+      driveLink: 'https://drive.google.com/drive/folders/16ep05Ts5vAEYIUKPJDyQxDdZnjILsCdT?usp=drive_link',
       thumbnail: '/placeholder.svg'
     },
     {
       id: 2,
-      title: 'Master Segment 2',
+      title: 'Master Semester 02',
       description: 'Graduate student work',
-      driveLink: 'https://drive.google.com/drive/folders/',
+      driveLink: 'https://drive.google.com/drive/folders/15fgQETU1tlza6AvltP3EI0WK65AmGKSl?usp=drive_link',
       thumbnail: '/placeholder.svg'
     },
     {
       id: 3,
-      title: 'Master Segment 3',
+      title: 'Master Semester 03',
       description: 'Graduate student work',
-      driveLink: 'https://drive.google.com/drive/folders/',
+      driveLink: 'https://drive.google.com/drive/folders/1-gjCsY88dLrgHwjwP0usBk2KDe21JgkN?usp=drive_link',
       thumbnail: '/placeholder.svg'
     },
     {
       id: 4,
-      title: 'Master Segment 4',
+      title: 'Master Semester 04',
       description: 'Graduate student work',
-      driveLink: 'https://drive.google.com/drive/folders/',
+      driveLink: 'https://drive.google.com/drive/folders/1xk9EAokPmCwVJt8GLWDjiemLNw2N5R2F?usp=drive_link',
       thumbnail: '/placeholder.svg'
     }
   ];
