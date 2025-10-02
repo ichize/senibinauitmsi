@@ -52,7 +52,7 @@ const Students = () => {
       title: 'Semester 08',
       description: 'Student work showcase',
       driveLink: 'https://drive.google.com/drive/folders/1SMXxhXnSuBJU8nRbycO20AljvqDw_3Sw?usp=drive_link',
-      thumbnail: '/Screenshot 2025-09-29 155028.png'
+      thumbnail: '/images/retak.png'
     }
   ];
 
