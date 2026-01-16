@@ -40,10 +40,10 @@ export const useRooms = () => {
           throw roomsError;
         }
 
-        // Fetch lecturers from user_credentials with expertise names through join
+        // Fetch lecturers from user_credentials with proper field mapping
         const { data: lecturersData, error: lecturersError } = await supabase
           .from('user_credentials')
-          .select('id, title, username, surname, photo_url, roomID, floor, email, lecturer_expertise(expertise:expertise(name))');
+          .select('id, title, username, surname, photo_url, roomID, floor, email, lecturer_expertise:lecturer_expertise(expertise_id)');
 
         if (lecturersError) {
           throw lecturersError;
@@ -70,7 +70,7 @@ export const useRooms = () => {
           roomID: lecturer.roomID, // Use the correct column
           floor: lecturer.floor || '',
           expertise: Array.isArray(lecturer.lecturer_expertise)
-            ? lecturer.lecturer_expertise.map((ex: any) => ex.expertise?.name).filter(Boolean)
+            ? lecturer.lecturer_expertise.map((ex: any) => ex.expertise_id)
             : [],
         })) || [];
 
