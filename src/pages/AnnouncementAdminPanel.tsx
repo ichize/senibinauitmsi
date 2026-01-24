@@ -124,10 +124,17 @@ const AnnouncementAdminPanel: React.FC = () => {
                 id="description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                placeholder="Enter announcement details. You can include URLs and they will be clickable."
-                rows={4}
+                placeholder="Enter announcement details.
+
+For links:
+• Raw URL: https://example.com
+• Custom text: [click here](https://example.com)"
+                rows={5}
                 required
               />
+              <p className="text-xs text-muted-foreground">
+                💡 Tip: Use [your text](https://url.com) to create links with custom text
+              </p>
             </div>
             
             <div className="space-y-2">
