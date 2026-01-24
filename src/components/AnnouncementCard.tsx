@@ -14,11 +14,36 @@ const getYouTubeEmbedUrl = (url: string): string | null => {
 };
 
 const renderDescriptionWithLinks = (text: string) => {
-  const urlRegex = /(https?:\/\/[^\s]+)/g;
-  const parts = text.split(urlRegex);
+  // First handle markdown-style links [text](url)
+  const markdownLinkRegex = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g;
+  const rawUrlRegex = /(https?:\/\/[^\s]+)/g;
+  
+  // Replace markdown links with placeholders
+  const tempText = text.replace(markdownLinkRegex, (_, linkText, url) => {
+    return `%%MDLINK%%${linkText}%%URL%%${url}%%ENDLINK%%`;
+  });
+  
+  // Split and process both markdown placeholders and raw URLs
+  const parts = tempText.split(/(%%MDLINK%%.*?%%ENDLINK%%|https?:\/\/[^\s]+)/g);
   
   return parts.map((part, index) => {
-    if (part.match(urlRegex)) {
+    // Check if it's a markdown link placeholder
+    const mdMatch = part.match(/%%MDLINK%%(.+?)%%URL%%(https?:\/\/[^\s]+)%%ENDLINK%%/);
+    if (mdMatch) {
+      return (
+        <a
+          key={index}
+          href={mdMatch[2]}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-primary underline hover:text-primary/80 transition-colors"
+        >
+          {mdMatch[1]}
+        </a>
+      );
+    }
+    // Check if it's a raw URL
+    if (part.match(rawUrlRegex)) {
       return (
         <a
           key={index}
