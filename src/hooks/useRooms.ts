@@ -21,7 +21,6 @@ export interface UserCredential {
   roomID?: string; // for compatibility
   floor?: string; // floor information
   title?: string;
-  google_scholar_url?: string;
 }
 
 export const useRooms = () => {
@@ -45,7 +44,7 @@ export const useRooms = () => {
         // Fetch lecturers from user_credentials with expertise names through join
         const { data: lecturersData, error: lecturersError } = await supabase
           .from('user_credentials')
-          .select('id, title, username, surname, photo_url, roomID, floor, email, google_scholar_url, lecturer_expertise(expertise:expertise(name))');
+          .select('id, title, username, surname, photo_url, roomID, floor, email, lecturer_expertise(expertise:expertise(name))');
 
         if (lecturersError) {
           throw lecturersError;

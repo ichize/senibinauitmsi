@@ -6,7 +6,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { supabase } from '@/lib/supabaseClient';
 import ExpertiseFilter from '@/components/ExpertiseFilter';
 import Layout from '@/components/Layout';
-import { Mail, MapPin, Building, X, GraduationCap, ExternalLink } from 'lucide-react';
+import { Mail, MapPin, Building, X } from 'lucide-react';
 
 const Lecturers: React.FC = () => {
   const navigate = useNavigate();
@@ -231,25 +231,6 @@ const Lecturers: React.FC = () => {
                         )}
                       </div>
                     </div>
-
-                    {/* Research Profile Section */}
-                    {selectedLecturer.google_scholar_url && (
-                      <div className="pt-3 border-t border-border">
-                        <h4 className="font-medium text-foreground mb-2 flex items-center gap-2">
-                          <GraduationCap className="h-4 w-4" />
-                          Research Profile
-                        </h4>
-                        <a
-                          href={selectedLecturer.google_scholar_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 text-primary hover:underline bg-primary/10 px-4 py-2 rounded-lg transition-colors hover:bg-primary/20"
-                        >
-                          <span>View Publications on Google Scholar</span>
-                          <ExternalLink className="h-4 w-4" />
-                        </a>
-                      </div>
-                    )}
                     
                     {/* Action Buttons */}
                     <div className="flex gap-3 pt-4">
