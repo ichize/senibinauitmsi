@@ -76,6 +76,7 @@ const LecturerAdminPanel: React.FC = () => {
             floor: form.floor ?? "",
             roomID: form.roomID ?? "",
             photo_url: photoUrl,
+            google_scholar_url: (form as any).google_scholar_url ?? "",
           })
           .eq("id", editId);
 
@@ -193,6 +194,17 @@ const LecturerAdminPanel: React.FC = () => {
                       onChange={handleChange}
                       className="mb-1"
                       placeholder="Enter Room ID"
+                    />
+                  </div>
+                  <div className="flex-1 min-w-[200px]">
+                    <Label htmlFor={`scholar-${lect.id}`}>Google Scholar URL</Label>
+                    <Input
+                      id={`scholar-${lect.id}`}
+                      name="google_scholar_url"
+                      value={(form as any).google_scholar_url ?? ""}
+                      onChange={handleChange}
+                      className="mb-1"
+                      placeholder="https://scholar.google.com/citations?user=..."
                     />
                   </div>
                 </div>

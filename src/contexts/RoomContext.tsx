@@ -18,6 +18,7 @@ export interface LecturerData {
   email: string;
   expertise?: string | string[];
   title?: string;
+  google_scholar_url?: string;
 }
 
 interface RoomContextType {
@@ -64,6 +65,7 @@ const convertUserToLecturer = (user: UserCredential): LecturerData => ({
   email: user.email || '',
   title: user.title || '',
   expertise: user.expertise || [],
+  google_scholar_url: user.google_scholar_url || '',
 });
 
 export const RoomProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
