@@ -4,7 +4,7 @@ import AnnouncementCard from './AnnouncementCard';
 import { Megaphone, ChevronDown } from 'lucide-react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 
-const AnnouncementsSection: React.FC = () => {
+const AnnouncementsSection: React.FC<{ audience?: 'students' | 'public' }> = ({ audience }) => {
   const { announcements, isLoading, error } = useAnnouncements();
   const [isPastOpen, setIsPastOpen] = useState(false);
 
@@ -34,8 +34,14 @@ const AnnouncementsSection: React.FC = () => {
     return null;
   }
 
-  const recentAnnouncements = announcements.slice(0, 3);
-  const pastAnnouncements = announcements.slice(3);
+  // Filter announcements by audience.
+  // Default/homepage (no `audience` prop) shows announcements targeted to public or legacy entries with no audience.
+  const filtered = audience === 'students'
+    ? announcements.filter((a: any) => Array.isArray(a.audience) && a.audience.includes('students'))
+    : announcements.filter((a: any) => !a.audience || (Array.isArray(a.audience) && a.audience.includes('public')));
+
+  const recentAnnouncements = filtered.slice(0, 3);
+  const pastAnnouncements = filtered.slice(3);
 
   return (
     <section className="py-8">

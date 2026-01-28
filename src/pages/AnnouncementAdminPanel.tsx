@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { toast } from 'sonner';
 import { useAnnouncements, Announcement } from '@/hooks/useAnnouncements';
@@ -16,6 +17,7 @@ const AnnouncementAdminPanel: React.FC = () => {
   const [description, setDescription] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [youtubeUrl, setYoutubeUrl] = useState('');
+  const [audience, setAudience] = useState<string[]>([]);
   const [editingAnnouncement, setEditingAnnouncement] = useState<Announcement | null>(null);
 
   const resetForm = () => {
@@ -23,6 +25,7 @@ const AnnouncementAdminPanel: React.FC = () => {
     setDescription('');
     setImageUrl('');
     setYoutubeUrl('');
+    setAudience([]);
     setEditingAnnouncement(null);
   };
 
@@ -32,6 +35,7 @@ const AnnouncementAdminPanel: React.FC = () => {
     setDescription(announcement.description);
     setImageUrl(announcement.image_url || '');
     setYoutubeUrl(announcement.youtube_url || '');
+    setAudience(announcement.audience ?? []);
   };
 
   const handleCancelEdit = () => {
@@ -54,6 +58,7 @@ const AnnouncementAdminPanel: React.FC = () => {
           description: description.trim(),
           image_url: imageUrl.trim() || undefined,
           youtube_url: youtubeUrl.trim() || undefined,
+          audience: audience.length > 0 ? audience : undefined,
         });
         toast.success('Announcement updated successfully');
       } else {
@@ -62,6 +67,7 @@ const AnnouncementAdminPanel: React.FC = () => {
           description: description.trim(),
           image_url: imageUrl.trim() || undefined,
           youtube_url: youtubeUrl.trim() || undefined,
+          audience: audience.length > 0 ? audience : undefined,
         });
         toast.success('Announcement posted successfully');
       }
@@ -159,6 +165,40 @@ For links:
                 If both image and YouTube URL are provided, YouTube video will be shown at the bottom
               </p>
             </div>
+
+            <div className="space-y-2">
+              <Label>Target Audience</Label>
+              <div className="flex items-center gap-4">
+                <label className="flex items-center gap-2">
+                  <Checkbox
+                    checked={audience.includes('students')}
+                    onCheckedChange={(val) => {
+                      const checked = !!val;
+                      setAudience((prev) => {
+                        if (checked) return Array.from(new Set([...prev, 'students']));
+                        return prev.filter((p) => p !== 'students');
+                      });
+                    }}
+                  />
+                  <span>Students</span>
+                </label>
+
+                <label className="flex items-center gap-2">
+                  <Checkbox
+                    checked={audience.includes('public')}
+                    onCheckedChange={(val) => {
+                      const checked = !!val;
+                      setAudience((prev) => {
+                        if (checked) return Array.from(new Set([...prev, 'public']));
+                        return prev.filter((p) => p !== 'public');
+                      });
+                    }}
+                  />
+                  <span>Public</span>
+                </label>
+              </div>
+              <p className="text-xs text-muted-foreground">If none selected, announcement will default to public (homepage).</p>
+            </div>
             
             <div className="flex gap-2">
               <Button type="submit" disabled={isSubmitting} className="flex-1">
@@ -215,6 +255,17 @@ For links:
                     <p className="text-xs text-muted-foreground mt-1">
                       Posted on {format(new Date(announcement.created_at), 'MMM d, yyyy')}
                     </p>
+                    <div className="mt-2 flex gap-2">
+                      {(!announcement.audience || announcement.audience.length === 0) && (
+                        <span className="inline-block text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded">Public</span>
+                      )}
+                      {announcement.audience?.includes('public') && (
+                        <span className="inline-block text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded">Public</span>
+                      )}
+                      {announcement.audience?.includes('students') && (
+                        <span className="inline-block text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded">Students</span>
+                      )}
+                    </div>
                     {announcement.youtube_url && (
                       <span className="inline-block mt-1 text-xs bg-red-100 text-red-700 px-2 py-0.5 rounded">
                         YouTube
