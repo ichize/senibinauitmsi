@@ -11,7 +11,6 @@ const Students = () => {
       title: 'Semester 01',
       description: 'AAA400 & AAA405',
       driveLink: 'https://drive.google.com/drive/folders/1S5exR_0hP4H7ZJBj0BzAnD7F711tNsHb?usp=drive_link',
-      thumbnail: '/placeholder.svg'
     },
     {
       id: 2,
@@ -25,35 +24,30 @@ const Students = () => {
       title: 'Semester 03',
       description: 'AAA500',
       driveLink: 'https://drive.google.com/drive/folders/1BokjqPxqvGct4eT4VIX1Fjmo5kCFm7iR?usp=drive_link',
-      thumbnail: '/placeholder.svg'
     },
     {
       id: 4,
       title: 'Semester 04',
       description: 'AAA550',
       driveLink: 'https://drive.google.com/drive/folders/1oGmyG-hjiUjl3Cjz65IGfacIo3nzfPON?usp=drive_link',
-      thumbnail: '/placeholder.svg'
     },
     {
       id: 5,
       title: 'Semester 05',
       description: 'AAA600',
       driveLink: 'https://drive.google.com/drive/folders/1BPQKHE9h3ykHdQDMSreXH6Y0BrhO3RAV?usp=drive_link',
-      thumbnail: '/placeholder.svg'
     },
     {
       id: 6,
       title: 'Semester 07',
       description: 'AAA650',
       driveLink: 'https://drive.google.com/drive/folders/1KZ-Df7Mmi7Ja_WWXeBBfFTagN1cXKM6L?usp=drive_link',
-      thumbnail: '/placeholder.svg'
     },
     {
       id: 7,
       title: 'Semester 08',
       description: 'Student work showcase',
       driveLink: 'https://drive.google.com/drive/folders/1SMXxhXnSuBJU8nRbycO20AljvqDw_3Sw?usp=drive_link',
-      thumbnail: '/images/retak.png'
     }
   ];
 
@@ -63,50 +57,42 @@ const Students = () => {
       title: 'Master Semester 01',
       description: 'Graduate student work',
       driveLink: 'https://drive.google.com/drive/folders/16ep05Ts5vAEYIUKPJDyQxDdZnjILsCdT?usp=drive_link',
-      thumbnail: '/placeholder.svg'
     },
     {
       id: 2,
       title: 'Master Semester 02',
       description: 'Graduate student work',
       driveLink: 'https://drive.google.com/drive/folders/15fgQETU1tlza6AvltP3EI0WK65AmGKSl?usp=drive_link',
-      thumbnail: '/placeholder.svg'
     },
     {
       id: 3,
       title: 'Master Semester 03',
       description: 'Graduate student work',
       driveLink: 'https://drive.google.com/drive/folders/1-gjCsY88dLrgHwjwP0usBk2KDe21JgkN?usp=drive_link',
-      thumbnail: '/placeholder.svg'
     },
     {
       id: 4,
       title: 'Master Semester 04',
       description: 'Graduate student work',
       driveLink: 'https://drive.google.com/drive/folders/1xk9EAokPmCwVJt8GLWDjiemLNw2N5R2F?usp=drive_link',
-      thumbnail: '/placeholder.svg'
     }
   ];
 
   const SegmentCard = ({ segment }: { segment: any }) => (
     <Card className="group cursor-pointer hover:shadow-lg transition-all duration-300">
-      <a href={segment.driveLink} target="_blank" rel="noopener noreferrer" className="block">
-        <div className="relative overflow-hidden rounded-t-lg">
-          <img
-            src={segment.thumbnail}
-            alt={segment.title}
-            className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-          />
-          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
-          <div className="absolute top-3 right-3 bg-white/90 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <ExternalLink className="w-4 h-4 text-primary" />
-          </div>
-        </div>
-        <CardHeader>
-          <CardTitle className="text-lg">{segment.title}</CardTitle>
+      <CardHeader className="flex items-start justify-between p-4">
+        <div>
+          <CardTitle className="text-lg">
+            <a href={segment.driveLink} target="_blank" rel="noopener noreferrer" className="hover:underline">
+              {segment.title}
+            </a>
+          </CardTitle>
           <CardDescription>{segment.description}</CardDescription>
-        </CardHeader>
-      </a>
+        </div>
+        <a href={segment.driveLink} target="_blank" rel="noopener noreferrer" className="ml-2 text-primary">
+          <ExternalLink className="w-4 h-4" />
+        </a>
+      </CardHeader>
     </Card>
   );
 

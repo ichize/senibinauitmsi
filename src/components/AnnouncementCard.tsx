@@ -14,6 +14,19 @@ const getYouTubeEmbedUrl = (url: string): string | null => {
   return match ? `https://www.youtube.com/embed/${match[1]}` : null;
 };
 
+const isTikTokUrl = (url?: string | null) => {
+  if (!url) return false;
+  return /tiktok\.com/.test(url) || /vm\.tiktok\.com/.test(url);
+};
+
+const extractTikTokId = (url: string): string | null => {
+  // Match long form: https://www.tiktok.com/@user/video/1234567890
+  const m = url.match(/tiktok\.com\/.+?\/video\/(\d+)/);
+  if (m) return m[1];
+  // Match short vm.tiktok.com links - can't extract id reliably; return null
+  return null;
+};
+
 const renderDescriptionWithLinks = (text: string) => {
   // First handle markdown-style links [text](url)
   const markdownLinkRegex = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g;
@@ -65,30 +78,34 @@ const AnnouncementCard: React.FC<AnnouncementCardProps> = ({ announcement, isLat
   const isMobile = useIsMobile();
   const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
   const [isHovered, setIsHovered] = useState(false);
-  const instRef = useRef<HTMLDivElement | null>(null);
+  const mediaRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (!announcement.instagram_url) return;
-    const container = instRef.current;
-    if (!container) return;
+    const mediaUrl = announcement.instagram_url;
+    if (!mediaUrl) return;
 
-    // Insert Instagram blockquote markup for the embed script to process
-    container.innerHTML = `<blockquote class="instagram-media" data-instgrm-permalink="${announcement.instagram_url}" data-instgrm-version="14"></blockquote>`;
+    // If it's Instagram, inject blockquote markup and load Instagram embed script
+    if (!isTikTokUrl(mediaUrl)) {
+      const container = mediaRef.current;
+      if (!container) return;
+      container.innerHTML = `<blockquote class="instagram-media" data-instgrm-permalink="${mediaUrl}" data-instgrm-version="14"></blockquote>`;
 
-    const scriptSrc = 'https://www.instagram.com/embed.js';
-    const existing = document.querySelector(`script[src="${scriptSrc}"]`);
-    if (!existing) {
-      const s = document.createElement('script');
-      s.src = scriptSrc;
-      s.async = true;
-      s.defer = true;
-      document.body.appendChild(s);
-      s.addEventListener('load', () => {
+      const scriptSrc = 'https://www.instagram.com/embed.js';
+      const existing = document.querySelector(`script[src="${scriptSrc}"]`);
+      if (!existing) {
+        const s = document.createElement('script');
+        s.src = scriptSrc;
+        s.async = true;
+        s.defer = true;
+        document.body.appendChild(s);
+        s.addEventListener('load', () => {
+          try { (window as any).instgrm?.Embeds?.process?.(); } catch (e) { /* ignore */ }
+        });
+      } else {
         try { (window as any).instgrm?.Embeds?.process?.(); } catch (e) { /* ignore */ }
-      });
-    } else {
-      try { (window as any).instgrm?.Embeds?.process?.(); } catch (e) { /* ignore */ }
+      }
     }
+    // If it's TikTok we render via iframe in JSX (no DOM injection here)
   }, [announcement.instagram_url]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -148,9 +165,40 @@ const AnnouncementCard: React.FC<AnnouncementCardProps> = ({ announcement, isLat
 
         {/* Image - NOW ABOVE DESCRIPTION (only shown if no YouTube) */}
         {announcement.instagram_url && !youtubeEmbedUrl ? (
-          <div className="relative w-full rounded-lg overflow-hidden">
-            <div ref={instRef} className="instagram-embed" data-permalink={announcement.instagram_url} />
-          </div>
+          isTikTokUrl(announcement.instagram_url) ? (
+            // TikTok embed via iframe when video id can be extracted; otherwise fall back to image_url
+            (() => {
+              const id = extractTikTokId(announcement.instagram_url!);
+              if (id) {
+                return (
+                  <div className="relative w-full rounded-lg overflow-hidden">
+                    <iframe
+                      title={`tiktok-${id}`}
+                      src={`https://www.tiktok.com/embed/v2/${id}`}
+                      className="w-full h-[580px] border-0"
+                      allowFullScreen
+                    />
+                  </div>
+                );
+              }
+              // fallback: if we have image_url, show it; otherwise show a link preview
+              return announcement.image_url ? (
+                <div className="relative w-full rounded-lg overflow-hidden">
+                  <img
+                    src={announcement.image_url}
+                    alt={announcement.title}
+                    className="w-full h-auto object-cover rounded-lg"
+                  />
+                </div>
+              ) : (
+                <div className="text-sm text-muted-foreground">View on TikTok: <a href={announcement.instagram_url} target="_blank" rel="noreferrer" className="text-primary underline">open post</a></div>
+              );
+            })()
+          ) : (
+            <div className="relative w-full rounded-lg overflow-hidden">
+              <div ref={mediaRef} className="instagram-embed" data-permalink={announcement.instagram_url} />
+            </div>
+          )
         ) : announcement.image_url && !youtubeEmbedUrl ? (
           <div className="relative w-full rounded-lg overflow-hidden">
             <img

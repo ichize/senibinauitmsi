@@ -172,15 +172,15 @@ For links:
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="instagramUrl">Instagram Post URL (optional)</Label>
+              <Label htmlFor="instagramUrl">Media Post URL (Instagram or TikTok) (optional)</Label>
               <Input
                 id="instagramUrl"
                 value={instagramUrl}
                 onChange={(e) => setInstagramUrl(e.target.value)}
-                placeholder="https://www.instagram.com/p/POST_ID/"
+                placeholder="https://www.instagram.com/p/POST_ID/ or https://www.tiktok.com/@user/video/VIDEO_ID"
               />
               <p className="text-xs text-muted-foreground">
-                Optional link to the Instagram post for the image. If provided, the announcement image will link to the Instagram post.
+                Optional link to a public Instagram or TikTok post. If provided, the announcement will embed the post inline when possible.
               </p>
             </div>
 
