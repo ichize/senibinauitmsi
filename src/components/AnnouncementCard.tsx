@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { format } from 'date-fns';
 import { ExternalLink } from 'lucide-react';
@@ -65,6 +65,31 @@ const AnnouncementCard: React.FC<AnnouncementCardProps> = ({ announcement, isLat
   const isMobile = useIsMobile();
   const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
   const [isHovered, setIsHovered] = useState(false);
+  const instRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!announcement.instagram_url) return;
+    const container = instRef.current;
+    if (!container) return;
+
+    // Insert Instagram blockquote markup for the embed script to process
+    container.innerHTML = `<blockquote class="instagram-media" data-instgrm-permalink="${announcement.instagram_url}" data-instgrm-version="14"></blockquote>`;
+
+    const scriptSrc = 'https://www.instagram.com/embed.js';
+    const existing = document.querySelector(`script[src="${scriptSrc}"]`);
+    if (!existing) {
+      const s = document.createElement('script');
+      s.src = scriptSrc;
+      s.async = true;
+      s.defer = true;
+      document.body.appendChild(s);
+      s.addEventListener('load', () => {
+        try { (window as any).instgrm?.Embeds?.process?.(); } catch (e) { /* ignore */ }
+      });
+    } else {
+      try { (window as any).instgrm?.Embeds?.process?.(); } catch (e) { /* ignore */ }
+    }
+  }, [announcement.instagram_url]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (isMobile) return;
@@ -122,28 +147,19 @@ const AnnouncementCard: React.FC<AnnouncementCardProps> = ({ announcement, isLat
         <h3 className="text-xl md:text-2xl font-semibold">{announcement.title}</h3>
 
         {/* Image - NOW ABOVE DESCRIPTION (only shown if no YouTube) */}
-        {announcement.image_url && !youtubeEmbedUrl && (
+        {announcement.instagram_url && !youtubeEmbedUrl ? (
           <div className="relative w-full rounded-lg overflow-hidden">
-            {announcement.instagram_url ? (
-              <a href={announcement.instagram_url} target="_blank" rel="noopener noreferrer" className="block relative">
-                <img
-                  src={announcement.image_url}
-                  alt={announcement.title}
-                  className="w-full h-auto object-cover rounded-lg"
-                />
-                <div className="absolute top-3 right-3 bg-white/90 p-1 rounded-full">
-                  <ExternalLink className="w-4 h-4 text-primary" />
-                </div>
-              </a>
-            ) : (
-              <img
-                src={announcement.image_url}
-                alt={announcement.title}
-                className="w-full h-auto object-cover rounded-lg"
-              />
-            )}
+            <div ref={instRef} className="instagram-embed" data-permalink={announcement.instagram_url} />
           </div>
-        )}
+        ) : announcement.image_url && !youtubeEmbedUrl ? (
+          <div className="relative w-full rounded-lg overflow-hidden">
+            <img
+              src={announcement.image_url}
+              alt={announcement.title}
+              className="w-full h-auto object-cover rounded-lg"
+            />
+          </div>
+        ) : null}
 
         {/* Description with clickable links */}
         <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">
